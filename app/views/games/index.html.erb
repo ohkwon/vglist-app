@@ -4,7 +4,7 @@
   </tr>
   <% @games.each do |game| %>
     <tr>
-      <td><%= game.name %></td>
+      <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
     </tr>
   <% end %>
 </table>
