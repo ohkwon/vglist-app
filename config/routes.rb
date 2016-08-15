@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get '/user_games', to: 'user_games#index'
   get '/user_games/index', to: 'user_games#index'
-  post '/user_games/create', to: 'user_games#create'
+  post '/user_games', to: 'user_games#create'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
