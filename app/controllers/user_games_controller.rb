@@ -9,12 +9,11 @@ class UserGamesController < ApplicationController
   def create
 
     user_game = UserGame.new(
-      game_id: params[:game_id].to_i,
+      game_id: params[:game_id],
       user_id: current_user.id
       )
-    binding.pry
     if user_game.save
-      flash[:success] = "#{Game.find_by(id: params[:game_id])} added to your list!"
+      flash[:success] = "#{Game.find_by(id: params[:game_id]).name} added to your list!"
       redirect_to '/user_games'
     else
       flash[:danger] = "Error"
