@@ -1,0 +1,11 @@
+<%= form_tag '/platforms', method: :post do %>
+
+  <div class="form-group">
+    <%= label_tag :name %>
+    <%= text_field_tag :name, "", placeholder: "Platform Name", class: "form-control" %>
+  </div>
+  <div>
+    <%= submit_tag "Add Console" %>
+  </div>
+
+<% end %>

@@ -1,0 +1,10 @@
+<table class="table table-hover">
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% @platforms.each do |platform| %>
+    <tr>
+      <td><%= platform.name %></td>
+    </tr>
+  <% end %>
+</table>

@@ -15,4 +15,9 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'
 
+  get '/platforms', to: 'platforms#index'
+  get '/platforms/index', to: 'platforms#index'
+  get '/platforms/new', to: 'platforms#new'
+  post '/platforms', to: 'platforms#create'
+
 end

@@ -1,0 +1,2 @@
+class PlatformedGamesController < ApplicationController
+end

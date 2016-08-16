@@ -1,0 +1,2 @@
+module PlatformedGamesHelper
+end
