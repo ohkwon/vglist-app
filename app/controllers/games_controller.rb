@@ -12,4 +12,24 @@ class GamesController < ApplicationController
 
   end
 
+  def new
+
+  end
+
+  def create
+
+    game = Game.new(
+      name: params[:name]
+      )
+
+    if game.save
+      flash[:success] = "Game Created!"
+      redirect_to '/games'
+    else
+      flash[:danger] = "Error!"
+      redirect_to '/games/new'
+    end
+
+  end
+
 end

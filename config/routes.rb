@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   get '/games', to: 'games#index'
   get '/games/index', to: 'games#index'
+  get '/games/new', to: 'games#new'
+  post '/games', to: 'games#create'
   get '/games/:id', to: 'games#show'
 
   get '/sign_up', to: 'users#new'
