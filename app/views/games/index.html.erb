@@ -1,10 +1,29 @@
 <table class="table table-hover">
   <tr>
     <th>Game</th>
+    <th>Platforms</th>
+    <th>Release Date</th>
   </tr>
   <% @games.each do |game| %>
     <tr>
       <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
+      <% if game.platformed_games.any? %>
+        <td>
+          <% game.platformed_games.each do |platformed_game| %>
+            <%= platformed_game.platform.name + " " + " " %>
+          <% end %>
+        </td>
+        <td>
+          <% if game.platformed_games[0].release_date %>
+            <%= game.platformed_games[0].release_date %>
+          <% else %>
+            TBA
+          <% end %>
+        </td>
+      <% else %>
+        <td> </td>
+        <td> </td>
+      <% end %>
     </tr>
   <% end %>
 </table>

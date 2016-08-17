@@ -6,7 +6,8 @@
     <%= collection_select :platform, :platform_id, Platform.all, :id, :name %>
   </div>
   <div class="form-group">
-    <%= select_date(date = {}, options = {}, html_options = {}) prefix: :release_date %>
+    <%= label_tag :release_date %>
+    <%= text_field_tag :release_date, "", placeholder: "Enter Year Month Date (ie. 1994-04-03), if no release_date, put nothing", class: "form-control" %>
   </div>
   <div>
     <%= submit_tag "Add Platform to Game!" %>
