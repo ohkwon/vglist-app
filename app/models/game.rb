@@ -8,5 +8,7 @@ class Game < ApplicationRecord
 
   has_many :genred_games
   has_many :genres, through: :genred_games
+
+  has_many :deals
   
 end
