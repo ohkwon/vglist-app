@@ -19,7 +19,8 @@ class GamesController < ApplicationController
   def create
 
     game = Game.new(
-      name: params[:name]
+      name: params[:name],
+      description: params[:description]
       )
 
     if game.save
@@ -30,6 +31,30 @@ class GamesController < ApplicationController
       redirect_to '/games/new'
     end
 
+  end
+
+  def edit
+
+    @game = Game.find_by(id: params[:id])
+
+  end
+
+  def update
+
+    game = Game.find_by(id: params[:id])
+    game.assign_attributes(
+      name: params[:name],
+      description: params[:description]
+      )
+
+    if game.save
+      flash[:success] = "Game Updated!"
+      redirect_to "/games/#{game.id}"
+    else
+      flash[:danger] = "Error!"
+      redirect_to "/games/#{game.id}/edit"
+    end
+    
   end
 
 end

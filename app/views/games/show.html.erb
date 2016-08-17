@@ -20,3 +20,5 @@
   <%= hidden_field_tag :game_id, "#{@game.id}" %>
   <%= submit_tag "Add to List!" %>
 <% end %>
+
+<%= link_to "Edit game", "/games/#{@game.id}/edit" %>
