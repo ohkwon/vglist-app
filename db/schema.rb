@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817020023) do
+ActiveRecord::Schema.define(version: 20160817034235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "deals", force: :cascade do |t|
+    t.integer  "game_id"
+    t.string   "retailer"
+    t.decimal  "price",      precision: 6, scale: 2
+    t.date     "date"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
 
   create_table "games", force: :cascade do |t|
     t.string   "name"
