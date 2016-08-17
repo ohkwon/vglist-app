@@ -27,4 +27,10 @@ Rails.application.routes.draw do
   get '/platformed_games/new', to: 'platformed_games#new'
   post '/platformed_games', to: 'platformed_games#create'
 
+  get '/genres/new', to: 'genres#new'
+  post '/genres', to: 'genres#create'
+
+  get '/genred_games/new', to: 'genred_games#new'
+  post '/genred_games', to: 'genred_games#create'
+
 end
