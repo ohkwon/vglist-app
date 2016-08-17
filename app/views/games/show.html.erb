@@ -31,6 +31,12 @@
 
   <% end %>
 
+  <% if @game.deals.any? %>
+
+    <li><a href="<%= @lowest_deal.url %>">Lowest Price: <%= number_to_currency(@lowest_deal.price, :unit => "$") %></a></li>
+
+  <% end %>
+
   <li>Description: <%= @game.description %></li>
 </ul>
 

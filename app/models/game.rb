@@ -10,5 +10,9 @@ class Game < ApplicationRecord
   has_many :genres, through: :genred_games
 
   has_many :deals
+
+  def lowest_deal
+    deals.order(:price).first
+  end
   
 end
