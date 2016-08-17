@@ -5,5 +5,8 @@ class Game < ApplicationRecord
 
   has_many :platformed_games
   has_many :platforms, through: :platformed_games
+
+  has_many :genred_games
+  has_many :genres, through: :genred_games
   
 end

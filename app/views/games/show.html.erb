@@ -1,24 +1,47 @@
 <h1><%= @game.name %></h1>
 <ul>
+
   <% if @game.platformed_games.any? %>
+
     <li>Release Date: 
       <%= @game.platformed_games[0].release_date if @game.platformed_games[0].release_date %>
       <%= "TBA" if @game.platformed_games[0].release_date == nil %>
     </li>
-    <li>Platforms</li>
+    <li>Platforms:</li>
     <ul>
       <% @game.platformed_games.each do |platformed_game| %>
         <li><%= platformed_game.platform.name %></li>
       <% end %>
     </ul>
+
   <% else %>
+
     <li>Release Date</li>
+
   <% end %>
+
+  <% if @game.genred_games.any? %>
+
+    <li>Genre(s):</li>
+    <ul>
+      <% @game.genred_games.each do |genred_game| %>
+        <li><%= genred_game.genre.name %></li>
+      <% end %>
+    </ul>
+
+  <% end %>
+
   <li>Description: <%= @game.description %></li>
 </ul>
+
 <%= form_tag '/user_games', method: :post do %>
   <%= hidden_field_tag :game_id, "#{@game.id}" %>
   <%= submit_tag "Add to List!" %>
+<% end %>
+
+<%= form_tag '/genred_games/new', method: :get do %>
+  <%= hidden_field_tag :game_id, @game.id %>
+  <%= submit_tag "Add genre to game!" %>
 <% end %>
 
 <%= link_to "Edit game", "/games/#{@game.id}/edit" %>

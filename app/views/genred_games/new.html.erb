@@ -1,0 +1,13 @@
+<h2>Adding genre to <%= Game.find_by(id: params[:game_id]).name %></h2>
+
+<%= form_tag '/genred_games', method: :post do %>
+  <div class="form-group">
+    <%= hidden_field_tag :game_id, params[:game_id] %>
+  </div>
+  <div>
+    <%= collection_select :genre, :genre_id, Genre.all, :id, :name %>
+  </div>
+  <div>
+    <%= submit_tag "Add Genre to game!" %>
+  </div>
+<% end %>
