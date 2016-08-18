@@ -12,7 +12,7 @@ class Game < ApplicationRecord
   has_many :deals
 
   def lowest_deal
-    deals.order(:price).first
+    deals.where(active: true).order(:price).first
   end
   
 end

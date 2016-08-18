@@ -1,0 +1,17 @@
+<h1>Deals for <%= @game.name %></h1>
+<table class="table table-hover">
+  <tr>
+    <th>Price</th>
+    <th>Retailer</th>
+    <th>Posting Date</th>
+    <th>description</th>
+  </tr>
+  <% @deals.each do |deal| %>
+    <tr>
+      <td><%= deal.price %></td>
+      <td><a href="<%= deal.url %>"><%= deal.retailer %></a></td>
+      <td><%= deal.date %></td>
+      <td><%= deal.description %></td>
+    </tr>
+  <% end %>
+</table>

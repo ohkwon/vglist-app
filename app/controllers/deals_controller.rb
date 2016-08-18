@@ -25,7 +25,10 @@ class DealsController < ApplicationController
     
   end
 
-  def show
+  def index
+
+    @game = Game.find_by(id: params[:id])
+    @deals = @game.deals.where(active: true).order(:price)
     
   end
 
