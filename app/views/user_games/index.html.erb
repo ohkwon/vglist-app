@@ -1,11 +1,23 @@
 <table class="table table-hover">
   <tr>
     <th>Game</th>
+    <th>Release Date</th>
+    <th>Lowest Current Price</th>
     <th>Owned?</th>
   </tr>
   <% @user_games.each do |user_game| %>
     <tr>
-      <td><%= Game.find_by(id: user_game.game_id).name %></td>
+      <td><a href="/games/<%= Game.find_by(id: user_game.game_id) %>"><%= Game.find_by(id: user_game.game_id).name %></td>
+      <% if Game.find_by(id: user_game.game_id).platformed_games.any? %>
+        <td><%= Game.find_by(id: user_game.game_id).platformed_games.first.release_date %></td>
+      <% else %>
+        <td>N/A</td>
+      <% end %>
+      <% if Game.find_by(id: user_game.game_id).deals.any? %>
+        <td><%= number_to_currency(Game.find_by(id: user_game.game_id).lowest_deal.price, :unit => "$") %></td>
+      <% else %>
+        <td>N/A</td>
+      <% end %> 
       <td>
         <%= "Yes" if user_game.ownership %>
         <%= "No" unless user_game.ownership %> 
