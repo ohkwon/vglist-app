@@ -62,4 +62,13 @@ class GamesController < ApplicationController
     
   end
 
+  def destroy
+
+    game = Game.find_by(id: params[:id])
+    game.destroy
+    flash[:warning] = "Game deleted!"
+    redirect_to "/games"
+
+  end
+
 end

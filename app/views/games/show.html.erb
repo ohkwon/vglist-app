@@ -55,4 +55,5 @@
   <%= submit_tag "Add genre to game!" %>
 <% end %>
 
-<%= link_to "Edit game", "/games/#{@game.id}/edit" %>
+<p><%= link_to "Edit game", "/games/#{@game.id}/edit" %></p>
+<p><%= link_to "Delete game", "/games/#{@game.id}", method: :delete %></p>
