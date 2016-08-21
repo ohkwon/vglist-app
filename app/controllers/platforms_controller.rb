@@ -1,5 +1,7 @@
 class PlatformsController < ApplicationController
 
+  before_action :authenticate_admin!
+
   def index
 
     @platforms = Platform.all

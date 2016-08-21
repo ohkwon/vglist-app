@@ -1,5 +1,7 @@
 class GamesController < ApplicationController
 
+  before_action :authenticate_admin!, except [:index, :show]
+
   def index
 
     @games = Game.all

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/user_games', to: 'user_games#index'
   get '/user_games/index', to: 'user_games#index'
   post '/user_games', to: 'user_games#create'
+  patch '/user_games/:id', to: 'user_games#update'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
