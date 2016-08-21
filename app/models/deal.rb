@@ -1,5 +1,5 @@
 class Deal < ApplicationRecord
 
-  belongs_to :game
+  belongs_to :platformed_game
   
 end

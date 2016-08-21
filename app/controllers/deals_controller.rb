@@ -9,14 +9,13 @@ class DealsController < ApplicationController
   def create
 
     deal = Deal.new(
-      game_id: params[:game_id],
+      platformed_game_id: params[:platformed_game_id],
       retailer: params[:retailer],
       price: params[:price],
       date: params[:date],
       url: params[:url],
       active: true
       )
-
     if deal.save
       flash[:success] = "Deal added to game!"
       redirect_to "/games/#{params[:game_id]}"

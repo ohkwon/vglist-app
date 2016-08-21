@@ -7,20 +7,28 @@
   </tr>
   <% @user_games.each do |user_game| %>
     <tr>
-      <td><a href="/games/<%= Game.find_by(id: user_game.game_id) %>"><%= Game.find_by(id: user_game.game_id).name %></td>
-      <% if Game.find_by(id: user_game.game_id).platformed_games.any? %>
-        <td><%= Game.find_by(id: user_game.game_id).platformed_games.first.release_date %></td>
+      <td><a href="/games/<%= user_game.game.id %>"><%= user_game.game.name %></td>
+      <% if user_game.game.platformed_games.any? %>
+        <td><%= user_game.game.platformed_games.first.release_date %></td>
+        <% if user_game.game.platformed_games.first.deals.any? %>
+          <td><%= number_to_currency(user_game.game.lowest_deal.price, :unit => "$") %></td>
+        <% else %>
+          <td>N/A</td>
+        <% end %> 
       <% else %>
+        <td>N/A</td>
         <td>N/A</td>
       <% end %>
-      <% if Game.find_by(id: user_game.game_id).deals.any? %>
-        <td><%= number_to_currency(Game.find_by(id: user_game.game_id).lowest_deal.price, :unit => "$") %></td>
-      <% else %>
-        <td>N/A</td>
-      <% end %> 
       <td>
-        <%= "Yes" if user_game.ownership %>
-        <%= "No" unless user_game.ownership %> 
+        <%= "Owned" if user_game.ownership %>
+        <%= "Wanted" unless user_game.ownership %> 
+        <%= form_tag "/user_games/#{user_game.id}", method: :patch do %>
+          <% if user_game.ownership %>
+            <%= submit_tag "Change to Wanted" %>
+          <% else %>
+            <%= submit_tag "Change to Owned" %>
+          <% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>

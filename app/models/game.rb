@@ -9,10 +9,8 @@ class Game < ApplicationRecord
   has_many :genred_games
   has_many :genres, through: :genred_games
 
-  has_many :deals
-
   def lowest_deal
-    deals.where(active: true).order(:price).first
+    platformed_games.first.deals.where(active: true).order(:price).first
   end
   
 end

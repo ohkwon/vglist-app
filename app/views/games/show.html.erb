@@ -31,9 +31,9 @@
 
   <% end %>
 
-  <% if @game.deals.any? %>
+  <% if @game.lowest_deal %>
 
-    <li><a href="/deals/<%= @game.id %>">Lowest Price: <%= number_to_currency(@game.lowest_deal.price, :unit => "$") %></a></li>
+    <li><a href="/deals/<%= @game.platformed_games.first.id %>">Lowest Price: <%= number_to_currency(@game.lowest_deal.price, :unit => "$") %></a></li>
 
   <% end %>
 
@@ -45,8 +45,9 @@
   <%= submit_tag "Add to List!" %>
 <% end %>
 
-<%= form_tag "/deals/#{@game.id}/new", method: :get do %>
-  <%= hidden_field_tag :id, "#{@game.id}" %>
+<%= form_tag "/deals/new", method: :get do %>
+  <%= hidden_field_tag :game_id, @game.id %>
+  <%= collection_select :platform, :platform_id, Platform.includes(:platformed_games).where('platformed_games.game_id = ?', @game.id).references(:platformed_games), :id, :name %>
   <%= submit_tag "Add Deal to Game!" %>
 <% end %>
 

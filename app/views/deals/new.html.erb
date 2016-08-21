@@ -1,6 +1,6 @@
 <%= form_tag '/deals', method: :post do %>
   <div>
-    <%= hidden_field_tag :game_id, params[:id] %>
+    <%= hidden_field_tag :platformed_game_id, Game.find_by(id: params[:game_id]).platformed_games.find_by(platform_id: params[:platform][:platform_id]).id %>
   </div>
   <div class="form-group">
     <%= label_tag :retailer %>

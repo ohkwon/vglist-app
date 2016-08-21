@@ -36,7 +36,6 @@ Rails.application.routes.draw do
   post '/genred_games', to: 'genred_games#create'
 
   get '/deals/new', to: 'deals#new'
-  get '/deals/:id/new', to: 'deals#new'
   post '/deals', to: 'deals#create'
   get '/deals/:id', to: 'deals#index'
 

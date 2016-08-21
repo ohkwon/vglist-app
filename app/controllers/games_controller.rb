@@ -13,10 +13,6 @@ class GamesController < ApplicationController
 
     @game = Game.find_by(id: params[:id])
 
-    if @game.deals.any?
-      @lowest_deal = @game.deals.sort_by{ |deal| deal.price }[0]
-    end
-
   end
 
   def new
