@@ -6,7 +6,6 @@ class GamesController < ApplicationController
 
     @games = Game.all
 
-
   end
 
   def show

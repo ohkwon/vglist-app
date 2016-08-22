@@ -2,13 +2,15 @@
 <table class="table table-hover">
   <tr>
     <th>Price</th>
+    <th>Platform</th>
     <th>Retailer</th>
     <th>Posting Date</th>
     <th>description</th>
   </tr>
   <% @deals.each do |deal| %>
     <tr>
-      <td><%= deal.price %></td>
+      <td><%= number_to_currency(deal.price, unit: "$") %></td>
+      <td><%= deal.platformed_game.platform.name %></td>
       <td><a href="<%= deal.url %>"><%= deal.retailer %></a></td>
       <td><%= deal.date %></td>
       <td><%= deal.description %></td>

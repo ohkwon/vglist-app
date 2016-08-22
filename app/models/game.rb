@@ -12,10 +12,13 @@ class Game < ApplicationRecord
   def lowest_deals
     platform_deals = []
 
-    platformed_games.each do |platformed_game|
-      platform_deals = << { platform_name: platformed_game.platform.name , price: platformed_game.deals.where(active: true).order(:price).first
+    self.platformed_games.each do |platformed_game|
+      if platformed_game.deals.any?
+        platform_deals << { platform_name: platformed_game.platform.name , price: platformed_game.deals.where(active: true).order(:price).first.price, deal_id: platformed_game.deals.where(active: true).order(:price).first.id }
+      end
     end
-    #edited lowest_deals model method. have not yet fixed all relevant view pages
+    
+    return platform_deals
 
   end
   

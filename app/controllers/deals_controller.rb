@@ -29,7 +29,14 @@ class DealsController < ApplicationController
   def index
 
     @game = Game.find_by(id: params[:id])
-    @deals = @game.deals.where(active: true).order(:price)
+    platformed = 
+    @deals = []
+    @game.platformed_games.each do |platformed_game|
+      platformed_game.deals.each do |deal|
+        @deals << deal if deal
+      end
+    end
+    return @deals = @deals.sort_by {|deal| deal.price}
     
   end
 
