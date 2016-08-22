@@ -25,7 +25,7 @@
         <td> </td>
         <td> </td>
       <% end %>
-      <td><%= game.lowest_deal.price if game.deals.any? %></td>
+      <td><%= game.lowest_deal.price if game.platformed_games.first.deals.any? %></td>
     </tr>
   <% end %>
 </table>
