@@ -28,7 +28,7 @@
       <% if game.lowest_deals.any? %>
         <td>
           <% game.lowest_deals.each do |platform_deal| %>
-            <p><a href="/deals/<%= platform_deal[:deal_id] %>"> <%= platform_deal[:platform_name] %>: <%= number_to_currency(platform_deal[:price], unit: "$") %></a></p>
+            <p><a href="/deals/<%= platform_deal[:platformed_game_id] %>"> <%= platform_deal[:platform_name] %>: <%= number_to_currency(platform_deal[:price], unit: "$") %></a></p>
           <% end %>
         </td>
       <% else %>

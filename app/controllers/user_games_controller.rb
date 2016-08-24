@@ -49,4 +49,13 @@ class UserGamesController < ApplicationController
     end
   end
 
+  def destroy
+
+    user_game = UserGame.find_by(id: params[:id])
+    user_game.destroy
+    flash[:warning] = "Game removed from list"
+    redirect_to "/user_games"
+
+  end
+
 end
