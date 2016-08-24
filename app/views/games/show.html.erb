@@ -31,7 +31,7 @@
 
   <% end %>
 
-  <% if @game.lowest_deals.any? %>
+<!--   <% if @game.lowest_deals.any? %>
     <td>
       <% @game.lowest_deals.each do |platform_deal| %>
         <p><a href="/deals/<%= platform_deal[:deal_id] %>"> <%= platform_deal[:platform_name] %>: <%= number_to_currency(platform_deal[:price], unit: "$") %></a></p>
@@ -39,29 +39,41 @@
     </td>
   <% else %>
     <td>N/A</td>
-  <% end %>
+  <% end %> -->
 
   <li>Description: <%= @game.description %></li>
 </ul>
 
-<%= form_tag '/user_games', method: :post do %>
-  <%= hidden_field_tag :game_id, "#{@game.id}" %>
-  <%= submit_tag "Add to List!" %>
-<% end %>
+<% if current_user %>
 
-<%= form_tag "/deals/new", method: :get do %>
-  <%= hidden_field_tag :game_id, @game.id %>
-  <%= collection_select :platform, :platform_id, Platform.includes(:platformed_games).where('platformed_games.game_id = ?', @game.id).references(:platformed_games), :id, :name %>
-  <%= submit_tag "Add Deal to Game!" %>
-<% end %>
+  <% if !current_user.user_games.find_by(game_id: @game.id) %>
 
-<%= form_tag '/genred_games/new', method: :get do %>
-  <%= hidden_field_tag :game_id, @game.id %>
-  <%= submit_tag "Add genre to game!" %>
-<% end %>
+    <%= form_tag '/user_games', method: :post do %>
+      <%= hidden_field_tag :game_id, "#{@game.id}" %>
+      <%= submit_tag "Add to List!" %>
+    <% end %>
 
-<p><%= link_to "Edit game", "/games/#{@game.id}/edit" %></p>
-<p><%= link_to "Delete game", "/games/#{@game.id}", method: :delete %></p>
+  <% end %>
+
+  <%= form_tag "/deals/new", method: :get do %>
+    <%= hidden_field_tag :game_id, @game.id %>
+    <%= collection_select :platform, :platform_id, Platform.includes(:platformed_games).where('platformed_games.game_id = ?', @game.id).references(:platformed_games), :id, :name %>
+    <%= submit_tag "Add Deal to Game!" %>
+  <% end %>
+
+  <% if current_user.admin %>
+
+    <%= form_tag '/genred_games/new', method: :get do %>
+      <%= hidden_field_tag :game_id, @game.id %>
+      <%= submit_tag "Add genre to game!" %>
+    <% end %>
+
+    <p><%= link_to "Edit game", "/games/#{@game.id}/edit" %></p>
+    <p><%= link_to "Delete game", "/games/#{@game.id}", method: :delete %></p>
+
+  <% end %>
+
+<% end %>
 
 <% if @game.lowest_deals.any? %>
   <div class="row">

@@ -16,7 +16,7 @@ class UserGamesController < ApplicationController
       game_id_list << user_game.game_id
     end
 
-    if game_id_list.include(params[:game_id])
+    if !game_id_list.include?(params[:game_id])
 
       user_game = UserGame.new(
         game_id: params[:game_id],
@@ -29,6 +29,11 @@ class UserGamesController < ApplicationController
         flash[:danger] = "Error"
         redirect_to "games/#{params[:game_id]}"
       end
+
+    else
+
+      flash[:danger] = "Game is already on your list!"
+      redirect_to '/user_games'      
       
     end
 
