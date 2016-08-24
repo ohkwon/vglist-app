@@ -4,7 +4,18 @@ class UserGamesController < ApplicationController
 
   def index
 
-    @user_games = current_user.user_games
+    sort_attribute = params[:sort_attribute]
+    sort_attribute_2 = params[:sort_attribute_2]
+
+    if sort_attribute == "platform"
+      if sort_attribute_2 == "xbone"
+        # @user_games = current_user.user_games.includes(:games).where('games.platformed_games.id = 2').references(:games)
+        @user_games = current_user.user_games.joins(:game).joins(:platformed_game).where("platformed_games.platform_id = 2")
+      end
+    else
+      @user_games = current_user.user_games.joins(:game).order("games.name")
+    end
+
 
   end
 
