@@ -15,10 +15,15 @@
           <% end %>
         </td>
         <td>
-          <% if game.platformed_games[0].release_date %>
-            <%= game.platformed_games[0].release_date %>
-          <% else %>
-            TBA
+          <% game.platformed_games.each do |platformed_game| %>
+            <p>
+              <%= platformed_game.platform.name %>: 
+              <% if platformed_game.release_date %>
+                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+              <% else %>
+                TBA
+              <% end %>
+            </p>
           <% end %>
         </td>
       <% else %>

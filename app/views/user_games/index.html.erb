@@ -9,8 +9,19 @@
     <tr>
       <td><a href="/games/<%= user_game.game.id %>"><%= user_game.game.name %></td>
       <% if user_game.game.platformed_games.any? %>
-        <td><%= user_game.game.platformed_games.first.release_date %></td>
-        <% if user_game.game.platformed_games.first.deals.any? %>
+        <td>
+          <% user_game.game.platformed_games.each do |platformed_game| %>
+            <p>
+              <%= platformed_game.platform.name %>: 
+              <% if platformed_game.release_date %>
+                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+              <% else %>
+                TBA
+              <% end %>
+            </p>
+          <% end %>
+        </td>
+        <% if user_game.game.lowest_deals.any? %>
           <td>
           <% user_game.game.lowest_deals.each do |platform_deal| %>
             <p><a href="/deals/<%= platform_deal[:platformed_game_id] %>"><%= platform_deal[:platform_name] %>: <%= number_to_currency(platform_deal[:price], :unit => "$") %></a></p>
