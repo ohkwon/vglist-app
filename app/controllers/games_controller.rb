@@ -4,7 +4,21 @@ class GamesController < ApplicationController
 
   def index
 
-    @games = Game.all
+    sort_attribute = params[:sort_attribute]
+    sort_attribute_2 = params[:sort_attribute_2]
+    if sort_attribute == "platform"
+      if sort_attribute_2 == "xbone"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 2').references(:platformed_games).order(:name)
+      elsif sort_attribute_2 == "ps4"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 1').references(:platformed_games).order(:name)
+      elsif sort_attribute_2 == "pc"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 4').references(:platformed_games).order(:name)
+      elsif sort_attribute_2 == "wiiu"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 3').references(:platformed_games).order(:name)
+      end
+    else
+      @games = Game.order(:name)
+    end
 
   end
 
