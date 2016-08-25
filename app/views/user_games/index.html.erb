@@ -1,9 +1,9 @@
 <table class="table table-hover">
   <tr>
     <th>Game</th>
-    <th>Genre(s)</th>
     <th>Release Date</th>
     <th>Lowest Current Price</th>
+    <th>Genre(s)</th>
     <th>Ownership Status</th>
     <th>Change Ownership</th>
     <th>Remove Game</th>
@@ -11,13 +11,6 @@
   <% @user_games.each do |user_game| %>
     <tr>
       <td><a href="/games/<%= user_game.game.id %>"><%= user_game.game.name %></td>
-      <% if user_game.game.genred_games.any? %>
-        <td>
-          <% user_game.game.genred_games.each do |genred_game| %>
-            <%= genred_game.genre.name + ", " %>
-          <% end %>
-        </td>
-      <% end %>
       <% if user_game.game.platformed_games.any? %>
         <td>
           <% user_game.game.platformed_games.each do |platformed_game| %>
@@ -33,8 +26,12 @@
         </td>
         <% if user_game.game.lowest_deals.any? %>
           <td>
-          <% user_game.game.lowest_deals.each do |platform_deal| %>
-            <p><%= platform_deal[:platform_name] %>: <%= number_to_currency(platform_deal[:price], :unit => "$") %></p>
+          <% user_game.game.lowest_deals.each do |deal| %>
+            <% if user_game.game.platformed_games.length == 1 %>
+              <p><%= number_to_currency(deal[:price], :unit => "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
+            <% else %>
+              <p><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], :unit => "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
+            <% end %>
           <% end %>
           </td>
         <% else %>
@@ -43,6 +40,13 @@
       <% else %>
         <td>N/A</td>
         <td>N/A</td>
+      <% end %>
+      <% if user_game.game.genred_games.any? %>
+        <td>
+          <% user_game.game.genred_games.each do |genred_game| %>
+            <%= genred_game.genre.name + ", " %>
+          <% end %>
+        </td>
       <% end %>
       <td>
         <%= "Owned" if user_game.ownership %>

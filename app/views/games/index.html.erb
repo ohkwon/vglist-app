@@ -1,10 +1,10 @@
 <table class="table table-hover">
   <tr>
     <th>Game</th>
-    <th>Genre(s)</th>
-    <th>Platforms</th>
     <th>Release Date</th>
     <th>Lowest Price</th>
+    <th>Genre(s)</th>
+    <th>Platforms</th>
     <% if current_user %>
       <th>List</th>
     <% end %>
@@ -12,6 +12,35 @@
   <% @games.each do |game| %>
     <tr>
       <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
+      <% if game.platformed_games.any? %>
+        <td>
+          <% game.platformed_games.each do |platformed_game| %>
+            <p>
+              <%= platformed_game.platform.name %>: 
+              <% if platformed_game.release_date %>
+                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+              <% else %>
+                TBA
+              <% end %>
+            </p>
+          <% end %>
+        </td>
+      <% else %>
+        <td> </td>
+      <% end %>
+      <% if game.lowest_deals.any? %>
+        <td>
+          <% game.lowest_deals.each do |deal| %>
+            <% if game.platformed_games.length == 1 %>
+              <p><%= number_to_currency(deal[:price], unit: "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
+            <% else %>
+              <p><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], unit: "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
+            <% end %>
+          <% end %>
+        </td>
+      <% else %>
+        <td>N/A</td>
+      <% end %>
       <% if game.genred_games.any? %>
         <td>
           <% game.genred_games.each do |genred_game| %>
@@ -27,30 +56,8 @@
             <%= platformed_game.platform.name + " " + " " %>
           <% end %>
         </td>
-        <td>
-          <% game.platformed_games.each do |platformed_game| %>
-            <p>
-              <%= platformed_game.platform.name %>: 
-              <% if platformed_game.release_date %>
-                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
-              <% else %>
-                TBA
-              <% end %>
-            </p>
-          <% end %>
-        </td>
       <% else %>
-        <td> </td>
-        <td> </td>
-      <% end %>
-      <% if game.lowest_deals.any? %>
-        <td>
-          <% game.lowest_deals.each do |deal| %>
-            <p><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], unit: "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
-          <% end %>
-        </td>
-      <% else %>
-        <td>N/A</td>
+        <td></td>
       <% end %>
       <% if current_user %>
         <td>
