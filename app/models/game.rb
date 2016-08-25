@@ -13,7 +13,7 @@ class Game < ApplicationRecord
     platform_deals = []
 
     self.platformed_games.each do |platformed_game|
-      if platformed_game.deals.any?
+      if platformed_game.deals.where(active: true).any?
         platform_deals << { platform_name: platformed_game.platform.name , price: platformed_game.deals.where(active: true).order(:price).first.price, platformed_game_id: platformed_game.id }
       end
     end

@@ -19,13 +19,13 @@ class UserGamesController < ApplicationController
       end
     elsif sort_attribute == "genre"
       if sort_attribute_2 == "1"
-        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 1})
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 1}) #action-rpg
       elsif sort_attribute_2 == "2"
-        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 2})
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 2}) #fps
       elsif sort_attribute_2 == "3"
-        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 3})
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 3}) #survival-horror
       elsif sort_attribute_2 == "4"
-        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 4})
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 4}) #action-rpg
       end
     else
       @user_games = current_user.user_games.joins(:game).order("games.name")

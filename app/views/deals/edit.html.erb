@@ -1,0 +1,32 @@
+<%= form_tag "/deals/#{params[:id]}", method: :patch do %>
+  <div>
+    <%= hidden_field_tag :platformed_game_id, @deal.platformed_game_id %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :retailer %>
+    <%= text_field_tag :retailer, @deal.retailer, placeholder: "Retailer Name", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :price %>
+    <%= text_field_tag :price, @deal.price, placeholder: "Deal Price", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :url %>
+    <%= text_field_tag :url, @deal.url, placeholder: "Deal Link", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :date %>
+    <%= text_field_tag :date, @deal.date, placeholder: "Date of Posting", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :description %>
+    <%= text_field_tag :description, @deal.description, placeholder: "Description (if any)", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :active %>
+    <%= text_field_tag :active, @deal.active, placeholder: "If inactive, mark as false", class: "form-control" %>
+  </div>
+  <div>
+    <%= submit_tag "Edit Deal!" %>
+  </div>
+<% end %>

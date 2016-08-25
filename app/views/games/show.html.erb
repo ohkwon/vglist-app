@@ -87,14 +87,16 @@
             <th>Retailer</th>
             <th>Posting Date</th>
             <th>description</th>
+            <th>Edit Deal</th>
           </tr>
-          <% platformed_game.deals.each do |deal| %>
+          <% platformed_game.deals.where(active: true).each do |deal| %>
             <tr>
               <td><%= number_to_currency(deal.price, unit: "$") %></td>
               <td><%= deal.platformed_game.platform.name %></td>
               <td><a href="<%= deal.url %>"><%= deal.retailer %></a></td>
               <td><%= deal.date %></td>
               <td><%= deal.description %></td>
+              <td><%= button_to "Edit Deal", "/deals/#{deal.id}/edit", method: :get %></td>
             </tr>
           <% end %>
         </table>
