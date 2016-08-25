@@ -8,14 +8,24 @@ class UserGamesController < ApplicationController
     sort_attribute_2 = params[:sort_attribute_2]
 
     if sort_attribute == "platform"
-      if sort_attribute_2 == "xbone"
-        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 2}).order("games.name")
-      elsif sort_attribute_2 == "ps4"
-        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 1}).order("games.name")
-      elsif sort_attribute_2 == "pc"
-        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 4}).order("games.name")
-      elsif sort_attribute_2 == "wiiu"
-        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 3}).order("games.name")
+      if sort_attribute_2 == "1"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 1}).order("games.name") #ps4
+      elsif sort_attribute_2 == "2"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 2}).order("games.name") #xbone
+      elsif sort_attribute_2 == "3"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 3}).order("games.name") #wii u
+      elsif sort_attribute_2 == "4"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 4}).order("games.name") #pc
+      end
+    elsif sort_attribute == "genre"
+      if sort_attribute_2 == "1"
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 1})
+      elsif sort_attribute_2 == "2"
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 2})
+      elsif sort_attribute_2 == "3"
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 3})
+      elsif sort_attribute_2 == "4"
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 4})
       end
     else
       @user_games = current_user.user_games.joins(:game).order("games.name")

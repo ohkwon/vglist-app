@@ -7,14 +7,24 @@ class GamesController < ApplicationController
     sort_attribute = params[:sort_attribute]
     sort_attribute_2 = params[:sort_attribute_2]
     if sort_attribute == "platform"
-      if sort_attribute_2 == "xbone"
-        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 2').references(:platformed_games).order(:name)
-      elsif sort_attribute_2 == "ps4"
-        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 1').references(:platformed_games).order(:name)
-      elsif sort_attribute_2 == "pc"
-        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 4').references(:platformed_games).order(:name)
-      elsif sort_attribute_2 == "wiiu"
-        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 3').references(:platformed_games).order(:name)
+      if sort_attribute_2 == "1"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 1').references(:platformed_games).order(:name) #ps4
+      elsif sort_attribute_2 == "2"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 2').references(:platformed_games).order(:name) #xbone
+      elsif sort_attribute_2 == "3"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 3').references(:platformed_games).order(:name) #wii u
+      elsif sort_attribute_2 == "4"
+        @games = Game.includes(:platformed_games).where('platformed_games.platform_id = 4').references(:platformed_games).order(:name) #pc
+      end
+    elsif sort_attribute == "genre"
+      if sort_attribute_2 == "1"
+        @games = Game.includes(:genred_games).where('genred_games.genre_id = 1').references(:genred_games).order(:name) #action-rpg
+      elsif sort_attribute_2 == "2"
+        @games = Game.includes(:genred_games).where('genred_games.genre_id = 2').references(:genred_games).order(:name) #fps
+      elsif sort_attribute_2 == "3"
+        @games = Game.includes(:genred_games).where('genred_games.genre_id = 3').references(:genred_games).order(:name) #survival-horror
+      elsif sort_attribute_2 == "4"
+        @games = Game.includes(:genred_games).where('genred_games.genre_id = 4').references(:genred_games).order(:name) #action-rpg
       end
     else
       @games = Game.order(:name)
