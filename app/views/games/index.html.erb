@@ -1,6 +1,7 @@
 <table class="table table-hover">
   <tr>
     <th>Game</th>
+    <th>Genre(s)</th>
     <th>Platforms</th>
     <th>Release Date</th>
     <th>Lowest Price</th>
@@ -11,6 +12,15 @@
   <% @games.each do |game| %>
     <tr>
       <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
+      <% if game.genred_games.any? %>
+        <td>
+          <% game.genred_games.each do |genred_game| %>
+            <%= genred_game.genre.name + ", " %>
+          <% end %>
+        </td>
+      <% else %>
+       <td></td>
+      <% end %>
       <% if game.platformed_games.any? %>
         <td>
           <% game.platformed_games.each do |platformed_game| %>
