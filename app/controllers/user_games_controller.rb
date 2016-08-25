@@ -9,8 +9,13 @@ class UserGamesController < ApplicationController
 
     if sort_attribute == "platform"
       if sort_attribute_2 == "xbone"
-        # @user_games = current_user.user_games.includes(:games).where('games.platformed_games.id = 2').references(:games)
-        @user_games = current_user.user_games.joins(:game).joins(:platformed_game).where("platformed_games.platform_id = 2")
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 2}).order("games.name")
+      elsif sort_attribute_2 == "ps4"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 1}).order("games.name")
+      elsif sort_attribute_2 == "pc"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 4}).order("games.name")
+      elsif sort_attribute_2 == "wiiu"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 3}).order("games.name")
       end
     else
       @user_games = current_user.user_games.joins(:game).order("games.name")
