@@ -92,7 +92,7 @@
           <% if platformed_game.deals.where(active: true).any? %>
             <% platformed_game.deals.where(active: true).each do |deal| %>
               <tr>
-                <td><%= number_to_currency(deal.price, unit: "$") %> (<%= platformed_game.discount_value(deal) %>% off!)</td>
+                <td><%= number_to_currency(deal.price, unit: "$") %> (<%= platformed_game.discount_value(deal) %>% off!)</td> <!-- Accomodate for if base price option is feasible -->
                 <!-- <td><%= deal.platformed_game.platform.name %></td> -->
                 <td><a href="<%= deal.url %>"><%= deal.retailer %></a></td>
                 <td><%= deal.date.strftime("%B %d, %Y") %></td>
