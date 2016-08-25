@@ -4,7 +4,7 @@
   <% if @game.platformed_games.any? %>
 
     <li>Release Date: 
-      <%= @game.platformed_games[0].release_date if @game.platformed_games[0].release_date %>
+      <%= @game.platformed_games[0].release_date.strftime("%B %d, %Y") if @game.platformed_games[0].release_date %>
       <%= "TBA" if @game.platformed_games[0].release_date == nil %>
     </li>
     <li>Platforms:</li>
@@ -83,20 +83,30 @@
         <table class="table table-hover">
           <tr>
             <th>Price</th>
-            <th>Platform</th>
+            <!-- <th>Platform</th> -->
             <th>Retailer</th>
             <th>Posting Date</th>
             <th>description</th>
             <th>Edit Deal</th>
           </tr>
-          <% platformed_game.deals.where(active: true).each do |deal| %>
+          <% if platformed_game.deals.where(active: true).any? %>
+            <% platformed_game.deals.where(active: true).each do |deal| %>
+              <tr>
+                <td><%= number_to_currency(deal.price, unit: "$") %> (<%= platformed_game.discount_value(deal) %>% off!)</td>
+                <!-- <td><%= deal.platformed_game.platform.name %></td> -->
+                <td><a href="<%= deal.url %>"><%= deal.retailer %></a></td>
+                <td><%= deal.date.strftime("%B %d, %Y") %></td>
+                <td><%= deal.description %></td>
+                <td><%= button_to "Edit Deal", "/deals/#{deal.id}/edit", method: :get %></td>
+              </tr>
+            <% end %>
+          <% else %> <!-- Accomodate for if base price option is feasible -->
             <tr>
-              <td><%= number_to_currency(deal.price, unit: "$") %></td>
-              <td><%= deal.platformed_game.platform.name %></td>
-              <td><a href="<%= deal.url %>"><%= deal.retailer %></a></td>
-              <td><%= deal.date %></td>
-              <td><%= deal.description %></td>
-              <td><%= button_to "Edit Deal", "/deals/#{deal.id}/edit", method: :get %></td>
+              <td>Price at Release: <%= number_to_currency(platformed_game.base_price, unit: "$") %></td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
             </tr>
           <% end %>
         </table>

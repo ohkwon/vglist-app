@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821205012) do
+ActiveRecord::Schema.define(version: 20160825192435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,8 +51,9 @@ ActiveRecord::Schema.define(version: 20160821205012) do
     t.integer  "game_id"
     t.integer  "platform_id"
     t.date     "release_date"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.decimal  "base_price",   precision: 5, scale: 2
   end
 
   create_table "platforms", force: :cascade do |t|
