@@ -27,8 +27,12 @@ class UserGamesController < ApplicationController
       elsif sort_attribute_2 == "4"
         @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 4}) #action-rpg
       end
+    elsif sort_attribute == "owned"
+      @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name")
+    elsif sort_attribute == "wanted"
+      @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name")
     else
-      @user_games = current_user.user_games.joins(:game).order("games.name")
+      @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name")
     end
 
 
@@ -46,7 +50,8 @@ class UserGamesController < ApplicationController
 
       user_game = UserGame.new(
         game_id: params[:game_id],
-        user_id: current_user.id
+        user_id: current_user.id,
+        ownership: false
         )
       if user_game.save
         flash[:success] = "#{Game.find_by(id: params[:game_id]).name} added to your list!"
