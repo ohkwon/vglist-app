@@ -31,6 +31,8 @@ class UserGamesController < ApplicationController
       @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name")
     elsif sort_attribute == "wanted"
       @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name")
+    # elsif sort_attribute_2 == "price"
+    #   @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games:)
     else
       @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name")
     end
@@ -53,7 +55,17 @@ class UserGamesController < ApplicationController
         user_id: current_user.id,
         ownership: false
         )
+
       if user_game.save
+
+        Game.find_by(id: params[:game_id]).genred_games.each do |genred_game|
+          user_genre = UserGenre.create(
+            game_id: params[:game_id],
+            user_id: current_user.id,
+            genre_id: genred_game.genre_id
+            )
+        end
+
         flash[:success] = "#{Game.find_by(id: params[:game_id]).name} added to your list!"
         redirect_to '/user_games'
       else
@@ -88,6 +100,10 @@ class UserGamesController < ApplicationController
   def destroy
 
     user_game = UserGame.find_by(id: params[:id])
+    user_genres = UserGame.find_by(id: params[:id]).game.user_genres.where(user_id: current_user.id)
+    user_genres.each do |user_genre|
+      user_genre.destroy
+    end
     user_game.destroy
     flash[:success] = "Game removed from list"
     redirect_to "/user_games"

@@ -9,6 +9,10 @@ class Game < ApplicationRecord
   has_many :genred_games
   has_many :genres, through: :genred_games
 
+  has_many :user_genres
+  has_many :users, through: :user_genres
+  has_many :genres, through: :user_genres
+
   def lowest_deals
     platform_deals = []
 
