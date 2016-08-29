@@ -1,79 +1,14 @@
-<table class="table table-hover">
+<table class = "table table-hover">
   <tr>
     <th>Game</th>
     <th>Release Date</th>
-    <th>Lowest Price</th>
-    <th>Genre(s)</th>
     <th>Platforms</th>
-    <% if current_user %>
-      <th>List</th>
-    <% end %>
   </tr>
   <% @games.each do |game| %>
     <tr>
-      <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
-      <% if game.platformed_games.any? %>
-        <td>
-          <% game.platformed_games.each do |platformed_game| %>
-            <p>
-              <%= platformed_game.platform.name %>: 
-              <% if platformed_game.release_date %>
-                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
-              <% else %>
-                TBA
-              <% end %>
-            </p>
-          <% end %>
-        </td>
-      <% else %>
-        <td> </td>
-      <% end %>
-      <% if game.lowest_deals.any? %>
-        <td>
-          <% game.lowest_deals.each do |deal| %>
-            <% if game.platformed_games.length == 1 %>
-              <p><%= number_to_currency(deal[:price], unit: "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
-            <% else %>
-              <p><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], unit: "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
-            <% end %>
-          <% end %>
-        </td>
-      <% else %>
-        <td>N/A</td>
-      <% end %>
-      <% if game.genred_games.any? %>
-        <td>
-          <% game.genred_games.each do |genred_game| %>
-            <%= genred_game.genre.name + ", " %>
-          <% end %>
-        </td>
-      <% else %>
-       <td></td>
-      <% end %>
-      <% if game.platformed_games.any? %>
-        <td>
-          <% game.platformed_games.each do |platformed_game| %>
-            <%= platformed_game.platform.name + " " + " " %>
-          <% end %>
-        </td>
-      <% else %>
-        <td></td>
-      <% end %>
-      <% if current_user %>
-        <td>
-          <% if !current_user.user_games.find_by(game_id: game.id) %>
-            <%= form_tag "/user_games", method: :post do %>
-              <%= hidden_field_tag :game_id, game.id %>
-              <%= submit_tag "Add to list!" %>
-            <% end %>
-          <% else %>
-            <%= form_tag "/user_games/#{game.id}", method: :delete do %>
-              <%= hidden_field_tag :game_id, game.id %>
-              <%= submit_tag "Remove from list" %>
-            <% end %>
-          <% end %>
-        </td>
-      <% end %>
+      <td><%= game.name %></td>
+      <td><%= game.id %></td>
+      <td><%= game.name %></td>
     </tr>
   <% end %>
 </table>

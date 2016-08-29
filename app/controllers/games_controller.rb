@@ -13,6 +13,18 @@ class GamesController < ApplicationController
     game_hashes.each do |game_hash|
       @games << Game.new(game_hash)
     end    
+
+    platform_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50.json",
+      headers:{
+        "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
+        }).body
+
+    @platforms = []
+
+    platform_hashes.each do |platform_hash|
+      @platforms << Platform.new(platform_hash)
+    end
+
     # sort_attribute = params[:sort_attribute]
     # sort_attribute_2 = params[:sort_attribute_2]
     # if sort_attribute == "platform"

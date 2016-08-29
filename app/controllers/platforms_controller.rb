@@ -4,7 +4,16 @@ class PlatformsController < ApplicationController
 
   def index
 
-    @platforms = Platform.all
+    platform_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*",
+      headers:{
+        "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
+        }).body
+
+    @platforms = []
+
+    platform_hashes.each do |platform_hash|
+      @platforms << Platform.new(platform_hash)
+    end
 
   end
 
