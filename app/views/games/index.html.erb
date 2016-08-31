@@ -7,8 +7,26 @@
   <% @games.each do |game| %>
     <tr>
       <td><%= game.name %></td>
-      <td><%= game.id %></td>
-      <td><%= game.name %></td>
+      <td>
+        <% if game.release_dates %>
+          <% game.release_dates.each do |release_date| %>
+            <% @platforms.each do |platform| %>
+              <% if platform.id == release_date["platform"] %>
+                <%= platform.name %>: 
+                <% break %>
+              <% end %>
+            <% end %>
+            <%= Date.strptime("#{release_date['date']}" , "%Q") %>,
+          <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% @platforms.each do |platform| %>
+          <% if platform.games.include?(game.id) %>
+            <%= platform.name %>,
+          <% end %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

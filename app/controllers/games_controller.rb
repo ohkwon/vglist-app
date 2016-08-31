@@ -3,27 +3,37 @@ class GamesController < ApplicationController
   before_action :authenticate_admin!, except: [:index, :show]
 
   def index
-
-    game_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=0.json",
-      headers:{
-        "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-        "Accept" => "application/json"
-       }).body
+    offset = 0
     @games = []
-    game_hashes.each do |game_hash|
-      @games << Game.new(game_hash)
-    end    
+    puts "run page start"
+    while offset < 50
+      game_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=release_dates.date%3Adesc&offset=#{offset}",
+        headers:{
+          "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+          "Accept" => "application/json"
+         }).body
+      puts "https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}"
+      offset += 50
+      game_hashes.each do |game_hash|
+        @games << Game.new(game_hash)
+      end    
+      if game_hashes.length < 50
+        break
+      end
+    end
 
     @platforms = []
     offset = 0
 
-    while offset < 149
-      platform_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50&offset=#{offset}.json",
+    while offset < 200
+      platform_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50&offset=#{offset}",
         headers:{
-          "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
+          "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+          "Accept" => "application/json"
           }).body
+      offset += 50
       platform_hashes.each do |platform_hash|
-        @platforms << Platform.new(platform_hash)
+        @platforms << Platform.new(platform_hash) if platform_hash["games"]
       end
       if platform_hashes.length < 50
         break

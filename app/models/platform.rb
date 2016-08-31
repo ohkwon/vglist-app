@@ -19,7 +19,7 @@ class Platform
     @created_at = platform["created_at"]
     @updated_at = platform["updated_at"]
     @url = platform["url"]
-    @games = platform["id"]
+    @games = platform["games"]
     @versions = platform["versions"]
 
   end
