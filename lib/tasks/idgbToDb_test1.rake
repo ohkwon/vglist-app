@@ -7,46 +7,35 @@ task :create_games_test_1 => :environment do
     }).body
 
   games_api.each do |game_api|
-    puts "creating new game"
     game = Game.new(
       id: game_api["id"],
       name: game_api["name"],
       slug: game_api["slug"],
       summary: game_api["slug"],
       storyline: game_api["storyline"],
-      igdb_created_at: Time.strptime("#{game_api["created_at"]}", "%Q"),
-      igdb_updated_at: Time.strptime("#{game_api["updated_at"]}", "%Q")
+      igdb_created_at: DateTime.strptime("#{game_api["created_at"]}", "%s"),
+      igdb_updated_at: DateTime.strptime("#{game_api["updated_at"]}", "%s")
       )
     game.save
 
-    p game_api["release_dates"]
-
     if game_api["release_dates"]
       game_api["release_dates"].each do |platformed_game|
-        puts "creating platformed game"
-        puts game_api["id"]
         platformed_game = PlatformedGame.new(
           game_id: game_api["id"],
           platform_id: platformed_game["platform"],
           release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
           )
         platformed_game.save
-        p platformed_game
       end
     end
 
-    p game_api["genres"]
-
     if game_api["genres"]
       game_api["genres"].each do |genre_id|
-        puts "creating genred game"
-        puts game_api["id"]
         genred_game = GenredGame.new(
           game_id: game_api["id"],
           genre_id: genre_id
           )
         genred_game.save
-        p genred_game
       end
     end
 

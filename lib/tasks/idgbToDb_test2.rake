@@ -21,22 +21,21 @@ task :create_games_test_2 => :environment do
   puts games_api.length
 
   games_api.each do |game_api|
-    puts "creating new game"
     game = Game.new(
       id: game_api["id"],
       name: game_api["name"],
       slug: game_api["slug"],
       summary: game_api["slug"],
       storyline: game_api["storyline"],
-      igdb_created_at: Time.strptime("#{game_api["created_at"]}", "%Q"),
-      igdb_updated_at: Time.strptime("#{game_api["updated_at"]}", "%Q")
+      igdb_created_at: DateTime.strptime("#{game_api["created_at"]}", "%Q"),
+      igdb_updated_at: DateTime.strptime("#{game_api["updated_at"]}", "%Q")
       )
     game.save
 
     if game_api["release_dates"]
       game_api["release_dates"].each do |platformed_game|
         platformed_game = PlatformedGame.new(
-          game_id: platformed_game["id"],
+          game_id: game_api["id"],
           platform_id: platformed_game["platform"],
           release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
           )
