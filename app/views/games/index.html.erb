@@ -7,7 +7,7 @@
   </tr>
   <% @games.each do |game| %>
     <tr>
-      <td><%= game.name %></td>
+      <td><%= link_to game.name, "/games/#{game.id}/#{game.slug}" %></td>
       <td>
         <% if game.release_dates %>
           <% game.release_dates.each do |release_date| %>
