@@ -26,7 +26,7 @@ task :create_games_test_1 => :environment do
         puts "creating platformed game"
         puts game_api["id"]
         platformed_game = PlatformedGame.new(
-          game_id: platformed_game["id"],
+          game_id: game_api["id"],
           platform_id: platformed_game["platform"],
           release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
           )
