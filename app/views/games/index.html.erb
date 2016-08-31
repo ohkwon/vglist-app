@@ -3,6 +3,7 @@
     <th>Game</th>
     <th>Release Date</th>
     <th>Platforms</th>
+    <th>Genres</th>
   </tr>
   <% @games.each do |game| %>
     <tr>
@@ -10,13 +11,15 @@
       <td>
         <% if game.release_dates %>
           <% game.release_dates.each do |release_date| %>
-            <% @platforms.each do |platform| %>
-              <% if platform.id == release_date["platform"] %>
-                <%= platform.name %>: 
-                <% break %>
+            <p>
+              <% @platforms.each do |platform| %>
+                <% if platform.id == release_date["platform"] %>
+                  <%= platform.name %>: 
+                  <% break %>
+                <% end %>
               <% end %>
-            <% end %>
-            <%= Date.strptime("#{release_date['date']}" , "%Q") %>,
+              <%= Date.strptime("#{release_date['date']}" , "%Q").strftime("%b %d, %Y") %>
+            </p>
           <% end %>
         <% end %>
       </td>
@@ -24,6 +27,13 @@
         <% @platforms.each do |platform| %>
           <% if platform.games.include?(game.id) %>
             <%= platform.name %>,
+          <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% @genres.each do |genre| %>
+          <% if genre.games.include?(game.id) %>
+            <%= genre.name %>, 
           <% end %>
         <% end %>
       </td>

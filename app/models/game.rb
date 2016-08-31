@@ -1,3 +1,22 @@
+class Game
+
+  attr_accessor :id, :name, :slug, :created_at, :updated_at, :summary, :storyline, :genres, :release_dates
+
+  def initialize(game)
+
+    @id = game["id"]
+    @name = game["name"]
+    @slug = game["slug"]
+    @created_at = game["created_at"]
+    @updated_at = game["updated_at"]
+    @summary = game["summary"]
+    @storyline = game["storyline"]
+    @genres = game["genres"]
+    @release_dates = game["release_dates"]
+
+  end
+
+end
 # class Game < ApplicationRecord
 
 #   has_many :user_games
@@ -27,24 +46,3 @@
 #   end
   
 # end
-
-class Game
-
-  attr_accessor :id, :name, :slug, :created_at, :updated_at, :summary, :storyline, :genres, :release_dates
-
-  def initialize(game)
-
-    
-    @id = game["id"]
-    @name = game["name"]
-    @slug = game["slug"]
-    @created_at = game["created_at"]
-    @updated_at = game["updated_at"]
-    @summary = game["summary"]
-    @storyline = game["storyline"]
-    @genres = game["genres"]
-    @release_dates = game["release_dates"]
-
-  end
-
-end

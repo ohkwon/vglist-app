@@ -40,6 +40,16 @@ class GamesController < ApplicationController
       end
     end
 
+    @genres = []
+    genre_hashes = Unirest.get( "https://igdbcom-internet-game-database-v1.p.mashape.com/genres/?fields=*",
+      headers:{
+          "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+          "Accept" => "application/json"
+        }).body
+    genre_hashes.each do |genre_hash|
+      @genres << Genre.new(genre_hash)
+    end
+
     # binding.pry
 
     # sort_attribute = params[:sort_attribute]
