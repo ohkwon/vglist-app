@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831184701) do
+ActiveRecord::Schema.define(version: 20160831220023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,8 +59,8 @@ ActiveRecord::Schema.define(version: 20160831184701) do
     t.datetime "updated_at",      null: false
     t.text     "summary"
     t.string   "slug"
-    t.time     "idgb_created_at"
-    t.time     "idgb_updated_at"
+    t.time     "igdb_created_at"
+    t.time     "igdb_updated_at"
     t.text     "storyline"
   end
 
