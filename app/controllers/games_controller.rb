@@ -14,16 +14,23 @@ class GamesController < ApplicationController
       @games << Game.new(game_hash)
     end    
 
-    platform_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50.json",
-      headers:{
-        "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
-        }).body
-
     @platforms = []
+    offset = 0
 
-    platform_hashes.each do |platform_hash|
-      @platforms << Platform.new(platform_hash)
+    while offset < 149
+      platform_hashes = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50&offset=#{offset}.json",
+        headers:{
+          "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
+          }).body
+      platform_hashes.each do |platform_hash|
+        @platforms << Platform.new(platform_hash)
+      end
+      if platform_hashes.length < 50
+        break
+      end
     end
+
+    # binding.pry
 
     # sort_attribute = params[:sort_attribute]
     # sort_attribute_2 = params[:sort_attribute_2]
