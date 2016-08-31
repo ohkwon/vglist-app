@@ -1,0 +1,2 @@
+class PlatformLogo < ApplicationRecord
+end
