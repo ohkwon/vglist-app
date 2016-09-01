@@ -1,25 +1,69 @@
-  offset = 0
-  games_api = []
+#complete api grab
 
-  while offset < 100
+# offset = 0
+# games_api = []
 
-    current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}",
+# while offset < 100
+
+#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}",
+#     headers:{
+#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+#       "Accept" => "application/json"
+#     }).body
+
+#   offset += 50
+
+#   current_list.each do |current_item|
+#     games_api << current_item
+#   end
+
+# end
+
+
+#sampled test grab
+
+games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=2&search=zelda",
       headers:{
         "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
         "Accept" => "application/json"
       }).body
-    offset += 50
-    puts "adding #{current_list.length} new things"
-    current_list.each do |current_item|
-      games_api << current_item
-    end
 
-  end
+desc 'create entire database'
+task :create_all do
 
+  Rake::Task['create_genres'].invoke
+  Rake::Task['create_platforms'].invoke
+  Rake::Task['create_games'].invoke
+  Rake::Task['create_platformed_games'].invoke
+  Rake::Task['create_genred_games'].invoke
+  Rake::Task['create_covers'].invoke
+  Rake::Task['create_screenshots'].invoke
+  Rake::Task['create_videos'].invoke
+
+end
+
+desc 'create all database that is inseperable from games call'
+task :create_games_and_associations do
+
+  Rake::Task['create_games'].invoke
+  Rake::Task['create_platformed_games'].invoke
+  Rake::Task['create_genred_games'].invoke
+  Rake::Task['create_covers'].invoke
+  Rake::Task['create_screenshots'].invoke
+  Rake::Task['create_videos'].invoke
+
+end
+
+desc 'create games db'
 task :create_games => :environment do  
 
+  counter = 1
 
   games_api.each do |game_api|
+
+    puts "creating game #{counter} of #{games_api.length}"
+    counter += 1
+
     game = Game.new(
       id: game_api["id"],
       name: game_api["name"],
@@ -35,6 +79,7 @@ task :create_games => :environment do
 
 end
 
+desc 'create platformed games db'
 task :create_platformed_games => :environment do
 
   games_api.each do |game_api|
@@ -52,6 +97,7 @@ task :create_platformed_games => :environment do
 
 end
 
+desc 'create genred games db'
 task :create_genred_games => :environment do
 
   games_api.each do |game_api|
@@ -68,6 +114,7 @@ task :create_genred_games => :environment do
 
 end
 
+desc 'create covers db'
 task :create_covers => :environment do
 
   games_api.each do |game_api|
@@ -84,6 +131,7 @@ task :create_covers => :environment do
 
 end
 
+desc 'create screenshots db'
 task :create_screenshots => :environment do
 
   games_api.each do |game_api|
@@ -102,6 +150,7 @@ task :create_screenshots => :environment do
 
 end
 
+desc 'create videos db'
 task :create_videos => :environment do
 
   games_api.each do |game_api|
@@ -119,6 +168,7 @@ task :create_videos => :environment do
 
 end
 
+desc 'create genres db'
 task :create_genres => :environment do
 
   genres_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/genres/?fields=*&limit=50",
@@ -126,8 +176,13 @@ task :create_genres => :environment do
     "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
   }).body
 
+  counter = 1
+
   genres_api.each do |genre_api|
-    puts "creating new genre"
+
+    puts "creating genre #{counter} of #{genres_api.length}"
+    counter += 1
+
     genre = Genre.new(
       id: genre_api["id"],
       name: genre_api["name"],
@@ -138,6 +193,7 @@ task :create_genres => :environment do
 
 end
 
+desc 'create platforms db'
 task :create_platforms => :environment do
 
   offset = 0
@@ -150,7 +206,6 @@ task :create_platforms => :environment do
       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
     }).body
 
-    puts offset
     offset += 50
 
     current_list.each do |platform|
@@ -163,8 +218,13 @@ task :create_platforms => :environment do
 
   end
 
+  counter = 1 
+
   platforms_api.each do |platform_api|
-    puts "creating new platform"
+
+    puts "creating platform #{counter} of #{platforms_api.length}"
+    counter += 1
+
     platform = Platform.new(
       id: platform_api["id"],
       name: platform_api["name"],
