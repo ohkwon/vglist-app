@@ -1,10 +1,23 @@
-task :create_games_test_1 => :environment do  
+  offset = 0
+  games_api = []
 
-  games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=2&offset=0&search=zelda",
-    headers:{
-      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-      "Accept" => "application/json"
-    }).body
+  while offset < 100
+
+    current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}",
+      headers:{
+        "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+        "Accept" => "application/json"
+      }).body
+    offset += 50
+    puts "adding #{current_list.length} new things"
+    current_list.each do |current_item|
+      games_api << current_item
+    end
+
+  end
+
+task :create_games => :environment do  
+
 
   games_api.each do |game_api|
     game = Game.new(
@@ -18,6 +31,13 @@ task :create_games_test_1 => :environment do
       )
     game.save
 
+  end
+
+end
+
+task :create_platformed_games => :environment do
+
+  games_api.each do |game_api|
     if game_api["release_dates"]
       game_api["release_dates"].each do |platformed_game|
         platformed_game = PlatformedGame.new(
@@ -28,7 +48,13 @@ task :create_games_test_1 => :environment do
         platformed_game.save
       end
     end
+  end
 
+end
+
+task :create_genred_games => :environment do
+
+  games_api.each do |game_api|
     if game_api["genres"]
       game_api["genres"].each do |genre_id|
         genred_game = GenredGame.new(
@@ -38,7 +64,13 @@ task :create_games_test_1 => :environment do
         genred_game.save
       end
     end
+  end
 
+end
+
+task :create_covers => :environment do
+
+  games_api.each do |game_api|
     if game_api["cover"]
       game_cover = GameCover.new(
         game_id: game_api["id"],
@@ -48,7 +80,13 @@ task :create_games_test_1 => :environment do
         )
       game_cover.save
     end
+  end
 
+end
+
+task :create_screenshots => :environment do
+
+  games_api.each do |game_api|
     if game_api["screenshots"]
       game_api["screenshots"].each do |screenshot|
         game_screenshot = GameScreenshot.new(
@@ -60,7 +98,13 @@ task :create_games_test_1 => :environment do
         game_screenshot.save
       end
     end
+  end
 
+end
+
+task :create_videos => :environment do
+
+  games_api.each do |game_api|
     if game_api["videos"]
       game_api["videos"].each do |video|
         game_video = GameVideo.new(
@@ -71,7 +115,6 @@ task :create_games_test_1 => :environment do
         game_video.save
       end
     end
-
   end
 
 end
