@@ -1,7 +1,7 @@
 <table class="table table-hover">
   <tr>
     <th>Game</th>
-    <th>Release Date</th>
+    <th>Platform(s) and Release Date(s)</th>
     <th>Lowest Current Price</th>
     <th>Genre(s)</th>
     <th>Ownership Status</th>
@@ -13,7 +13,7 @@
       <td><a href="/games/<%= user_game.game.id %>"><%= user_game.game.name %></td>
       <% if user_game.game.platformed_games.any? %>
         <td>
-          <% user_game.game.platformed_games.each do |platformed_game| %>
+          <% user_game.game.platformed_games.order(:release_date).each do |platformed_game| %>
             <p>
               <%= platformed_game.platform.name %>: 
               <% if platformed_game.release_date %>

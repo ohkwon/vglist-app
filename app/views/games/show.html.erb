@@ -3,20 +3,24 @@
 
   <% if @game.platformed_games.any? %>
 
-    <li>Release Date: 
-      <%= @game.platformed_games[0].release_date.strftime("%B %d, %Y") if @game.platformed_games[0].release_date %>
-      <%= "TBA" if @game.platformed_games[0].release_date == nil %>
-    </li>
-    <li>Platforms:</li>
-    <ul>
-      <% @game.platformed_games.each do |platformed_game| %>
-        <li><%= platformed_game.platform.name %></li>
+    <li>Platform(s) and Release Date(s): 
+      <% @game.platformed_games.order(:release_date).each do |platformed_game| %>
+        <ul>
+          <li>
+            <%= platformed_game.platform.name %>: 
+            <% if platformed_game.release_date %>
+              <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+            <% else %>
+              TBA
+            <% end %>
+          </li>
+        </ul>
       <% end %>
-    </ul>
+    </li>
 
   <% else %>
 
-    <li>Release Date</li>
+    <li>N/A</li>
 
   <% end %>
 
@@ -72,18 +76,6 @@
       <%= collection_select :platform, :platform_id, Platform.includes(:platformed_games).where('platformed_games.game_id = ?', @game.id).references(:platformed_games), :id, :name %>
       <%= submit_tag "Add Deal to Game!" %>
     <% end %>
-  <% end %>
-
-  <% if current_user.admin %>
-
-    <%= form_tag '/genred_games/new', method: :get do %>
-      <%= hidden_field_tag :game_id, @game.id %>
-      <%= submit_tag "Add genre to game!" %>
-    <% end %>
-
-    <p><%= link_to "Edit game", "/games/#{@game.id}/edit" %></p>
-    <p><%= link_to "Delete game", "/games/#{@game.id}", method: :delete %></p>
-
   <% end %>
 
 <% end %>
