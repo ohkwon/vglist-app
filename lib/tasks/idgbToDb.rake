@@ -12,6 +12,9 @@ while current_list.any?
       "Accept" => "application/json"
     }).body
 
+  puts "from https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}"
+  puts "on offset #{offset}"
+
   offset += 50
 
   current_list.each do |current_item|
