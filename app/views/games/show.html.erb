@@ -1,4 +1,4 @@
-<h1><%= @game.name %></h1>
+<h1><%= @game.name %> <img src="https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"></h1>
 <ul>
 
   <% if @game.platformed_games.any? %>
@@ -7,6 +7,7 @@
       <% @game.platformed_games.order(:release_date).each do |platformed_game| %>
         <ul>
           <li>
+            <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
             <%= platformed_game.platform.name %>: 
             <% if platformed_game.release_date %>
               <%= platformed_game.release_date.strftime("%B %d, %Y") %>

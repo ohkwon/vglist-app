@@ -10,11 +10,12 @@
   </tr>
   <% @user_games.each do |user_game| %>
     <tr>
-      <td><a href="/games/<%= user_game.game.id %>"><%= user_game.game.name %></td>
+      <td><a href="/games/<%= user_game.game.id %>"> <img src="https://res.cloudinary.com/igdb/image/upload/<%= user_game.game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"> <%= user_game.game.name %></td>
       <% if user_game.game.platformed_games.any? %>
         <td>
           <% user_game.game.platformed_games.order(:release_date).each do |platformed_game| %>
             <p>
+              <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
               <%= platformed_game.platform.name %>: 
               <% if platformed_game.release_date %>
                 <%= platformed_game.release_date.strftime("%B %d, %Y") %>

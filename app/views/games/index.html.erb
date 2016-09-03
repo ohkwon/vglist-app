@@ -11,7 +11,7 @@
   <% @games.each do |game| %>
     <tr>
 
-      <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
+      <td><a href="/games/<%= game.id %>"> <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"> <%= game.name %></a></td>
       
       <% if game.lowest_deals.any? %>
         <td>
@@ -41,6 +41,7 @@
         <td>
           <% game.platformed_games.order(:release_date).each do |platformed_game| %>
             <p>
+              <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
               <%= platformed_game.platform.name %>: 
               <% if platformed_game.release_date %>
                 <%= platformed_game.release_date.strftime("%B %d, %Y") %>
