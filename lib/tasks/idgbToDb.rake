@@ -1,36 +1,63 @@
 #complete api grab
 
-# offset = 0
-# games_api = []
+offset = 0
+games_api = []
+current_list = ['start']
 
-# while offset < 100
+while current_list.any?
 
-#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}",
-#     headers:{
-#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-#       "Accept" => "application/json"
-#     }).body
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}",
+    headers:{
+      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+      "Accept" => "application/json"
+    }).body
 
-#   offset += 50
+  offset += 50
 
-#   current_list.each do |current_item|
-#     games_api << current_item
-#   end
+  current_list.each do |current_item|
+    games_api << current_item
+  end
 
-# end
+  puts "game grab at #{games_api.length} items"
+
+end
 
 
 #sampled test grab
 
-games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=2&search=zelda",
-      headers:{
-        "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-        "Accept" => "application/json"
-      }).body
+# games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=2&search=zelda",
+#       headers:{
+#         "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+#         "Accept" => "application/json"
+#       }).body
 
 desc 'create entire database'
 task :create_all do
 
+  Rake::Task['create_genres'].invoke
+  Rake::Task['create_platforms'].invoke
+  Rake::Task['create_platform_logos'].invoke
+  Rake::Task['create_games'].invoke
+  Rake::Task['create_platformed_games'].invoke
+  Rake::Task['create_genred_games'].invoke
+  Rake::Task['create_covers'].invoke
+  Rake::Task['create_screenshots'].invoke
+  Rake::Task['create_videos'].invoke
+
+end
+
+desc 'update entire database'
+task :update_all do
+
+  Genre.delete_all()
+  Platform.delete_all()
+  PlatformLogo.delete_all()
+  Game.delete_all()
+  PlatformedGame.delete_all()
+  GenredGame.delete_all()
+  GameCover.delete_all()
+  GameScreenshot.delete_all()
+  GameVideo.delete_all()
   Rake::Task['create_genres'].invoke
   Rake::Task['create_platforms'].invoke
   Rake::Task['create_platform_logos'].invoke
@@ -57,6 +84,31 @@ end
 
 desc 'create games db'
 task :create_games => :environment do  
+
+  counter = 1
+
+  games_api.each do |game_api|
+
+    puts "creating game #{counter} of #{games_api.length}"
+    counter += 1
+
+    game = Game.new(
+      id: game_api["id"],
+      name: game_api["name"],
+      slug: game_api["slug"],
+      summary: game_api["summary"],
+      storyline: game_api["storyline"],
+      igdb_created_at: DateTime.strptime("#{game_api["created_at"]}", "%s"),
+      igdb_updated_at: DateTime.strptime("#{game_api["updated_at"]}", "%s")
+      )
+    game.save
+
+  end
+
+end
+
+desc 'update games db'
+task :update_games => :environment do  
 
   counter = 1
 
