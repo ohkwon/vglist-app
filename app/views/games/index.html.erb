@@ -14,7 +14,7 @@
       <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
       <% if game.platformed_games.any? %>
         <td>
-          <% game.platformed_games.each do |platformed_game| %>
+          <% game.platformed_games.order(:release_date).each do |platformed_game| %>
             <p>
               <%= platformed_game.platform.name %>: 
               <% if platformed_game.release_date %>
@@ -53,7 +53,7 @@
       <% if game.platformed_games.any? %>
         <td>
           <% game.platformed_games.each do |platformed_game| %>
-            <%= platformed_game.platform.name + " " + " " %>
+            <p><img src="https://res.cloudinary.com/igdb/image/upload/<%=platformed_game.platform.platform_logos.first.cloudinary_id%>.jpg" style = "max-width:50px; max-height:40px"> <%= platformed_game.platform.name %></p>
           <% end %>
         </td>
       <% else %>

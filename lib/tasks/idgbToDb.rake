@@ -33,6 +33,7 @@ task :create_all do
 
   Rake::Task['create_genres'].invoke
   Rake::Task['create_platforms'].invoke
+  Rake::Task['create_platform_logos'].invoke
   Rake::Task['create_games'].invoke
   Rake::Task['create_platformed_games'].invoke
   Rake::Task['create_genred_games'].invoke
@@ -68,7 +69,7 @@ task :create_games => :environment do
       id: game_api["id"],
       name: game_api["name"],
       slug: game_api["slug"],
-      summary: game_api["slug"],
+      summary: game_api["summary"],
       storyline: game_api["storyline"],
       igdb_created_at: DateTime.strptime("#{game_api["created_at"]}", "%s"),
       igdb_updated_at: DateTime.strptime("#{game_api["updated_at"]}", "%s")
@@ -193,30 +194,30 @@ task :create_genres => :environment do
 
 end
 
+offset = 0
+platforms_api = []
+
+while offset < 150
+
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50&offset=#{offset}",
+  headers:{
+    "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
+  }).body
+
+  offset += 50
+
+  current_list.each do |platform|
+    platforms_api << platform if platform["games"]
+  end
+
+  if current_list.length < 50
+    break
+  end
+
+end
+
 desc 'create platforms db'
 task :create_platforms => :environment do
-
-  offset = 0
-  platforms_api = []
-
-  while offset < 150
-
-    current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50&offset=#{offset}",
-    headers:{
-      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
-    }).body
-
-    offset += 50
-
-    current_list.each do |platform|
-      platforms_api << platform if platform["games"]
-    end
-
-    if current_list.length < 50
-      break
-    end
-
-  end
 
   counter = 1 
 
@@ -231,6 +232,29 @@ task :create_platforms => :environment do
       slug: platform_api["slug"]
       )
     platform.save
+  end
+
+end
+
+desc 'create platform logos db'
+task :create_platform_logos => :environment do
+
+  platforms_api.each do |platform_api|
+
+    if platform_api["logo"]
+
+      puts "creating platform logo for platform #{platform_api['id']}"
+
+      platform_logo = PlatformLogo.new(
+        platform_id: platform_api["id"],
+        cloudinary_id: platform_api["logo"]["cloudinary_id"],
+        width: platform_api["logo"]["width"],
+        height: platform_api["logo"]["height"]
+        )
+      platform_logo.save
+
+    end
+
   end
 
 end

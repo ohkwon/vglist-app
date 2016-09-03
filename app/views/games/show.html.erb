@@ -40,8 +40,12 @@
   <% else %>
     <td>N/A</td>
   <% end %> -->
-
-  <li>Description: <%= @game.description %></li>
+  <% if @game.summary %>
+    <li>Summary: <%= @game.summary %></li>
+  <% end %>
+  <% if @game.storyline %>
+    <li>Storyline: <%= @game.storyline %></li>
+  <% end %>
 </ul>
 
 <% if current_user %>
