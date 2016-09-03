@@ -30,7 +30,9 @@
       <% if game.genred_games.any? %>
         <td>
           <% game.genred_games.each do |genred_game| %>
-            <%= genred_game.genre.name + ", " %>
+            <a href="/games?sort_attribute=genre&sort_attribute_2=<%= genred_game.genre_id %>">
+              <%= genred_game.genre.name %>
+            </a> , 
           <% end %>
         </td>
       <% else %>
@@ -41,13 +43,15 @@
         <td>
           <% game.platformed_games.order(:release_date).each do |platformed_game| %>
             <p>
-              <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
-              <%= platformed_game.platform.name %>: 
-              <% if platformed_game.release_date %>
-                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
-              <% else %>
-                TBA
-              <% end %>
+              <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
+                <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
+                <%= platformed_game.platform.name %>: 
+                <% if platformed_game.release_date %>
+                  <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+                <% else %>
+                  TBA
+                <% end %>
+              </a>
             </p>
           <% end %>
         </td>
