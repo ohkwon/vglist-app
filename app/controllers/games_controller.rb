@@ -29,8 +29,9 @@ class GamesController < ApplicationController
       #   @games = Game.includes(:genred_games).where('genred_games.genre_id = 4').references(:genred_games).order(:name) #action-rpg
       # end
     else
-      @games = Game.order(:name)
+      @games = Game.order(:name).limit(20)
     end
+    # binding.pry
 
   end
 

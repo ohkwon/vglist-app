@@ -1,4 +1,8 @@
+<% if @game.game_covers.any? %>
 <h1><%= @game.name %> <img src="https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"></h1>
+<% else %>
+<h1><%= @game.name %></h1>
+<% end %>
 <ul>
 
   <% if @game.platformed_games.any? %>
@@ -8,7 +12,9 @@
         <ul>
           <li>
             <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
-              <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
+              <% if platformed_game.platform.platform_logos.any? %>
+                <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
+              <% end %>
               <%= platformed_game.platform.name %>: 
               <% if platformed_game.release_date %>
                 <%= platformed_game.release_date.strftime("%B %d, %Y") %>
