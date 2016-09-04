@@ -4,16 +4,37 @@ offset = 0
 games_api = []
 current_list = ['start']
 
-while current_list.any?
+while offset < 9950
 
-  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}",
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Aasc&offset=#{offset}",
     headers:{
       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
       "Accept" => "application/json"
     }).body
 
-  puts "from https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&offset=#{offset}"
-  puts "on offset #{offset}"
+  puts "on offset #{offset} going down"
+
+  offset += 50
+
+  current_list.each do |current_item|
+    games_api << current_item
+  end
+
+  puts "game grab at #{games_api.length} items"
+
+end
+
+offset = 0
+
+while offset < 9950
+
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Adesc&offset=#{offset}",
+    headers:{
+      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+      "Accept" => "application/json"
+    }).body
+
+  puts "on offset #{offset} going up"
 
   offset += 50
 
@@ -50,7 +71,7 @@ task :create_all do
 end
 
 desc 'update entire database'
-task :update_all do
+task :update_all => :environment do
 
   Genre.delete_all()
   Platform.delete_all()
@@ -138,17 +159,27 @@ end
 desc 'create platformed games db'
 task :create_platformed_games => :environment do
 
+  counter = 1
+
   games_api.each do |game_api|
     if game_api["release_dates"]
+      counter1 = 1
       game_api["release_dates"].each do |platformed_game|
+        puts "creating platformed game #{counter1} of game #{counter} of #{games_api.length}"
         platformed_game = PlatformedGame.new(
           game_id: game_api["id"],
-          platform_id: platformed_game["platform"],
-          release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
+          platform_id: platformed_game["platform"]
           )
+        if platformed_game["platform"]
+          platformed_game.assign_attributes(
+            release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
+            )
+        end
         platformed_game.save
+        counter1 += 1
       end
     end
+    counter += 1
   end
 
 end
@@ -156,16 +187,22 @@ end
 desc 'create genred games db'
 task :create_genred_games => :environment do
 
+  counter = 1
+
   games_api.each do |game_api|
     if game_api["genres"]
+      counter1 = 1
       game_api["genres"].each do |genre_id|
+        puts "creating genred game #{counter1} of game #{counter} of #{games_api.length}"
         genred_game = GenredGame.new(
           game_id: game_api["id"],
           genre_id: genre_id
           )
         genred_game.save
+        counter1 += 1
       end
     end
+    counter += 1
   end
 
 end
@@ -173,8 +210,11 @@ end
 desc 'create covers db'
 task :create_covers => :environment do
 
+  counter = 1
+
   games_api.each do |game_api|
     if game_api["cover"]
+      puts "creating game cover #{counter}"
       game_cover = GameCover.new(
         game_id: game_api["id"],
         cloudinary_id: game_api["cover"]["cloudinary_id"],
@@ -183,6 +223,7 @@ task :create_covers => :environment do
         )
       game_cover.save
     end
+    counter += 1
   end
 
 end
@@ -190,9 +231,14 @@ end
 desc 'create screenshots db'
 task :create_screenshots => :environment do
 
+  counter = 1
+
   games_api.each do |game_api|
     if game_api["screenshots"]
+      counter1 = 1
       game_api["screenshots"].each do |screenshot|
+        puts "creating screenshot #{counter1} of game #{counter}"
+        counter1 += 1
         game_screenshot = GameScreenshot.new(
           game_id: game_api["id"],
           cloudinary_id: screenshot["cloudinary_id"],
@@ -202,6 +248,7 @@ task :create_screenshots => :environment do
         game_screenshot.save
       end
     end
+    counter += 1
   end
 
 end
@@ -209,9 +256,14 @@ end
 desc 'create videos db'
 task :create_videos => :environment do
 
+  counter = 1
+
   games_api.each do |game_api|
     if game_api["videos"]
+      counter1 = 1
       game_api["videos"].each do |video|
+        puts "creating video #{counter1} of game #{counter}"
+        counter += 1
         game_video = GameVideo.new(
           game_id: game_api["id"],
           name: video["name"],
@@ -220,6 +272,7 @@ task :create_videos => :environment do
         game_video.save
       end
     end
+    counter += 1
   end
 
 end
