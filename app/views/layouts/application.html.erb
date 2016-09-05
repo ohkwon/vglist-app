@@ -1,14 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js" lang="">
   <head>
     <title>VglistApp</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Tasnm || Home Version One</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+    <!-- favicon
+    ============================================ -->    
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+    <!-- google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700' rel='stylesheet' type='text/css'>
+    <!-- all css here -->
+    <!-- bootstrap v3.3.6 css -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- pe-icon-7-stroke -->
+    <link rel="stylesheet" href="css/pe-icon-7-stroke.min.css">
+    <!-- jquery-ui.min css -->
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <!-- Image Zoom CSS
+    ============================================ -->
+    <link rel="stylesheet" href="css/img-zoom/jquery.simpleLens.css">
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="css/meanmenu.min.css">
+    <!-- nivo slider CSS
+    ============================================ -->
+    <link rel="stylesheet" href="lib/css/nivo-slider.css" type="text/css" />
+    <link rel="stylesheet" href="lib/css/preview.css" type="text/css" media="screen" />
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="css/owl.carousel.css">
+    <!-- font-awesome css -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="style.css">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="css/responsive.css">
+    <!-- modernizr css -->
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+
   </head>
 
   <body>
+
+    <header>
+      <div class="header-top">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-sm-4">
+              <div class="left-header clearfix">
+                <ul>
+                  <li><p><i class="fa fa-phone" aria-hidden="true"></i>(+880) 1910 000251</p></li>
+                  <li class="hd-none"><p><i class="fa fa-clock-o" aria-hidden="true"></i>Mon-fri : 9:00-19:00</p></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-8">
+              <div class="right-header">
+                <ul>
+                  <li><a href="my-account.html"><i class="fa fa-user"></i>My account</a></li>
+                  <li><a href="cart.html"><i class="fa fa-shopping-cart"></i>My cart</a></li>
+                  <li><a href="wishlist.html"><i class="fa fa-heart"></i>My wishlist</a></li>
+                  <li><a href="checkout.html"><i class="fa fa-usd"></i>Creck out</a></li>
+                  <li><a href="login.html"><i class="fa fa-lock"></i>Login</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
 
     <% flash.each do |key, value| %>
       <div class="alert alert-<%= key %> alert-dismissible" role="alert">

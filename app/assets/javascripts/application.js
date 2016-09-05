@@ -12,6 +12,17 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-sprockets
+//= require bootstrap.min
+//= require jquery-ui.min
+//= require jquery.countdown.min
+//= require jquery.fancybox
+//= require jquery.meanmenu
+//= require main
+//= require owl.carousel.min
+//= require parallax.min
+//= require plugins
+//= require sticky
+//= require video-button
+//= require wow.min
 //= require turbolinks
 //= require_tree .
