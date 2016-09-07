@@ -166,16 +166,25 @@ task :create_platformed_games => :environment do
       counter1 = 1
       game_api["release_dates"].each do |platformed_game|
         puts "creating platformed game #{counter1} of game #{counter} of #{games_api.length}"
-        new_platformed_game = PlatformedGame.new(
-          game_id: game_api["id"],
-          platform_id: platformed_game["platform"]
-          )
         if platformed_game["date"]
-          new_platformed_game.assign_attributes(
-            release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
-            )
+          if platformed_game["region"]
+            if platformed_game["region"] == 2 || if platformed_game["region"] == 8
+              new_platformed_game = PlatformedGame.new(
+                game_id: game_api["id"],
+                platform_id: platformed_game["platform"],
+                release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
+                )
+              new_platformed_game.save
+            end
+          else
+            new_platformed_game = PlatformedGame.new(
+              game_id: game_api["id"],
+              platform_id: platformed_game["platform"],
+              release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
+              )
+            new_platformed_game.save
+          end
         end
-        new_platformed_game.save
         counter1 += 1
       end
     end
@@ -367,5 +376,5 @@ task :create_platform_logos => :environment do
 
 end
 
-
+end
 

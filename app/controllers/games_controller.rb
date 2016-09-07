@@ -29,7 +29,7 @@ class GamesController < ApplicationController
       #   @games = Game.includes(:genred_games).where('genred_games.genre_id = 4').references(:genred_games).order(:name) #action-rpg
       # end
     else
-      @games = Game.order(:name).limit(20)
+      @games = Game.where("name LIKE ?", "%Metal Gear Solid%").order(:name).limit(15)
     end
     # binding.pry
 

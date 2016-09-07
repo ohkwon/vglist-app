@@ -1,0 +1,17 @@
+.platform-logo {
+  max-width: 50px;
+  max-height: 30px;
+}
+
+.game-cover {
+  max-width: 200px;
+  max-height: 150px;
+}
+
+header {
+  background: rgba(0, 0, 0, 0.4) none repeat scroll 0 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 9;
+}
