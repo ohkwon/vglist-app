@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  get '/games', to: 'games#index'
+  get '/games', to: 'games#index_2'
   get '/games/index', to: 'games#index'
   get '/games/new', to: 'games#new'
   post '/games', to: 'games#create'
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   get '/user_games', to: 'user_games#index'
   get '/user_games/index', to: 'user_games#index'
-  post '/user_games', to: 'user_games#create'
+  post '/user_games/:game_id', to: 'user_games#create'
   patch '/user_games/:id', to: 'user_games#update'
   delete '/user_games/:id', to: 'user_games#destroy'
 
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   get '/genred_games/new', to: 'genred_games#new'
   post '/genred_games', to: 'genred_games#create'
 
-  get '/deals/new', to: 'deals#new'
+  get '/deals/new/:game_id', to: 'deals#new'
   post '/deals', to: 'deals#create'
   # get '/deals/:id', to: 'deals#index'
   get '/deals/:id/edit', to: 'deals#edit'
