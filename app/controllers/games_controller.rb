@@ -36,7 +36,7 @@ class GamesController < ApplicationController
   end
 
   def index_2
-    @counter = 12
+    @counter = 0
 
     sort_attribute = params[:sort_attribute]
     sort_attribute_2 = params[:sort_attribute_2]
@@ -65,7 +65,7 @@ class GamesController < ApplicationController
     else
       @games = Game.where("name LIKE ?", "%Metal Gear Solid%").order(:name).limit(15)
     end
-    # binding.pry
+    binding.pry
 
   end
 
