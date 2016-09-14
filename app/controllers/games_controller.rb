@@ -65,7 +65,7 @@ class GamesController < ApplicationController
     else
       @games = Game.where("name LIKE ?", "%Metal Gear Solid%").order(:name).limit(15)
     end
-    binding.pry
+    # binding.pry
 
   end
 
