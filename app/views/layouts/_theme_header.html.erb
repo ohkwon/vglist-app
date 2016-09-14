@@ -6,19 +6,19 @@
         <div class="col-md-6 col-sm-4">
           <div class="left-header clearfix">
             <ul>
-              <li><p><i class="fa fa-phone" aria-hidden="true"></i>(+880) 1910 000251</p></li>
-              <li class="hd-none"><p><i class="fa fa-clock-o" aria-hidden="true"></i>Mon-fri : 9:00-19:00</p></li>
             </ul>
           </div>
         </div>
         <div class="col-md-6 col-sm-8">
           <div class="right-header">
             <ul>
-              <li><a href="my-account.html"><i class="fa fa-user"></i>My account</a></li>
-              <li><a href="cart.html"><i class="fa fa-shopping-cart"></i>My cart</a></li>
-              <li><a href="wishlist.html"><i class="fa fa-heart"></i>My wishlist</a></li>
-              <li><a href="checkout.html"><i class="fa fa-usd"></i>Creck out</a></li>
-              <li><a href="login.html"><i class="fa fa-lock"></i>Login</a></li>
+              <% if current_user %>
+                <li><a href="my-account.html"><i class="fa fa-user"></i>My account</a></li>
+                <li><a href="/user_games"><i class="fa fa-heart"></i>My List</a></li>
+              <% else %>
+                <li><a href="/login"><i class="fa fa-lock"></i>Login</a></li>
+                <li><a href="/sign_up"><i class="fa fa-user"></i>Sign Up</a></li>
+              <% end %>
             </ul>
           </div>
         </div>

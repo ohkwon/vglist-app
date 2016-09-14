@@ -4,12 +4,23 @@ class DealsController < ApplicationController
 
   def new
 
+    @game = Game.find_by(id: params[:game_id])
+    @platformed_games = PlatformedGame.where(game_id: params[:game_id])
+    @platforms = []
+
+    @platformed_games.each do |platformed_game|
+      @platforms << {id: platformed_game.id, name: platformed_game.platform.name}
+    end
+
   end
 
   def create
 
+    platformed_game = PlatformedGame.find_by(platform_id: params[:platform][:platform_id], game_id: params[:game_id])
+
+
     deal = Deal.new(
-      platformed_game_id: params[:platformed_game_id],
+      platformed_game_id: platformed_game.id,
       retailer: params[:retailer],
       price: params[:price],
       date: params[:date],
