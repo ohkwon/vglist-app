@@ -16,7 +16,7 @@ class DealsController < ApplicationController
 
   def create
 
-    platformed_game = PlatformedGame.find_by(platform_id: params[:platform][:platform_id], game_id: params[:game_id])
+    platformed_game = PlatformedGame.find_by(platform_id: params["platform"]["platform_id"], game_id: params[:game_id])
 
 
     deal = Deal.new(
