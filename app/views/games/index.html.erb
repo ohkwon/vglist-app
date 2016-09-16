@@ -1,85 +1,155 @@
-<table class="table table-hover">
-  <tr>
-    <th>Game</th>
-    <th>Lowest Price</th>
-    <th>Genre(s)</th>
-    <th>Platform(s) and Release Date(s)</th>
-    <% if current_user %>
-      <th>List</th>
-    <% end %>
-  </tr>
-  <% @games.each do |game| %>
-    <tr>
-      <% if game.game_covers.any? %>
-        <td><a href="/games/<%= game.id %>"> <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"> <%= game.name %></a></td>
-      <% else %>
-        <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
-      <% end %>
-      
-      <% if game.lowest_deals.any? %>
-        <td>
-          <% game.lowest_deals.each do |deal| %>
-            <% if game.platformed_games.length == 1 %>
-              <p><%= number_to_currency(deal[:price], unit: "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
-            <% else %>
-              <p><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], unit: "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
-            <% end %>
-          <% end %>
-        </td>
-      <% else %>
-        <td>N/A</td>
-      <% end %>
+<div ng-app = "app">
+  <div ng-controller = "gamesCtrl">
+    <section class="featured-products single-products section-padding-top">
 
-      <% if game.genred_games.any? %>
-        <td>
-          <% game.genred_games.each do |genred_game| %>
-            <a href="/games?sort_attribute=genre&sort_attribute_2=<%= genred_game.genre_id %>">
-              <%= genred_game.genre.name %>
-            </a> , 
-          <% end %>
-        </td>
-      <% else %>
-       <td></td>
-      <% end %>
+      <div class="container">
 
-      <% if game.platformed_games.any? %>
-        <td>
-          <% game.platformed_games.order(:release_date).each do |platformed_game| %>
-            <p>
-              <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
-                <% if platformed_game.platform.platform_logos.any? %>
-                  <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
-                <% end %>
-                <%= platformed_game.platform.name %>: 
-                <% if platformed_game.release_date %>
-                  <%= platformed_game.release_date.strftime("%B %d, %Y") %>
-                <% else %>
-                  TBA
-                <% end %>
-              </a>
-            </p>
-          <% end %>
-        </td>
-      <% else %>
-        <td> </td>
-      <% end %>
+        <!-- Section Title -->
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="section-title">
+              <h3>FEATURED PRODUCTS</h3>
+              <div class="section-icon">
+                <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Section Title End -->
 
-      <% if current_user %>
-        <td>
-          <% if !current_user.user_games.find_by(game_id: game.id) %>
-            <%= form_tag "/user_games", method: :post do %>
-              <%= hidden_field_tag :game_id, game.id %>
-              <%= submit_tag "Add to list!" %>
-            <% end %>
+        <!-- Categories -->
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="product-tab nav nav-tabs">
+              <ul>                                        
+                <li class="active"><a data-toggle="tab" href="">insert</a></li>
+                <li><a data-toggle="tab" href="">insert</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Categories End -->
+
+        <!-- Games Index Start -->
+        <% @games.each_with_index do |game, index| %>
+          <% if index%4 == 0 %>
+            <div class="row tab-content">
+
+              <!-- Cat 1 Start -->
+              <div class="tab-pane  fade in active" id="all">
+                <div id="tab-carousel-1" class="re-owl-carousel owl-carousel product-slider owl-theme">
+                    <!-- Single Game Start -->
+                    <div class="col-xs-12">
+                      <div class="single-product">
+                        <div class="product-img">
+                          <!-- <div class="pro-type">
+                            <span></span> Tag, ie. if on sale or if New
+                          </div> -->
+                          <a href="/games/<%= game.id %>">
+                            <% if game.game_covers.first %>
+                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" />
+                            <% else %>
+                              <img class="secondary-image" alt="Product Title" src="">
+                            <% end %>
+                          </a>
+                        </div>
+                        <div class="product-dsc">
+                          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
+                          <div class="star-price">
+                            <span class="price-left">
+                              <!-- incorporate lowest deal later with restructured deals -->
+                            </span>
+                            <span class="star-right"></span>
+                          </div>
+                        </div>
+                        <div class="actions-btn">
+                          <a href="/games/<%= game.id %>" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a> <!-- When figure out quick view -->
+                          <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
+                          <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- single product end -->
+                  
+          <% elsif (index + 1) > 1 && (index + 1) % 4 == 0 %>
+
+                    <!-- Single Game Start -->
+                    <div class="col-xs-12">
+                      <div class="single-product">
+                        <div class="product-img">
+                          <!-- <div class="pro-type">
+                            <span></span> Tag, ie. if on sale or if New
+                          </div> -->
+                          <a href="/games/<%= game.id %>">
+                            <% if game.game_covers.first %>
+                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" />
+                            <% else %>
+                              <img class="secondary-image" alt="Product Title" src="">
+                            <% end %>
+                          </a>
+                        </div>
+                        <div class="product-dsc">
+                          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
+                          <div class="star-price">
+                            <span class="price-left">
+                              <!-- incorporate lowest deal later with restructured deals -->
+                            </span>
+                            <span class="star-right"></span>
+                          </div>
+                        </div>
+                        <div class="actions-btn">
+                          <a href="/games/<%= game.id %>" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a> <!-- When figure out quick view -->
+                          <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
+                          <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- single product end -->
+                  
+                </div>
+              </div>
+              <!-- Cat 1 End -->
+            </div>
+
           <% else %>
-            <%= form_tag "/user_games/#{game.id}", method: :delete do %>
-              <%= hidden_field_tag :game_id, game.id %>
-              <%= submit_tag "Remove from list" %>
-            <% end %>
-          <% end %>
-        </td>
-      <% end %>
 
-    </tr>
-  <% end %>
-</table>
+                    <!-- Single Game Start -->
+                    <div class="col-xs-12">
+                      <div class="single-product">
+                        <div class="product-img">
+                          <!-- <div class="pro-type">
+                            <span></span> Tag, ie. if on sale or if New
+                          </div> -->
+                          <a href="/games/<%= game.id %>">
+                            <% if game.game_covers.first %>
+                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" />
+                            <% else %>
+                              <img class="secondary-image" alt="Product Title" src="">
+                            <% end %>
+                          </a>
+                        </div>
+                        <div class="product-dsc">
+                          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
+                          <div class="star-price">
+                            <span class="price-left">
+                              <!-- incorporate lowest deal later with restructured deals -->
+                            </span>
+                            <span class="star-right"></span>
+                          </div>
+                        </div>
+                        <div class="actions-btn">
+                          <a href="/games/<%= game.id %>" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a> <!-- When figure out quick view -->
+                          <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
+                          <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- single product end -->
+
+          <% end %>
+        <% end %>
+
+      </div>
+    </section>
+  </div>
+</div>
