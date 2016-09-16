@@ -12,6 +12,19 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-sprockets
-//= require turbolinks
+//= require jquery-1.12.0.min
+//= require bootstrap.min
+//= require parallax.min
+//= require owl.carousel.min
+//= require jquery.simpleLens.min
+//= require jquery.meanmenu
+//= require jquery.countdown.min
+//= require jquery.nivo.slider
+//= require home
+//= require jquery-ui.min
+//= require sticky
+//= require plugins
+//= require main
+//= require angular
+//= require app
 //= require_tree .

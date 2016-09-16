@@ -1,33 +1,21 @@
 <table class="table table-hover">
   <tr>
     <th>Game</th>
-    <th>Release Date</th>
     <th>Lowest Price</th>
     <th>Genre(s)</th>
-    <th>Platforms</th>
+    <th>Platform(s) and Release Date(s)</th>
     <% if current_user %>
       <th>List</th>
     <% end %>
   </tr>
   <% @games.each do |game| %>
     <tr>
-      <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
-      <% if game.platformed_games.any? %>
-        <td>
-          <% game.platformed_games.each do |platformed_game| %>
-            <p>
-              <%= platformed_game.platform.name %>: 
-              <% if platformed_game.release_date %>
-                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
-              <% else %>
-                TBA
-              <% end %>
-            </p>
-          <% end %>
-        </td>
+      <% if game.game_covers.any? %>
+        <td><a href="/games/<%= game.id %>"> <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"> <%= game.name %></a></td>
       <% else %>
-        <td> </td>
+        <td><a href="/games/<%= game.id %>"><%= game.name %></a></td>
       <% end %>
+      
       <% if game.lowest_deals.any? %>
         <td>
           <% game.lowest_deals.each do |deal| %>
@@ -41,24 +29,41 @@
       <% else %>
         <td>N/A</td>
       <% end %>
+
       <% if game.genred_games.any? %>
         <td>
           <% game.genred_games.each do |genred_game| %>
-            <%= genred_game.genre.name + ", " %>
+            <a href="/games?sort_attribute=genre&sort_attribute_2=<%= genred_game.genre_id %>">
+              <%= genred_game.genre.name %>
+            </a> , 
           <% end %>
         </td>
       <% else %>
        <td></td>
       <% end %>
+
       <% if game.platformed_games.any? %>
         <td>
-          <% game.platformed_games.each do |platformed_game| %>
-            <%= platformed_game.platform.name + " " + " " %>
+          <% game.platformed_games.order(:release_date).each do |platformed_game| %>
+            <p>
+              <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
+                <% if platformed_game.platform.platform_logos.any? %>
+                  <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
+                <% end %>
+                <%= platformed_game.platform.name %>: 
+                <% if platformed_game.release_date %>
+                  <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+                <% else %>
+                  TBA
+                <% end %>
+              </a>
+            </p>
           <% end %>
         </td>
       <% else %>
-        <td></td>
+        <td> </td>
       <% end %>
+
       <% if current_user %>
         <td>
           <% if !current_user.user_games.find_by(game_id: game.id) %>
@@ -74,6 +79,7 @@
           <% end %>
         </td>
       <% end %>
+
     </tr>
   <% end %>
 </table>

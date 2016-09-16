@@ -1,22 +1,35 @@
+<% if @game.game_covers.any? %>
+<h1><%= @game.name %> <img src="https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"></h1>
+<% else %>
 <h1><%= @game.name %></h1>
+<% end %>
 <ul>
 
   <% if @game.platformed_games.any? %>
 
-    <li>Release Date: 
-      <%= @game.platformed_games[0].release_date.strftime("%B %d, %Y") if @game.platformed_games[0].release_date %>
-      <%= "TBA" if @game.platformed_games[0].release_date == nil %>
-    </li>
-    <li>Platforms:</li>
-    <ul>
-      <% @game.platformed_games.each do |platformed_game| %>
-        <li><%= platformed_game.platform.name %></li>
+    <li>Platform(s) and Release Date(s): 
+      <% @game.platformed_games.order(:release_date).each do |platformed_game| %>
+        <ul>
+          <li>
+            <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
+              <% if platformed_game.platform.platform_logos.any? %>
+                <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
+              <% end %>
+              <%= platformed_game.platform.name %>: 
+              <% if platformed_game.release_date %>
+                <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+              <% else %>
+                TBA
+              <% end %>
+            </a>
+          </li>
+        </ul>
       <% end %>
-    </ul>
+    </li>
 
   <% else %>
 
-    <li>Release Date</li>
+    <li>N/A</li>
 
   <% end %>
 
@@ -25,7 +38,7 @@
     <li>Genre(s):</li>
     <ul>
       <% @game.genred_games.each do |genred_game| %>
-        <li><%= genred_game.genre.name %></li>
+        <li><a href="/games?sort_attribute=genre&sort_attribute_2=<%= genred_game.genre_id %>"><%= genred_game.genre.name %></a></li>
       <% end %>
     </ul>
 
@@ -40,8 +53,12 @@
   <% else %>
     <td>N/A</td>
   <% end %> -->
-
-  <li>Description: <%= @game.description %></li>
+  <% if @game.summary %>
+    <li>Summary: <%= @game.summary %></li>
+  <% end %>
+  <% if @game.storyline %>
+    <li>Storyline: <%= @game.storyline %></li>
+  <% end %>
 </ul>
 
 <% if current_user %>
@@ -68,18 +85,6 @@
       <%= collection_select :platform, :platform_id, Platform.includes(:platformed_games).where('platformed_games.game_id = ?', @game.id).references(:platformed_games), :id, :name %>
       <%= submit_tag "Add Deal to Game!" %>
     <% end %>
-  <% end %>
-
-  <% if current_user.admin %>
-
-    <%= form_tag '/genred_games/new', method: :get do %>
-      <%= hidden_field_tag :game_id, @game.id %>
-      <%= submit_tag "Add genre to game!" %>
-    <% end %>
-
-    <p><%= link_to "Edit game", "/games/#{@game.id}/edit" %></p>
-    <p><%= link_to "Delete game", "/games/#{@game.id}", method: :delete %></p>
-
   <% end %>
 
 <% end %>

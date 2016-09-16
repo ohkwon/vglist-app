@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>VglistApp</title>
-    <%= csrf_meta_tags %>
+<html class="no-js" lang="">
+<head>
+  <title>VglistApp</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-  <body>
+</head>
+
+<body>
+
+  <%= render partial: "layouts/theme_header" %>
+  <div style= "padding-top:150px">
 
     <% flash.each do |key, value| %>
       <div class="alert alert-<%= key %> alert-dismissible" role="alert">
@@ -16,7 +19,11 @@
         <p><%= value %></p>
       </div>
     <% end %>
-  
+
     <%= yield %>
-  </body>
+  </div>
+  <%= render partial: "layouts/theme_footer" %>
+
+</body>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </html>
