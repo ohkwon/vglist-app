@@ -72,6 +72,17 @@ class GamesController < ApplicationController
   def show
 
     @game = Game.find_by(id: params[:id])
+    @game_images = []
+    if @game.game_covers.any?
+      @game_images << @game.game_covers.first
+    end
+    if @game.game_screenshots.any?
+      @game.game_screenshots.each do |screenshot|
+        @game_images << screenshot
+      end
+    end
+    @index = 0
+    @counter = 1
 
   end
 

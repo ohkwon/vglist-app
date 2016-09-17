@@ -17,69 +17,41 @@
 <section class="single-product-area sit">
   <div class="container">
     <div class="row">
-      <div class="col-md-9">
+      <!-- Single Product Description Start -->
+      <div class="col-md-12">
         <div class="row">
 
           <!-- Images Start -->
           <div class="col-md-6 col-sm-6 none-si-pro">
             <div class="pro-img-tab-content tab-content">
 
-              <div class="tab-pane active" id="image-1">
-                <div class="simpleLens-big-image-container">
-                  <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="img/products/12.jpg" href="img/products/12.jpg">
-                    <img src="img/products/12.jpg" alt="" class="simpleLens-big-image">
-                  </a>
-                </div>
-              </div>
-
-              <div class="tab-pane" id="image-2">
-                <div class="simpleLens-big-image-container">
-                  <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="img/products/13.jpg" href="img/products/13.jpg">
-                    <img src="img/products/13.jpg" alt="" class="simpleLens-big-image">
-                  </a>
-                </div>
-              </div>
-
-              <div class="tab-pane" id="image-3">
-                <div class="simpleLens-big-image-container">
-                  <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="img/products/14.jpg" href="img/products/14.jpg">
-                    <img src="img/products/14.jpg" alt="" class="simpleLens-big-image">
-                  </a>
-                </div>
-              </div>
-
-              <div class="tab-pane" id="image-4">
-                <div class="simpleLens-big-image-container">
-                  <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="img/products/15.jpg" href="img/products/15.jpg">
-                    <img src="img/products/15.jpg" alt="" class="simpleLens-big-image">
-                  </a>
-                </div>
-              </div>
-
-              <div class="tab-pane" id="image-5">
-                <div class="simpleLens-big-image-container">
-                  <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="img/products/11.jpg" href="img/products/11.jpg">
-                    <img src="img/products/11.jpg" alt="" class="simpleLens-big-image">
-                  </a>
-                </div>
-              </div>
-
-              <div class="tab-pane" id="image-6">
-                <div class="simpleLens-big-image-container">
-                  <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="img/products/10.jpg" href="img/products/10.jpg">
-                    <img src="img/products/10.jpg" alt="" class="simpleLens-big-image">
-                  </a>
-                </div>
-              </div>
+              <% if @game_images.any? %>
+                <% @game_images.each_with_index do |image, index| %>
+                  <% if index == 0 %>
+                    <div class="tab-pane active" id="image-<%= index + 1 %>">
+                      <div class="simpleLens-big-image-container">
+                        <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="https://res.cloudinary.com/igdb/image/upload/<%= image.cloudinary_id %>.jpg" href="https://res.cloudinary.com/igdb/image/upload/<%= image.cloudinary_id %>.jpg">
+                          <img src="https://res.cloudinary.com/igdb/image/upload/<%= image.cloudinary_id %>.jpg" alt="" class="simpleLens-big-image">
+                        </a>
+                      </div>
+                    </div>
+                  <% else %>
+                    <div class="tab-pane" id="image-<%= index + 1 %>">
+                      <div class="simpleLens-big-image-container">
+                        <a class="simpleLens-lens-image" data-lightbox="roadtrip" data-lens-image="https://res.cloudinary.com/igdb/image/upload/<%= image.cloudinary_id %>.jpg" href="https://res.cloudinary.com/igdb/image/upload/<%= image.cloudinary_id %>.jpg">
+                          <img src="https://res.cloudinary.com/igdb/image/upload/<%= image.cloudinary_id %>.jpg" alt="" class="simpleLens-big-image">
+                        </a>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% end %>
 
             </div>
             <div class="pro-img-tab-slider indicator-style2">
-              <div class="item"><a href="#image-1" data-toggle="tab"><img src="img/products/12.jpg" alt="" /></a></div>
-              <div class="item"><a href="#image-2" data-toggle="tab"><img src="img/products/13.jpg" alt="" /></a></div>
-              <div class="item"><a href="#image-3" data-toggle="tab"><img src="img/products/14.jpg" alt="" /></a></div>
-              <div class="item"><a href="#image-4" data-toggle="tab"><img src="img/products/15.jpg" alt="" /></a></div>
-              <div class="item"><a href="#image-5" data-toggle="tab"><img src="img/products/11.jpg" alt="" /></a></div>
-              <div class="item"><a href="#image-6" data-toggle="tab"><img src="img/products/10.jpg" alt="" /></a></div>
+              <% @game_images.each_with_index do |image, index| %>
+                <div class="item"><a href="#image-<%= index + 1 %>" data-toggle="tab"><img src="https://res.cloudinary.com/igdb/image/upload/<%= image.cloudinary_id %>.jpg" alt="" /></a></div>
+              <% end %>
             </div>
           </div>
           <!-- Images End -->
@@ -176,8 +148,8 @@
                           <div class="col-md-12 col-xs-12">
                             <div class="s-cart-all">
                               <div class="cart-form table-responsive">
-                                <h2>Deals on <%= platformed_game.platform.name %></h2>
-                                <table id="shopping-cart-table" class="data-table cart-table" style="max-width:75%">
+                                <h3>Deals on <%= platformed_game.platform.name %></h3>
+                                <table id="shopping-cart-table" class="data-table cart-table" style="max-width:95%">
                                   <tr>
                                     <th>Price</th>
                                     <th>Retailer</th>
@@ -299,88 +271,8 @@
       <!-- Single Product Description end-->
 
       <!-- Suggestions start -->
-      <div class="col-md-3">
-        <div class="single-sidebar">
-          <div class="single-sidebar an-shop">
-            <h3 class="wg-title">BEST SELLER</h3>
-            <ul>
-             <li class="b-none7">
-              <div class="tb-recent-thumbb">
-                <a href="">
-                  <img class="attachment" src="img/products/6.jpg" alt="">
-                </a>
-              </div>
-              <div class="tb-recentb7">
-                <div class="tb-beg">
-                  <a href="#">Lambskin Shoe</a>
-                </div>
-                <div class="tb-product-price font-noraure-3">
-                  <span class="amount">$180.00</span>
-                </div>
-              </div>
-            </li>
-            <li class="b-none7">
-              <div class="tb-recent-thumbb">
-                <a href="">
-                  <img class="attachment" src="img/products/10.jpg" alt="">
-                </a>
-              </div>
-              <div class="tb-recentb7">
-                <div class="tb-beg">
-                  <a href="#">Lambskin Shoe</a>
-                </div>
-                <div class="tb-product-price font-noraure-3">
-                  <span class="amount">$180.00</span>
-                </div>
-              </div>
-            </li>
-            <li class="b-none7">
-              <div class="tb-recent-thumbb">
-                <a href="">
-                  <img class="attachment" src="img/products/8.jpg" alt="">
-                </a>
-              </div>
-              <div class="tb-recentb7">
-                <div class="tb-beg">
-                  <a href="#">Lambskin Shoe</a>
-                </div>
-                <div class="tb-product-price font-noraure-3">
-                  <span class="amount">$180.00</span>
-                </div>
-              </div>
-            </li>
-            <li class="b-none7">
-              <div class="tb-recent-thumbb">
-                <a href="">
-                  <img class="attachment" src="img/products/9.jpg" alt="">
-                </a>
-              </div>
-              <div class="tb-recentb7">
-                <div class="tb-beg">
-                  <a href="#">Lambskin Shoe</a>
-                </div>
-                <div class="tb-product-price font-noraure-3">
-                  <span class="amount">$180.00</span>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="ro-info-box-wrap tpl3 st">
-          <div class="tb-image">
-            <img src="img/products/a1.jpg" alt="">
-          </div>
-          <div class="tb-content">
-            <div class="tb-content-inner an-inner">
-              <h5>WOMEN'S FASHION</h5>
-              <h3>MID SEASON SALE</h3>
-              <h6>
-                <a href="#">SHOP NOW</a>
-              </h6>
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <!-- Suggestions End -->
     </div>
   </div>
 </div>
