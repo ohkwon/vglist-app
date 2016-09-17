@@ -3,20 +3,9 @@
     <h2>New Deal: <%= @game.name %></h2>
 
     <%= form_tag '/deals', method: :post do %>
-      <% if @game.platformed_games.length == 1 %>
-        <%= hidden_field_tag :platformed_id, @game.platformed_games.first.id %>
-      <% else %>
-        <div ng-keyup = "loopCount(platformCount)">
-          <input ng-model = "platformCount">
-        </div>
-        <div ng-if = "platformCount == 1">
-        </div>
-        <div ng-if = "platformCount > 1">
-          <div ng-repeat = "count in counts">
-            <%= collection_select "platform", "platform_id", Platform.includes(:platformed_games).where("platformed_games.game_id = #{@game.id}").references(:platformed_games), :id, :name %>
-          </div>
-        </div>
-      <% end %>
+      <div>
+        <%= collection_select :platform, :platform_id, Platform.includes(:platformed_games).where("platformed_games.game_id = #{@game.id}").references(:platformed_games), :id, :name %>
+      </div>
       <div>
         <%= hidden_field_tag :game_id, @game.id %>
       </div>
