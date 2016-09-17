@@ -152,11 +152,15 @@
                 <li role="presentation" class="active">
                   <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Product Description</a>
                 </li>
+
+                <% @game.platformed_games.each do |platformed_game| %>
+                  <li role="presentation">
+                    <a href="#<%= platformed_game.platform.name.gsub(/[ ]/, '-').gsub(/[()]/, '') %>" aria-controls="profile" role="tab" data-toggle="tab"><%= platformed_game.platform.name %> Deals</a>
+                  </li>
+                <% end %>
+
                 <li role="presentation">
-                  <a href="#deal" aria-controls="profile" role="tab" data-toggle="tab">Deals</a>
-                </li>
-                <li role="presentation">
-                  <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a>
+                  <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Add Deal</a>
                 </li>
               </ul>
               <!-- Tab panes -->
@@ -165,9 +169,47 @@
                   Story: <%= @game.storyline %>
                 </div>
                 <!-- Deal Show Start-->
-                <div role="tabpanel" class="tab-pane" id="deal">
-                  hello!
-                </div>
+                <% @game.platformed_games.each do |platformed_game| %>
+                  <div role="tabpanel" class="tab-pane" id="<%= platformed_game.platform.name.gsub(/[ ]/, '-').gsub(/[()]/, '') %>">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-12 col-xs-12">
+                            <div class="s-cart-all">
+                              <div class="cart-form table-responsive">
+                                <h2>Deals on <%= platformed_game.platform.name %></h2>
+                                <table id="shopping-cart-table" class="data-table cart-table" style="max-width:75%">
+                                  <tr>
+                                    <th>Price</th>
+                                    <th>Retailer</th>
+                                    <th>Posting Date</th>
+                                    <th>Description</th>
+                                  </tr>
+                                  <% if platformed_game.deals.where(active: true).any? %>
+                                    <% platformed_game.deals.where(active: true).order(:price).each do |deal| %>
+                                      <tr>
+                                        <td>
+                                          <%= number_to_currency(deal.price, unit: "$") %>
+                                        </td>
+                                        <td class="sop-cart an-sh">
+                                            <a href="<%= deal.url %>"><%= deal.retailer %></a>
+                                        </td>
+                                        <td class="sop-cart">
+                                          <%= deal.date.strftime("%B %d, %Y") %>
+                                        </td>
+                                        <td class="cen">
+                                          <%= deal.description %>
+                                        </td>
+                                      </tr>
+                                    <% end %>
+                                  <% end %>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                <% end %>
                 <!-- Deal Show End-->
 
                 <!-- When ready, Implement adding a Deal here! -->
