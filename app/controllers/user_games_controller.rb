@@ -4,39 +4,32 @@ class UserGamesController < ApplicationController
 
   def index
 
+    @limit = 4
+    @page = 1
+    @search = ""
+
+    if params[:page]
+      @page = params[:page]
+    end
+
     sort_attribute = params[:sort_attribute]
     sort_attribute_2 = params[:sort_attribute_2]
 
     if sort_attribute == "platform"
-      @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name")
-      # if sort_attribute_2 == "1"
-      #   @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 1}).order("games.name") #ps4
-      # elsif sort_attribute_2 == "2"
-      #   @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 2}).order("games.name") #xbone
-      # elsif sort_attribute_2 == "3"
-      #   @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 3}).order("games.name") #wii u
-      # elsif sort_attribute_2 == "4"
-      #   @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: 4}).order("games.name") #pc
-      # end
+      @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page.to_i).per(@limit)
     elsif sort_attribute == "genre"
-        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2})
-      # if sort_attribute_2 == "1"
-      #   @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 1}) #action-rpg
-      # elsif sort_attribute_2 == "2"
-      #   @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 2}) #fps
-      # elsif sort_attribute_2 == "3"
-      #   @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 3}) #survival-horror
-      # elsif sort_attribute_2 == "4"
-      #   @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: 4}) #action-rpg
-      # end
+      @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page).per(@limit)
+      @user_games_next = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page.to_i + 1).per(@limit)
     elsif sort_attribute == "owned"
-      @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name")
+      @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
     elsif sort_attribute == "wanted"
-      @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name")
-    # elsif sort_attribute_2 == "price"
-    #   @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games:)
+      @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
     else
-      @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name")
+      @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page.to_i + 1).per(@limit)
     end
 
     @sample_game = @user_games.sample

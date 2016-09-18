@@ -1,13 +1,40 @@
 <!-- pages-title-start -->
 <% if @sample_game.game.game_covers.any? %>
-  <section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px' >
+  <section class="user-games- contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px' >
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
           <div class="con-text">
             <h2 class="page-title">Wishlist</h2>
-            <p><a href="#">Home</a> | Wishlist</p>
           </div>
+        </div>
+      </div>
+      <div class="row" style="padding-top:50px">
+
+        <div class="product-tab nav nav-tabs user-games-pages-color">
+          <ul>    
+            <% if @search.empty? %> 
+              <% if @page.to_i > 1 %>
+                <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+              <% end %>                                 
+              <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+              <li>
+                <% if @user_games_next.length > 0 %>
+                  <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                <% end %>
+              </li>
+            <% else %>
+              <% if @page.to_i > 1 %>
+                <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+              <% end %>                                 
+              <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+              <li>
+                <% if @user_games_next.length > 0 %>
+                  <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
     </div>
@@ -19,7 +46,31 @@
         <div class="col-md-12 text-center">
           <div class="con-text">
             <h2 class="page-title">Wishlist</h2>
-            <p><a href="#">Home</a> | Wishlist</p>
+            <div class="product-tab nav nav-tabs">
+              <ul>    
+                <% if @search.empty? %> 
+                  <% if @page.to_i > 1 %>
+                    <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                  <% end %>                                 
+                  <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                  <li>
+                    <% unless @user_games.page(@page).per(@limit).length < @limit %>
+                      <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                    <% end %>
+                  </li>
+                <% else %>
+                  <% if @page.to_i > 1 %>
+                    <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                  <% end %>                                 
+                  <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                  <li>
+                    <% unless @user_games.page(@page).per(@limit).length < @limit %>
+                      <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
