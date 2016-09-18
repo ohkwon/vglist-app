@@ -4,7 +4,7 @@ class UserGamesController < ApplicationController
 
   def index
 
-    @limit = 4
+    @limit = 25
     @page = 1
     @search = ""
 
@@ -17,19 +17,24 @@ class UserGamesController < ApplicationController
 
     if sort_attribute == "platform"
       @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page).per(@limit)
-      @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page.to_i).per(@limit)
+      @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page.to_i + 2).per(@limit)
     elsif sort_attribute == "genre"
       @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page).per(@limit)
       @user_games_next = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page.to_i + 2).per(@limit)
     elsif sort_attribute == "owned"
       @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page).per(@limit)
       @user_games_next = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page.to_i + 2).per(@limit)
     elsif sort_attribute == "wanted"
       @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page).per(@limit)
       @user_games_next = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page.to_i + 2).per(@limit)
     else
       @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page).per(@limit)
       @user_games_next = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page.to_i + 2).per(@limit)
     end
 
     @sample_game = @user_games.sample

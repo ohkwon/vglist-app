@@ -18,15 +18,19 @@ class GamesController < ApplicationController
     if sort_attribute == "platform"
       @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).page(@page).per(@limit)
       @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).page(@page.to_i + 2).per(@limit)
     elsif sort_attribute == "genre"
       @games = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).page(@page).per(@limit)
       @games_next = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).page(@page.to_i + 2).per(@limit)
     elsif !@search.empty?
       @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page).per(@limit)
       @games_next = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 2).per(@limit)
     else
       @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page).per(@limit)
       @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
     end
     # binding.pry
 

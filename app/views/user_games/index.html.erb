@@ -14,25 +14,37 @@
         <div class="product-tab nav nav-tabs user-games-pages-color">
           <ul>    
             <% if @search.empty? %> 
+              <% if @page.to_i - 1 > 1 %>
+                <li><a href="/user_games?page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+              <% end %>
               <% if @page.to_i > 1 %>
                 <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
               <% end %>                                 
               <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-              <li>
-                <% if @user_games_next.length > 0 %>
+              <% if @user_games_next.length > 0 %>
+                <li>
                   <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                </li>
+                <% if @user_games_next_2.length > 0 %>
+                  <a href="/user_games?page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
                 <% end %>
-              </li>
+              <% end %>
             <% else %>
+              <% if @page.to_i - 1 > 1 %>
+                <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+              <% end %>
               <% if @page.to_i > 1 %>
                 <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
               <% end %>                                 
               <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-              <li>
-                <% if @user_games_next.length > 0 %>
+              <% if @user_games_next.length > 0 %>
+                <li>
                   <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                </li>
+                <% if @user_games_next_2.length > 0 %>
+                  <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
                 <% end %>
-              </li>
+              <% end %>
             <% end %>
           </ul>
         </div>
