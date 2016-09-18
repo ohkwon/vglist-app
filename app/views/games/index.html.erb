@@ -21,9 +21,28 @@
         <div class="row">
           <div class="col-xs-12">
             <div class="product-tab nav nav-tabs">
-              <ul>                                        
-                <li class="active"><a data-toggle="tab" href="">insert</a></li>
-                <li><a data-toggle="tab" href="">insert</a></li>
+              <ul>    
+                <% if @search.empty? %> 
+                  <% if @page.to_i > 1 %>
+                    <li><a href="/games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                  <% end %>                                 
+                  <li ="active"><a data-toggle="tab" href="/games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                  <li>
+                    <% unless @games.page(@page).per(@limit).length < @limit %>
+                      <a href="/games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                    <% end %>
+                  </li>
+                <% else %>
+                  <% if @page.to_i > 1 %>
+                    <li><a href="/games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                  <% end %>                                 
+                  <li ="active"><a data-toggle="tab" href="/games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                  <li>
+                    <% unless @games.page(@page).per(@limit).length < @limit %>
+                      <a href="/games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                    <% end %>
+                  </li>
+                <% end %>
               </ul>
             </div>
           </div>

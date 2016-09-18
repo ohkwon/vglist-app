@@ -4,16 +4,25 @@ class GamesController < ApplicationController
 
   def index
 
+    @limit = 16
+    @page = 1
+    @search = ""
+    if params[:search]
+      @search = params[:search]
+    end
+    if params[:page]
+      @page = params[:page]
+    end
     sort_attribute = params[:sort_attribute]
     sort_attribute_2 = params[:sort_attribute_2]
     if sort_attribute == "platform"
-      @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).limit(16)
+      @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).page(@page).per(@limit)
     elsif sort_attribute == "genre"
-      @games = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).limit(16)
-    elsif params[:search]
-      @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).limit(16)
+      @games = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).page(@page).per(@limit)
+    elsif @search
+      @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page).per(@limit)
     else
-      @games = Game.where("name LIKE ?", "%Metal Gear Solid%").order(:name).limit(16)
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page).per(@limit)
     end
     # binding.pry
 
