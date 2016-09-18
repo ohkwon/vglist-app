@@ -39,3 +39,13 @@ header {
 .cart-table .sop-cart.an-sh .tb-beg > a {
   float: none;
 }
+
+.show-border-top {
+  border-top: 1px solid #e5e5e5;
+  padding: 15px 0 15px;
+}
+
+.cras .pre-box span.special-price {
+  border-bottom: 0px solid #ddd;
+  margin-bottom: 0px;
+}
