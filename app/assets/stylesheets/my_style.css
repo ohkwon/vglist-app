@@ -35,3 +35,7 @@ header {
   background-repeat: no-repeat;
   padding: 25px 0 25px;
 }
+
+.cart-table .sop-cart.an-sh .tb-beg > a {
+  float: none;
+}
