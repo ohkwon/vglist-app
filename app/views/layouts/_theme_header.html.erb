@@ -67,9 +67,9 @@
                     <ul>
                       <li><a href="about-us.html">About</a></li>
                       <% if current_user %>
-                        <li><a href="/login">Log In</a></li>
-                      <% else %>
                         <li><a href="/logout">Log Out</a></li>
+                      <% else %>
+                        <li><a href="/login">Log In</a></li>
                       <% end %>
                       <li><a href="my-account.html">My Account</a></li>
                       <% if current_user %>
