@@ -1,13 +1,70 @@
-<%= form_tag '/login', method: :post do %>
-  <div class="form-group">
-    <%= label_tag :email %>
-    <%= text_field_tag :email, "", placeholder: "Email Address", class: "form-control" %>
+<!-- pages-title-start -->
+<section class="contact-img-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="con-text">
+          <h2 class="page-title">Login</h2>
+          <p><a href="#">Home</a> | Login</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <%= label_tag :password %>
-    <%= password_field_tag :password, "", placeholder: "Password", class: "form-control" %>
+</section>
+<!-- pages-title-end -->
+<!-- login content section start -->
+<div class="login-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <div class="tb-login-form ">
+          <h5 class="tb-title">Login</h5>
+          <%= form_tag '/login', method: :post do %>
+            <p class="checkout-coupon top log a-an">
+              <%= label_tag :email %>
+              <%= text_field_tag :email, "", placeholder: "Email Address", class: "form-control", type: "email" %>
+            </p>
+            <p class="checkout-coupon top-down log a-an">              <%= label_tag :password %>
+              <%= password_field_tag :password, "", placeholder: "Password", class: "form-control", type: "password" %>
+            </p>
+            <div>
+              <%= button_tag "Log In!", class: "btn button-primary", type: "submit" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <div class="tb-login-form res">
+          <h5 class="tb-title">Create a new account</h5>
+          <%= form_tag '/users', method: :post do %>
+            <div class="form-group">
+              <%= label_tag :first_name %>
+              <%= text_field_tag :first_name, "", placeholder: "First Name", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :last_name %>
+              <%= text_field_tag :last_name, "", placeholder: "Last Name", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :email %>
+              <%= text_field_tag :email, "", placeholder: "Email Address", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :password %>
+              <%= password_field_tag :password, "", placeholder: "Password", class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :password_confirmation %>
+              <%= password_field_tag :password_confirmation, "", placeholder: "Password Confirmation", class: "form-control" %>
+            </div>
+            <div>
+              <%= button_tag "Create Account", class: "btn button-primary", type: "submit" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    <%= submit_tag "Log In!" %>
-  </div>
-<% end %>
+</div>
+<!-- login  content section end -->
+<section class="section-padding-top"></section>

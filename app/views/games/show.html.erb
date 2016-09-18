@@ -22,7 +22,7 @@
         <div class="row">
 
           <!-- Images Start -->
-          <div class="col-md-6 col-sm-6 none-si-pro">
+          <div class="col-md-5 col-sm-5 none-si-pro">
             <div class="pro-img-tab-content tab-content">
 
               <% if @game_images.any? %>
@@ -57,26 +57,26 @@
           <!-- Images End -->
 
           <!-- Product Info Start -->
-          <div class="col-md-6 col-sm-6">
+          <div class="col-md-7 col-sm-7">
             <div class="cras">
               <div class="product-name">
                 <h2><%= @game.name %></h2>
               </div>
 
-              <div class="pro-rating cendo-pro">
+<!--               <div class="pro-rating cendo-pro">
                 <div class="pro_one">
                   <img src="img/icon-img/stars-1.png" alt="">
                 </div>
                 <p class="rating-links">
                   <a href="#">1 Reviews</a>
                 </p>
-              </div>
+              </div> -->
 
               <p class="availability in-stock">
-                Product Code: Product 3
+                <!-- Product Code: Product 3 -->
               </p>
               <p class="availability in-stock2">
-                Availability:In stock
+                <!-- Availability:In stock -->
               </p>
 
               <div class="short-description">
@@ -84,21 +84,14 @@
               </div>
 
               <div class="pre-box">
-                <span class="special-price">$155.00</span>
+                <% if @game.lowest_deals.any? %>
+                  <span class="special-price">Current Lowest: <%= number_to_currency(@game.lowest_deals.sort_by! { |deal| deal[:price]}[0][:price], unit: "$") %></span>
+                <% end %>
               </div>
               
               <div class="add-to-box1">
                 <div class="add-to-box add-to-box2">
                   <div class="add-to-cart">
-
-                    <div class="input-content">
-                      <label>Quantity:</label>
-                      <div class="quantity">
-                        <div class="cart-plus-minus">
-                          <input type="text" value="0" name="qtybutton" class="cart-plus-minus-box">
-                        </div>
-                      </div>
-                    </div>
 
                     <div class="product-icon">
                       <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{@game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
@@ -131,7 +124,7 @@
                   </li>
                 <% end %>
 
-                <% if true %> <!-- change to current_user later -->
+                <% if current_user %> <!-- change to current_user later -->
                   <li role="presentation">
                     <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Add Deal</a>
                   </li>
