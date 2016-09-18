@@ -1,0 +1,75 @@
+<table class="table table-hover">
+  <tr>
+    <th>Game</th>
+    <th>Platform(s) and Release Date(s)</th>
+    <th>Lowest Current Price</th>
+    <th>Genre(s)</th>
+    <th>Ownership Status</th>
+    <th>Change Ownership</th>
+    <th>Remove Game</th>
+  </tr>
+  <% @user_games.each do |user_game| %>
+    <tr>
+      <td><a href="/games/<%= user_game.game.id %>"> <img src="https://res.cloudinary.com/igdb/image/upload/<%= user_game.game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"> <%= user_game.game.name %></a></td>
+      <% if user_game.game.platformed_games.any? %>
+        <td>
+          <% user_game.game.platformed_games.order(:release_date).each do |platformed_game| %>
+            <p>
+              <a href="/user_games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
+
+                <%= platformed_game.platform.name %>: 
+                <% if platformed_game.release_date %>
+                  <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+                <% else %>
+                  TBA
+                <% end %>
+              </a>
+            </p>
+          <% end %>
+        </td>
+        <% if user_game.game.lowest_deals.any? %>
+          <td>
+          <% user_game.game.lowest_deals.each do |deal| %>
+            <% if user_game.game.platformed_games.length == 1 %>
+              <p><%= number_to_currency(deal[:price], :unit => "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
+            <% else %>
+              <p><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], :unit => "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
+            <% end %>
+          <% end %>
+          </td>
+        <% else %>
+          <td>N/A</td>
+        <% end %> 
+      <% else %>
+        <td>N/A</td>
+        <td>N/A</td>
+      <% end %>
+      <% if user_game.game.genred_games.any? %>
+        <td>
+          <% user_game.game.genred_games.each do |genred_game| %>
+            <%= genred_game.genre.name + ", " %>
+          <% end %>
+        </td>
+      <% end %>
+      <td>
+        <%= "Owned" if user_game.ownership %>
+        <%= "Wanted" unless user_game.ownership %> 
+      </td>
+      <td>
+        <%= form_tag "/user_games/#{user_game.id}", method: :patch do %>
+          <% if user_game.ownership %>
+            <%= submit_tag "Change to Wanted" %>
+          <% else %>
+            <%= submit_tag "Change to Owned" %>
+          <% end %>
+        <% end %>
+      </td>
+      <td>
+        <%= form_tag "user_games/#{user_game.id}", method: :delete do %>
+          <%= hidden_field_tag :id, user_game.id %>
+          <%= submit_tag "Remove from list" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

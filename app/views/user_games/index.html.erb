@@ -1,75 +1,113 @@
-<table class="table table-hover">
-  <tr>
-    <th>Game</th>
-    <th>Platform(s) and Release Date(s)</th>
-    <th>Lowest Current Price</th>
-    <th>Genre(s)</th>
-    <th>Ownership Status</th>
-    <th>Change Ownership</th>
-    <th>Remove Game</th>
-  </tr>
-  <% @user_games.each do |user_game| %>
-    <tr>
-      <td><a href="/games/<%= user_game.game.id %>"> <img src="https://res.cloudinary.com/igdb/image/upload/<%= user_game.game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover"> <%= user_game.game.name %></td>
-      <% if user_game.game.platformed_games.any? %>
-        <td>
-          <% user_game.game.platformed_games.order(:release_date).each do |platformed_game| %>
-            <p>
-              <a href="/user_games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
-
-                <%= platformed_game.platform.name %>: 
-                <% if platformed_game.release_date %>
-                  <%= platformed_game.release_date.strftime("%B %d, %Y") %>
-                <% else %>
-                  TBA
-                <% end %>
-              </a>
-            </p>
-          <% end %>
-        </td>
-        <% if user_game.game.lowest_deals.any? %>
-          <td>
-          <% user_game.game.lowest_deals.each do |deal| %>
-            <% if user_game.game.platformed_games.length == 1 %>
-              <p><%= number_to_currency(deal[:price], :unit => "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
-            <% else %>
-              <p><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], :unit => "$") %> (<%= PlatformedGame.find_by(id: deal[:platformed_game_id]).discount_value(Deal.find_by(id: deal[:deal_id])) %>% off!)</p>
-            <% end %>
-          <% end %>
-          </td>
-        <% else %>
-          <td>N/A</td>
-        <% end %> 
-      <% else %>
-        <td>N/A</td>
-        <td>N/A</td>
-      <% end %>
-      <% if user_game.game.genred_games.any? %>
-        <td>
-          <% user_game.game.genred_games.each do |genred_game| %>
-            <%= genred_game.genre.name + ", " %>
-          <% end %>
-        </td>
-      <% end %>
-      <td>
-        <%= "Owned" if user_game.ownership %>
-        <%= "Wanted" unless user_game.ownership %> 
-      </td>
-      <td>
-        <%= form_tag "/user_games/#{user_game.id}", method: :patch do %>
-          <% if user_game.ownership %>
-            <%= submit_tag "Change to Wanted" %>
-          <% else %>
-            <%= submit_tag "Change to Owned" %>
-          <% end %>
-        <% end %>
-      </td>
-      <td>
-        <%= form_tag "user_games/#{user_game.id}", method: :delete do %>
-          <%= hidden_field_tag :id, user_game.id %>
-          <%= submit_tag "Remove from list" %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-</table>
+<!-- pages-title-start -->
+<section class="contact-img-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="con-text">
+          <h2 class="page-title">Wishlist</h2>
+          <p><a href="#">Home</a> | Wishlist</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- pages-title-end -->
+<!-- wishlist content section start -->
+<div class="shopping-cart-area nr-wish-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <div class="s-cart-all">
+          <div class="cart-form table-responsive">
+            <table id="shopping-cart-table" class="data-table cart-table">
+              <tr>
+                <th>Cover</th>
+                <th>Name</th>
+                <th>Lowest Price</th>
+                <th>Platform(s) and Release Date(s)</th>
+                <th>Genre(s)</th>
+                <th>Ownership Status</th>
+                <th class="low1"></th>
+              </tr>
+              <% @user_games.each do |user_game| %>
+                <tr>
+                  <td class="sop-cart">
+                    <a href="/games/<%= user_game.game.id %>">
+                      <img class="primary-image" src="https://res.cloudinary.com/igdb/image/upload/<%= user_game.game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover">
+                    </a>
+                  </td>
+                  <td class="sop-cart an-sh">
+                    <div class="tb-beg">
+                      <a href="/games/<%= user_game.game.id %>">
+                        <%= user_game.game.name %>
+                      </a>
+                    </div>
+  <!--                   <div class="last-cart l-mrgn">
+                      <a class="las4" href="#">Quick View</a>
+                    </div> -->
+                  </td>
+                  <% if user_game.game.platformed_games.any? %>
+                    <td class="sop-cart">
+                      <div class="tb-product-price font-noraure-3">
+                        <% user_game.game.lowest_deals.each do |deal| %>
+                          <p class="amount"><%= deal[:platform_name] %>: <%= number_to_currency(deal[:price], :unit => "$") %></p>
+                        <% end %>
+                      </div>
+                    </td>
+                    <td class="sop-cart">
+                      <% user_game.game.platformed_games.order(:release_date).each do |platformed_game| %>
+                        <p>
+                          <%= platformed_game.platform.name %>: 
+                          <% if platformed_game.release_date %>
+                            <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+                          <% else %>
+                          <% end %>
+                        </p>
+                      <% end %>
+                    </td>
+                  <% else %>
+                    <td></td>
+                    <td></td>
+                  <% end %>
+                  <% if user_game.game.genred_games.any? %>
+                    <td class="cen">
+                      <!-- <span class="wishlist-in-stock">In Stock</span> -->
+                      <% user_game.game.genred_games.each do |genred_game| %>
+                        <%= genred_game.genre.name + ", " %>
+                      <% end %>
+                    </td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                  <td class="sop-cart">
+  <!--                   <div class="last-cart l-mrgn wish">
+                      <a class="las4" href="#"> Add to Cart</a>
+                    </div> -->
+                    <%= form_tag "/user_games/#{user_game.id}", method: :patch do %>
+                      <% if user_game.ownership %>
+                        <%= submit_tag "Owned" %>
+                      <% else %>
+                        <%= submit_tag "Wanted" %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                  <td class="sop-icon1">
+  <!--                   <a href="#">
+                      <i class="fa fa-times"></i>
+                    </a> -->
+                    <%= form_tag "user_games/#{user_game.id}", method: :delete do %>
+                      <%= hidden_field_tag :id, user_game.id %>
+                      <%= button_tag "<i class='fa fa-times'></i>".html_safe, type: "submit" %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- wishlist  content section end -->
+<section class="section-padding-top"></section>
