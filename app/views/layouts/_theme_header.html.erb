@@ -85,10 +85,14 @@
             <div class="right-header re-right-header">
               <ul>
                 <li class="re-icon tnm"><i class="fa fa-search" aria-hidden="true"></i>
-                  <form method="get" id="searchform" action="#">
+<!--                   <form method="get" id="searchform" action="#">
                     <input type="text" value="" name="s" id="ws" placeholder="Search product..." />
                     <button type="submit"><i class="pe-7s-search"></i></button>
-                  </form>
+                  </form> -->
+                  <%= form_tag "/games", id: "searchform", method: :get do %>
+                    <%= text_field_tag :search, "", placeholder: "Search product..." %>
+                    <%= button_tag "<i class='fa fa-search'></i>".html_safe, class: "btn", type:"submit" %>
+                  <% end %>
                 </li>
                 <li><a href="cart.html"><i class="fa fa-shopping-cart"></i><span class="color1">2</span></a>
                   <ul class="drop-cart">
