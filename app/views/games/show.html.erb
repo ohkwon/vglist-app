@@ -1,5 +1,8 @@
 <!-- pages-title-start -->
-<section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px'>
+<% if !@sample_game.game.game_covers.any? %>
+  
+<% end %>
+<section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px'>
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">

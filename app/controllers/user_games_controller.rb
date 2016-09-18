@@ -39,6 +39,15 @@ class UserGamesController < ApplicationController
       @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name")
     end
 
+    @sample_game = @user_games.sample
+    counter = 0
+    until @sample_game.game.game_covers.any?
+      @sample_game = @user_games.sample
+      counter += 1
+      if counter > 5
+        break
+      end
+    end
 
   end
 

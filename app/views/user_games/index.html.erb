@@ -1,16 +1,31 @@
 <!-- pages-title-start -->
-<section class="contact-img-area">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <div class="con-text">
-          <h2 class="page-title">Wishlist</h2>
-          <p><a href="#">Home</a> | Wishlist</p>
+<% if @sample_game.game.game_covers.any? %>
+  <section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px' >
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="con-text">
+            <h2 class="page-title">Wishlist</h2>
+            <p><a href="#">Home</a> | Wishlist</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+<% else %>
+  <section class="contact-img-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <div class="con-text">
+            <h2 class="page-title">Wishlist</h2>
+            <p><a href="#">Home</a> | Wishlist</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
 <!-- pages-title-end -->
 <!-- wishlist content section start -->
 <div class="shopping-cart-area nr-wish-area">
@@ -32,9 +47,11 @@
               <% @user_games.each do |user_game| %>
                 <tr>
                   <td class="sop-cart">
-                    <a href="/games/<%= user_game.game.id %>">
-                      <img class="primary-image" src="https://res.cloudinary.com/igdb/image/upload/<%= user_game.game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover">
-                    </a>
+                    <% if user_game.game.game_covers.any? %>
+                      <a href="/games/<%= user_game.game.id %>">
+                        <img class="primary-image" src="https://res.cloudinary.com/igdb/image/upload/<%= user_game.game.game_covers.first.cloudinary_id %>.jpg" class = "game-cover">
+                      </a>
+                    <% end %>
                   </td>
                   <td class="sop-cart an-sh">
                     <div class="tb-beg">
