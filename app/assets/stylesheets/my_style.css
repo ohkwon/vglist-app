@@ -49,3 +49,20 @@ header {
   border-bottom: 0px solid #ddd;
   margin-bottom: 0px;
 }
+
+.alert {
+  margin-bottom: 0px;
+}
+
+.games-index-padding-top {
+  padding-top: 30px;
+}
+
+.left-header-top-border {
+  border-left: 1px solid #fff;
+  padding-left: 10px;
+}
+
+.left-header-top-color {
+  color: #fff;
+}
