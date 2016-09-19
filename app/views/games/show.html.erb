@@ -100,6 +100,29 @@
                 <% end %>
               </div>
 
+              <div class="short-description">
+                <% if @game.platformed_games.any? %>
+                  <p>Platform(s) and Release Date(s): <p>
+                  <ul>
+                    <% @game.platformed_games.order(:release_date).each do |platformed_game| %>
+                      <li>
+                        <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
+                          <% if platformed_game.platform.platform_logos.any? %>
+                            <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
+                          <% end %>
+                          <%= platformed_game.platform.name %>: 
+                          <% if platformed_game.release_date %>
+                            <%= platformed_game.release_date.strftime("%B %d, %Y") %>
+                          <% else %>
+                            TBA
+                          <% end %>
+                        </a>
+                      </li>
+                    <% end %>
+                  </ul>
+                <% end %>
+              </div>
+
               <% if @game.lowest_deals.any? %>
                 <div class="pre-box">
                   <span class="special-price">Current Lowest: <%= number_to_currency(@game.lowest_deals.sort_by! { |deal| deal[:price]}[0][:price], unit: "$") %></span>
