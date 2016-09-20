@@ -93,7 +93,7 @@ header {
   background-image: url("img/bg-banner/bg-pagetitle.jpg");
   background-position: center top;
   background-repeat: no-repeat;
-  padding: 200px 0 50px;
+  padding: 200px 0 0px;
 }
 
 .games-show-platforms-ul {
@@ -119,4 +119,18 @@ header {
 
 .games-show-table-color a {
   color: rgb(193, 81, 56);
+}
+
+.user-games-section-title h3 {
+    color: #ef6644;
+    display: inline-block;
+    line-height: 19px;
+    margin-bottom: 7px;
+    position: relative;
+    text-decoration: underline;
+}
+
+.user-games-section-title {
+  text-align: center;
+  margin-bottom: 15px;
 }

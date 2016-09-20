@@ -78,7 +78,6 @@
                     </ul>
                   </li>
                   <li><a href="about-us.html">About</a></li>
-                  <li><a href="contact.html">Contact</a></li>
                 </ul>
               </nav>
             </div>
@@ -94,46 +93,6 @@
                     <%= button_tag "<i class='fa fa-search'></i>".html_safe, class: "btn", type:"submit" %>
                   <% end %>
                 </li>
-                <li><a href="cart.html"><i class="fa fa-shopping-cart"></i><span class="color1">2</span></a>
-                  <ul class="drop-cart">
-                    <li>
-                      <a href="cart.html"><img src="img/cart/1.png" alt="" /></a>
-                      <div class="add-cart-text">
-                        <p><a href="#">White Shirt</a></p>
-                        <p>$50.00</p>
-                        <span>Color : Blue</span>
-                        <span>Size   : SL</span>
-                      </div>
-                      <div class="pro-close">
-                        <i class="pe-7s-close"></i>
-                      </div>
-                    </li>
-                    <li>
-                      <a href="cart.html"><img src="img/cart/2.png" alt="" /></a>
-                      <div class="add-cart-text">
-                        <p><a href="#">White Shirt</a></p>
-                        <p>$50.00 x 2</p>
-                        <span>Color : Blue</span>
-                        <span>Size   : SL</span>
-                      </div>
-                      <div class="pro-close">
-                        <i class="pe-7s-close"></i>
-                      </div>
-                    </li>
-                    <li class="total-amount clearfix">
-                      <span class="floatleft">total</span>
-                      <span class="floatright"><strong>= $150.00</strong></span>
-                    </li>
-                    <li>
-                      <div class="goto text-center">
-                        <a href="cart.html"><strong>go to cart &nbsp;<i class="pe-7s-angle-right"></i></strong></a>
-                      </div>
-                    </li>
-                    <li class="checkout-btn text-center">
-                      <a href="checkout.html">Check out</a>
-                    </li>
-                  </ul>
-                </li>
               </ul>
             </div>
           </div>
@@ -141,5 +100,12 @@
       </div>
     </div>
   </div>
+
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %> alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+      <p><%= value %></p>
+    </div>
+  <% end %>
 
 </header>

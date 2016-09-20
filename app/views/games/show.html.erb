@@ -158,7 +158,13 @@
                   <div class="add-to-cart">
 
                     <div class="product-icon">
-                      <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{@game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
+                      <div class="row">
+                        <div class="col-xs-3" style="padding-top:7px">Add Game to List: </div>
+                        <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{@game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', style: "float:left;", method: :post %>
+                      </div>
+                      <p>
+                         
+                      </p>
                     </div>
 
                   </div>

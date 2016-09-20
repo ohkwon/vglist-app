@@ -1,6 +1,6 @@
 <!-- pages-title-start -->
 <% if @sample_game.game.game_covers.any? %>
-  <section class="user-games- contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px' >
+  <section class="user-games-contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px' >
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
@@ -9,8 +9,16 @@
           </div>
         </div>
       </div>
-      <div class="row" style="padding-top:50px">
-
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="user-games-section-title">
+            <h3>Pages</h3>
+            <div class="section-icon">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <div class="product-tab nav nav-tabs user-games-pages-color">
           <ul>    
             <% if @search.empty? %> 
