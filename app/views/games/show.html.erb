@@ -100,26 +100,50 @@
                 <% end %>
               </div>
 
-              <div class="short-description">
+              <div class='short-description'>
+                <% if @game.genred_games.any? %>
+                  <p class="games-show-genres" style="text-align:center; font-size:14px">
+                    <span style="float:left;">Genre(s):</span>
+                    <span class="games-show-table-color">
+                      <% @game.genred_games.each do |genred_game| %>
+                        <a href="/games?sort_attribute=genre&sort_attribute_2=<%= genred_game.genre_id %>"><%= genred_game.genre.name %></a>,
+                      <% end %>
+                    </span>
+                  </p>
+                <% end %>
+
+              </div>
+
+              <div class='short-description' >
                 <% if @game.platformed_games.any? %>
-                  <p>Platform(s) and Release Date(s): <p>
-                  <ul class="games-show-platforms-ul">
+                  <p>Platform(s) and Release Date(s): </p>
+
+                  <table class="data-table cart-table games-show-table-color">
+                    <tr>
+                      <th></th>
+                      <th>Platform</th>
+                      <th>Release Date</th>
+                    </tr>
                     <% @game.platformed_games.order(:release_date).each do |platformed_game| %>
-                      <li class="games-show-platforms-li">
-                        <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform.id %>">
+                      <tr>
+                        <td>
                           <% if platformed_game.platform.platform_logos.any? %>
                             <img src="https://res.cloudinary.com/igdb/image/upload/<%= platformed_game.platform.platform_logos.first.cloudinary_id %>.jpg" class = "platform-logo">
                           <% end %>
-                          <%= platformed_game.platform.name %>: 
+                        </td>
+                        <td>
+                          <%= platformed_game.platform.name %>
+                        </td>
+                        <td>
                           <% if platformed_game.release_date %>
                             <%= platformed_game.release_date.strftime("%B %d, %Y") %>
                           <% else %>
                             TBA
                           <% end %>
-                        </a>
-                      </li>
+                        </td>
+                      </tr>
                     <% end %>
-                  </ul>
+                  </table>
                 <% end %>
               </div>
 
@@ -135,7 +159,6 @@
 
                     <div class="product-icon">
                       <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{@game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
-                      <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{@game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
                     </div>
 
                   </div>

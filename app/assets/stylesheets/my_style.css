@@ -103,3 +103,20 @@ header {
 .games-show-platforms-li {
   float: none;
 }
+
+.games-show-genres p {
+  text-align: center;
+  font-size:14px;
+}
+
+.games-show-genres-title {
+  float: left;
+}
+
+.games-show-table-color {
+  color: rgb(193, 81, 56);
+}
+
+.games-show-table-color a {
+  color: rgb(193, 81, 56);
+}
