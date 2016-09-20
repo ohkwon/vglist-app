@@ -83,7 +83,7 @@
                           </div> -->
                           <a href="/games/<%= game.id %>" class="games-index-image-align-a">
                             <% if game.game_covers.first %>
-                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" />
+                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" class="games-index-image-max"/>
                             <% else %>
                               <img class="secondary-image" src="">
                             <% end %>
@@ -118,7 +118,7 @@
                           </div> -->
                           <a href="/games/<%= game.id %>" class="games-index-image-align-a">
                             <% if game.game_covers.first %>
-                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" />
+                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" class="games-index-image-max" />
                             <% else %>
                               <img class="secondary-image" src="">
                             <% end %>
@@ -158,7 +158,7 @@
                           </div> -->
                           <a href="/games/<%= game.id %>" class="games-index-image-align-a">
                             <% if game.game_covers.first %>
-                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" />
+                              <img src="https://res.cloudinary.com/igdb/image/upload/<%= game.game_covers.first.cloudinary_id %>.jpg" alt="<%= game.name %>" class="games-index-image-max" />
                             <% else %>
                               <img class="secondary-image" src="">
                             <% end %>

@@ -122,12 +122,12 @@ header {
 }
 
 .user-games-section-title h3 {
-    color: #ef6644;
-    display: inline-block;
-    line-height: 19px;
-    margin-bottom: 7px;
-    position: relative;
-    text-decoration: underline;
+  color: #ef6644;
+  display: inline-block;
+  line-height: 19px;
+  margin-bottom: 7px;
+  position: relative;
+  text-decoration: underline;
 }
 
 .user-games-section-title {
@@ -146,5 +146,43 @@ header {
 }
 
 .games-index-game-title {
-  padding-top:15px;
+  border-style: solid;
+  border-color: #EF6644;
+  /*height: 75px;*/
+  line-height:75px;
+  padding: 0px 0px 15px 0px;
+  margin-bottom:10px;
+}
+
+.games-index-game-title h3 {
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 1;
+
+}
+
+.games-index-image-max {
+  max-width: 263px;
+  max-height: 323.03px;
+}
+
+.games-index-game-title a::before, .banner-box a::before, .post-thumb a::before, .re-img a::before {
+  background: #000;
+  bottom: 0;
+  content: "";
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: all 300ms ease-in-out 0s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 1;
+  
 }
