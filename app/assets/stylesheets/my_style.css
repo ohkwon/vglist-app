@@ -95,3 +95,11 @@ header {
   background-repeat: no-repeat;
   padding: 200px 0 50px;
 }
+
+.games-show-platforms-ul {
+  list-style: disc outside none;
+}
+
+.games-show-platforms-li {
+  float: none;
+}
