@@ -134,3 +134,17 @@ header {
   text-align: center;
   margin-bottom: 15px;
 }
+
+.games-index-image-align-div {
+  width: 263px;
+  height: 332.03px;
+  line-height: 323.03px;
+}
+
+.games-index-image-align-a {
+  vertical-align: middle;
+}
+
+.games-index-game-title {
+  padding-top:15px;
+}
