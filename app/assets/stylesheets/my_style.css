@@ -225,3 +225,12 @@ header {
 .games-index-filter-head {
   float:right;
 }
+
+h2.title6 {
+  font-size: 64px;
+}
+
+.login-head-size {
+  height: 325px;
+  padding:200px 0px 50px;
+}
