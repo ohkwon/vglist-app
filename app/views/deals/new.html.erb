@@ -1,18 +1,32 @@
 <div ng-app = "app">
   <div ng-controller = "dealsCtrl">
-
-    <section class="contact-login-img-area login-head-size" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg"); background-size: 1404px'>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <div class="con-text">
-              <h2 class="page-title"><%= @game.name %></h2>
-              <p><a href="#">Home</a> | New Deal</p>
+    <% if @game.game_covers.any? %>
+      <section class="contact-login-img-area login-head-size" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg"); background-size: 1404px'>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="con-text">
+                <h2 class="page-title"><%= @game.name %></h2>
+                <p><a href="#">Home</a> | New Deal</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    <% else %>
+      <section class="contact-login-img-area login-head-size">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 text-center">
+              <div class="con-text">
+                <h2 class="page-title"><%= @game.name %></h2>
+                <p><a href="#">Home</a> | New Deal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    <% end %>
     <!-- <h2>New Deal: <%= @game.name %></h2> -->
     <div class="row" style="margin-top:40px">
       <div class="col-md-2"></div>
