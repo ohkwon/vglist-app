@@ -33,19 +33,24 @@ class GamesController < ApplicationController
       @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
     end
 
-    @sample_games = []
-    index = 0 
-    counter = 0
-    until @sample_games.length >= 2
-      sample = @games.sample
-      if !@sample_games.include?(sample) && sample.game_covers.any?
-        @sample_games << sample
-        index += 1
-        counter = 0
-      end
-      counter += 1
-      if counter == 5
-        break
+    @platforms = Platform.all
+    @genres = Genre.all
+
+    if @games.any?
+      @sample_games = []
+      index = 0 
+      counter = 0
+      until @sample_games.length >= 2
+        sample = @games.includes(:game_covers).where("game_covers.id >= 0").references(:game_covers).sample
+        if !@sample_games.include?(sample) && sample.game_covers
+          @sample_games << sample
+          index += 1
+          counter = 0
+        end
+        counter += 1
+        if counter == 5
+          break
+        end
       end
     end
 
@@ -81,7 +86,6 @@ class GamesController < ApplicationController
     else
       @games = Game.where("name LIKE ?", "%Metal Gear Solid%").order(:name).limit(15)
     end
-    # binding.pry
 
   end
 

@@ -212,3 +212,16 @@ header {
 .nivo-caption a {
   color: white;
 }
+
+.games-index-ul-filters {
+  overflow: auto;
+  max-height:400px;
+}
+
+.games-index-filter-head li {
+  margin-right:55px;
+}
+
+.games-index-filter-head {
+  float:right;
+}

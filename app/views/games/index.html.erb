@@ -5,36 +5,44 @@
     <section class="slider-main-area " style="max-width:1403px;max-height:500px">
       <div class="main-slider an-si " style="max-width:1403px;max-height:500px">
         <div class="bend niceties preview-2 hm-ver-1 " style="max-width:1403px;max-height:500px">
-          <div id="ensign-nivoslider-2" class="slides " style="max-width:1403px;max-height:500px"> 
-            <% @sample_games.each_with_index do |sample_game, index| %>
-              <% if index == 0 %>
-                <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-3" style="max-width:1403px;max-height:500px" />
-              <% else %>
-                <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-1" style="max-width:1403px;max-height:500px" />
+          <% if @sample_games %>
+            <div id="ensign-nivoslider-2" class="slides " style="max-width:1403px;max-height:500px"> 
+              <% @sample_games.each_with_index do |sample_game, index| %>
+                <% if index == 0 %>
+                  <% if sample_game.game_covers %>
+                    <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-3" style="max-width:1403px;max-height:500px" />
+                  <% end %>
+                <% else %>
+                  <% if sample_game.game_covers %>
+                    <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-1" style="max-width:1403px;max-height:500px" />
+                  <% end %>
+                <% end %>
               <% end %>
-            <% end %>
-          </div>
-          <!-- direction 1 -->
-          <div id="slider-direction-3" class="t-cn slider-direction Builder">
-            <div class="slide-all">
-              <div class="layer-2">
-                <h2 class="title6"><%= @sample_games[0].name %></h2>
-              </div>
-              <div class="layer-3">
-                <a class="min1" href="/games/<%= @sample_games[0].id %>">View Game</a>
+            </div>
+            <!-- direction 1 -->
+            <div id="slider-direction-3" class="t-cn slider-direction Builder">
+              <div class="slide-all">
+                <div class="layer-2">
+                  <h2 class="title6"><%= @sample_games[0].name %></h2>
+                </div>
+                <div class="layer-3">
+                  <a class="min1" href="/games/<%= @sample_games[0].id %>">View Game</a>
+                </div>
               </div>
             </div>
-          </div>
-          <div id="slider-direction-1" class="t-cn slider-direction Builder">
-            <div class="slide-all slide2">
-              <div class="layer-2">
-                <h2 class="title6"><%= @sample_games[1].name %></h2>
-              </div>
-              <div class="layer-3">
-                <a class="min1" href="/games/<%= @sample_games[1].id %>">View Game</a>
+            <div id="slider-direction-1" class="t-cn slider-direction Builder">
+              <div class="slide-all slide2">
+                <div class="layer-2">
+                  <h2 class="title6"><%= @sample_games[1].name %></h2>
+                </div>
+                <div class="layer-3">
+                  <a class="min1" href="/games/<%= @sample_games[1].id %>">View Game</a>
+                </div>
               </div>
             </div>
-          </div>
+          <% else %>
+            <div style="height:155px"></div>
+          <% end %>
         </div>
       </div>
     </section>
@@ -58,7 +66,8 @@
 
         <!-- Categories -->
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-xs-4"></div>
+          <div class="col-xs-4">
             <div class="product-tab nav nav-tabs">
               <ul>    
                 <% if @search.empty? %> 
@@ -100,6 +109,35 @@
                   </li>
                 <% end %>
               </ul>
+            </div>
+          </div>
+          <div class="col-xs-4">
+            <div class="mainmenu clearfix hidden-sm hidden-xs">
+              <nav>
+                <ul class="games-index-filter-head">
+                  <li>Filters:</li>
+                  <li>
+                    Platforms
+                    <ul class="games-index-ul-filters">
+                      <% @platforms.each do |platform| %>
+                        <li>
+                          <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platform.id %>" ><%= platform.name %></a>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </li>
+                  <li>
+                    Genres
+                    <ul class="games-index-ul-filters">
+                      <% @genres.each do |genre| %>
+                        <li>
+                          <a href="/games?sort_attribute=genre&sort_attribute_2=<%= genre.id %>"><%= genre.name %></a>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
