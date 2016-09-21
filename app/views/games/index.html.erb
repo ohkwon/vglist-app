@@ -1,5 +1,44 @@
 <div ng-app = "app">
   <div ng-controller = "gamesCtrl">
+
+    <!-- slider-section-start -->
+    <section class="slider-main-area " style="max-width:1403px;max-height:500px">
+      <div class="main-slider an-si " style="max-width:1403px;max-height:500px">
+        <div class="bend niceties preview-2 hm-ver-1 " style="max-width:1403px;max-height:500px">
+          <div id="ensign-nivoslider-2" class="slides " style="max-width:1403px;max-height:500px"> 
+            <% @sample_games.each_with_index do |sample_game, index| %>
+              <% if index == 0 %>
+                <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-3" style="max-width:1403px;max-height:500px" />
+              <% else %>
+                <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-1" style="max-width:1403px;max-height:500px" />
+              <% end %>
+            <% end %>
+          </div>
+          <!-- direction 1 -->
+          <div id="slider-direction-3" class="t-cn slider-direction Builder">
+            <div class="slide-all">
+              <div class="layer-2">
+                <h2 class="title6"><%= @sample_games[0].name %></h2>
+              </div>
+              <div class="layer-3">
+                <a class="min1" href="/games/<%= @sample_games[0].id %>">View Game</a>
+              </div>
+            </div>
+          </div>
+          <div id="slider-direction-1" class="t-cn slider-direction Builder">
+            <div class="slide-all slide2">
+              <div class="layer-2">
+                <h2 class="title6"><%= @sample_games[1].name %></h2>
+              </div>
+              <div class="layer-3">
+                <a class="min1" href="/games/<%= @sample_games[1].id %>">View Game</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- slider section end -->
     <section class="featured-products single-products games-index-padding-top">
 
       <div class="container">

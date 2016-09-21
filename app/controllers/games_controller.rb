@@ -32,7 +32,22 @@ class GamesController < ApplicationController
       @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
       @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
     end
-    # binding.pry
+
+    @sample_games = []
+    index = 0 
+    counter = 0
+    until @sample_games.length >= 2
+      sample = @games.sample
+      if !@sample_games.include?(sample) && sample.game_covers.any?
+        @sample_games << sample
+        index += 1
+        counter = 0
+      end
+      counter += 1
+      if counter == 5
+        break
+      end
+    end
 
   end
 

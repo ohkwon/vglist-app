@@ -170,7 +170,7 @@ header {
   max-height: 323.03px;
 }
 
-.games-index-game-title a::before, .banner-box a::before, .post-thumb a::before, .re-img a::before {
+/*.games-index-game-title a::before, .banner-box a::before, .post-thumb a::before, .re-img a::before {
   background: #000;
   bottom: 0;
   content: "";
@@ -184,5 +184,31 @@ header {
   visibility: hidden;
   width: 100%;
   z-index: 1;
-  
+  */
+}
+
+.games-index-slider-dimension {
+  max-width:1403px;
+  max-height:500px;
+}
+
+/*.nivo-main-image {
+  display: block !important;
+  position: relative !important; 
+  width: 100% !important;
+  max-width:1404px;
+  max-height:400px;
+}*/
+
+.nivo-caption {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.slide-all {
+    margin-right: 15%;
+    margin-top: 16%;
+}
+
+.nivo-caption a {
+  color: white;
 }
