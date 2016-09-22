@@ -4,7 +4,7 @@ class GamesController < ApplicationController
 
   def index
 
-    @limit = 16
+    @limit = 20
     @page = 1
     @search = ""
     if params[:search]

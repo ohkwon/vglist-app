@@ -1,59 +1,49 @@
 #complete api grab
 
-offset = 0
-games_api = []
-current_list = ['start']
+# offset = 0
+# games_api = []
+# current_list = ['start']
 
-while offset < 9950
+# while offset < 9950
+#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Aasc&offset=#{offset}",
+#     headers:{
+#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+#       "Accept" => "application/json"
+#     }).body
+#   puts "on offset #{offset} going down"
+#   offset += 50
+#   current_list.each do |current_item|
+#     games_api << current_item
+#   end
+#   puts "game grab at #{games_api.length} items"
+# end
 
-  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Aasc&offset=#{offset}",
-    headers:{
-      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-      "Accept" => "application/json"
-    }).body
+# offset = 0
 
-  puts "on offset #{offset} going down"
-
-  offset += 50
-
-  current_list.each do |current_item|
-    games_api << current_item
-  end
-
-  puts "game grab at #{games_api.length} items"
-
-end
-
-offset = 0
-
-while offset < 9950
-
-  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Adesc&offset=#{offset}",
-    headers:{
-      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-      "Accept" => "application/json"
-    }).body
-
-  puts "on offset #{offset} going up"
-
-  offset += 50
-
-  current_list.each do |current_item|
-    games_api << current_item
-  end
-
-  puts "game grab at #{games_api.length} items"
-
-end
+# while offset < 9950
+#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Adesc&offset=#{offset}",
+#     headers:{
+#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+#       "Accept" => "application/json"
+#     }).body
+#   puts "on offset #{offset} going up"
+#   offset += 50
+#   current_list.each do |current_item|
+#     games_api << current_item
+#   end
+#   puts "game grab at #{games_api.length} items"
+# end
 
 
-#sampled test grab
+# def sample_games_api_grab
 
-# games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=2&search=zelda",
-#       headers:{
-#         "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-#         "Accept" => "application/json"
-#       }).body
+  games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=20&search=zelda",
+        headers:{
+          "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+          "Accept" => "application/json"
+        }).body
+
+# end
 
 desc 'create entire database'
 task :create_all do
@@ -164,28 +154,48 @@ task :create_platformed_games => :environment do
   games_api.each do |game_api|
     if game_api["release_dates"]
       counter1 = 1
-      game_api["release_dates"].each do |platformed_game|
-        puts "creating platformed game #{counter1} of game #{counter} of #{games_api.length}"
-        if platformed_game["date"]
-          if platformed_game["region"]
-            if platformed_game["region"] == 2 || if platformed_game["region"] == 8
-              new_platformed_game = PlatformedGame.new(
-                game_id: game_api["id"],
-                platform_id: platformed_game["platform"],
-                release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
-                )
-              new_platformed_game.save
-            end
-          else
+      if game_api["release_dates"].any? { |platformed_game| platformed_game["region"] == 2 }
+        game_api["release_dates"].each do |platformed_game|
+          if platformed_game["date"] && platformed_game["region"] = 2 && !(PlatformedGame.where(game_id: game_api["id"], platform_id: platformed_game["platform"]).any?)
+            puts "creating platformed game #{counter1} of #{counter}"
+            puts "WW"
             new_platformed_game = PlatformedGame.new(
               game_id: game_api["id"],
               platform_id: platformed_game["platform"],
-              release_date: Date.strptime("#{platformed_game["date"]}", "%Q")
+              release_date: Date.strptime("#{platformed_game['date']}", "%Q") 
               )
             new_platformed_game.save
+            counter1 += 1
           end
         end
-        counter1 += 1
+      elsif game_api["release_dates"].any? { |platformed_game| platformed_game["region"] == 8 }
+        game_api["release_dates"].each do |platformed_game|
+          if platformed_game["date"] && platformed_game["region"] = 8 && !(PlatformedGame.where(game_id: game_api["id"], platform_id: platformed_game["platform"]).any?)
+            puts "creating platformed game #{counter1} of #{counter}"
+            puts "US"
+            new_platformed_game = PlatformedGame.new(
+              game_id: game_api["id"],
+              platform_id: platformed_game["platform"],
+              release_date: Date.strptime("#{platformed_game['date']}", "%Q")
+              )
+            new_platformed_game.save
+            counter1 += 1
+          end
+        end
+      elsif
+        game_api["release_dates"].each do |platformed_game|
+          if !(platformed_game["region"]) && !(PlatformedGame.where(game_id: game_api["id"], platform_id: platformed_game["platform"]).any?)
+            puts "creating platformed game #{counter1} of #{counter}"
+            puts "no region"
+            new_platformed_game = PlatformedGame.new(
+              game_id: game_api["id"],
+              platform_id: platformed_game["platform"],
+              release_date: Date.strptime("#{platformed_game['date']}", "%Q")
+              )
+            new_platformed_game.save
+            counter1 += 1
+          end
+        end
       end
     end
     counter += 1
@@ -311,50 +321,102 @@ task :create_genres => :environment do
 
 end
 
-offset = 0
-platforms_api = []
 
-while offset < 150
+def grab_platforms_api
 
-  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50&offset=#{offset}",
-  headers:{
-    "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
-  }).body
+  offset = 0
+  platforms_api = []
 
-  offset += 50
+  while offset < 150
 
-  current_list.each do |platform|
-    platforms_api << platform if platform["games"]
+    current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=*&limit=50&offset=#{offset}",
+    headers:{
+      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T"
+    }).body
+
+    offset += 50
+
+    current_list.each do |platform|
+      platforms_api << platform if platform["games"]
+    end
+
+    if current_list.length < 50
+      break
+    end
+
   end
 
-  if current_list.length < 50
-    break
-  end
+  return platforms_api
 
 end
 
 desc 'create platforms db'
 task :create_platforms => :environment do
 
+  platforms_api = grab_platforms_api
+
   counter = 1 
 
   platforms_api.each do |platform_api|
+    if platform_api["versions"].any? { |version| version["name"] == "Initial version"}
+      index = platform_api["versions"].index { |version| version["name"] == "Initial version"}
+      if platform_api["versions"][index]["release_dates"]
+        if platform_api["versions"][index]["release_dates"].any? { |release_date| release_date["region"] == 8 }
+          platform_api["versions"][index]["release_dates"].each do |release_date|
+            if release_date["region"] == 8
+              puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "WW"
+              p release_date
 
-    puts "creating platform #{counter} of #{platforms_api.length}"
+              platform = Platform.new(
+                id: platform_api["id"],
+                name: platform_api["name"],
+                slug: platform_api["slug"],
+                release_date: Date.strptime("#{release_date['date']}", "%Q")
+                )
+              platform.save
+              break
+            end
+          end
+        elsif platform_api["versions"][index]["release_dates"].any? { |release_date| release_date["region"] == 2 }
+          platform_api["versions"][index]["release_dates"].each do |release_date|
+            if release_date["region"] == 2
+              puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "US"
+              p release_date
+
+              platform = Platform.new(
+                id: platform_api["id"],
+                name: platform_api["name"],
+                slug: platform_api["slug"],
+                release_date: Date.strptime("#{release_date['date']}", "%Q")
+                )
+              platform.save
+              break
+            end
+          end
+        end
+      else
+        puts "creating platform #{counter} of #{platforms_api.length}"
+        puts "No Release Date"
+
+        platform = Platform.new(
+          id: platform_api["id"],
+          name: platform_api["name"],
+          slug: platform_api["slug"]
+          )
+        platform.save
+      end
+    end
     counter += 1
-
-    platform = Platform.new(
-      id: platform_api["id"],
-      name: platform_api["name"],
-      slug: platform_api["slug"]
-      )
-    platform.save
   end
 
 end
 
 desc 'create platform logos db'
 task :create_platform_logos => :environment do
+
+  platforms_api = grab_platforms_api
 
   platforms_api.each do |platform_api|
 
@@ -376,5 +438,4 @@ task :create_platform_logos => :environment do
 
 end
 
-end
 
