@@ -1,38 +1,38 @@
 #complete api grab
 
-# offset = 0
-# games_api = []
-# current_list = ['start']
+offset = 0
+games_api = []
+current_list = ['start']
 
-# while offset < 9950
-#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Aasc&offset=#{offset}",
-#     headers:{
-#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-#       "Accept" => "application/json"
-#     }).body
-#   puts "on offset #{offset} going down"
-#   offset += 50
-#   current_list.each do |current_item|
-#     games_api << current_item
-#   end
-#   puts "game grab at #{games_api.length} items"
-# end
+while offset < 9950
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Aasc&offset=#{offset}",
+    headers:{
+      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+      "Accept" => "application/json"
+    }).body
+  puts "on offset #{offset} going down"
+  offset += 50
+  current_list.each do |current_item|
+    games_api << current_item
+  end
+  puts "game grab at #{games_api.length} items"
+end
 
-# offset = 0
+offset = 0
 
-# while offset < 9950
-#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Adesc&offset=#{offset}",
-#     headers:{
-#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-#       "Accept" => "application/json"
-#     }).body
-#   puts "on offset #{offset} going up"
-#   offset += 50
-#   current_list.each do |current_item|
-#     games_api << current_item
-#   end
-#   puts "game grab at #{games_api.length} items"
-# end
+while offset < 9950
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Adesc&offset=#{offset}",
+    headers:{
+      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+      "Accept" => "application/json"
+    }).body
+  puts "on offset #{offset} going up"
+  offset += 50
+  current_list.each do |current_item|
+    games_api << current_item
+  end
+  puts "game grab at #{games_api.length} items"
+end
 
 
 # def sample_games_api_grab
@@ -185,15 +185,17 @@ task :create_platformed_games => :environment do
       elsif
         game_api["release_dates"].each do |platformed_game|
           if !(platformed_game["region"]) && !(PlatformedGame.where(game_id: game_api["id"], platform_id: platformed_game["platform"]).any?)
-            puts "creating platformed game #{counter1} of #{counter}"
-            puts "no region"
-            new_platformed_game = PlatformedGame.new(
-              game_id: game_api["id"],
-              platform_id: platformed_game["platform"],
-              release_date: Date.strptime("#{platformed_game['date']}", "%Q")
-              )
-            new_platformed_game.save
-            counter1 += 1
+            if platformed_game["date"]
+              puts "creating platformed game #{counter1} of #{counter}"
+              puts "no region"
+              new_platformed_game = PlatformedGame.new(
+                game_id: game_api["id"],
+                platform_id: platformed_game["platform"],
+                release_date: Date.strptime("#{platformed_game['date']}", "%Q")
+                )
+              new_platformed_game.save
+              counter1 += 1
+            end
           end
         end
       end
