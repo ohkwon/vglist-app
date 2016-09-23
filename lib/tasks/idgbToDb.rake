@@ -37,11 +37,11 @@
 
 # def sample_games_api_grab
 
-  games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=20&search=zelda",
-        headers:{
-          "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-          "Accept" => "application/json"
-        }).body
+  # games_api = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=20&search=zelda",
+  #       headers:{
+  #         "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+  #         "Accept" => "application/json"
+  #       }).body
 
 # end
 
@@ -357,6 +357,8 @@ task :create_platforms => :environment do
 
   counter = 1 
 
+  version_0 = [7, 9, 42, 44, 45, 46, 70]
+
   platforms_api.each do |platform_api|
     if platform_api["versions"].any? { |version| version["name"] == "Initial version"}
       index = platform_api["versions"].index { |version| version["name"] == "Initial version"}
@@ -365,6 +367,7 @@ task :create_platforms => :environment do
           platform_api["versions"][index]["release_dates"].each do |release_date|
             if release_date["region"] == 8
               puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "name: #{platform_api['name']}"
               puts "WW"
               p release_date
 
@@ -382,6 +385,7 @@ task :create_platforms => :environment do
           platform_api["versions"][index]["release_dates"].each do |release_date|
             if release_date["region"] == 2
               puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "name: #{platform_api['name']}"
               puts "US"
               p release_date
 
@@ -398,6 +402,7 @@ task :create_platforms => :environment do
         end
       else
         puts "creating platform #{counter} of #{platforms_api.length}"
+        puts "name: #{platform_api['name']}"
         puts "No Release Date"
 
         platform = Platform.new(
@@ -407,10 +412,183 @@ task :create_platforms => :environment do
           )
         platform.save
       end
+    elsif platform_api["versions"].any? { |version| version["name"].include? "original" }
+      index = platform_api["versions"].index { |version| version["name"].include? "original" }
+      if platform_api["versions"][index]["release_dates"]
+        if platform_api["versions"][index]["release_dates"].any? { |release_date| release_date["region"] == 8 }
+          platform_api["versions"][index]["release_dates"].each do |release_date|
+            if release_date["region"] == 8
+              puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "name: #{platform_api['name']}"
+              puts "WW"
+              p release_date
+
+              platform = Platform.new(
+                id: platform_api["id"],
+                name: platform_api["name"],
+                slug: platform_api["slug"],
+                release_date: Date.strptime("#{release_date['date']}", "%Q")
+                )
+              platform.save
+              break
+            end
+          end
+        elsif platform_api["versions"][index]["release_dates"].any? { |release_date| release_date["region"] == 2 }
+          platform_api["versions"][index]["release_dates"].each do |release_date|
+            if release_date["region"] == 2
+              puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "name: #{platform_api['name']}"
+              puts "US"
+              p release_date
+
+              platform = Platform.new(
+                id: platform_api["id"],
+                name: platform_api["name"],
+                slug: platform_api["slug"],
+                release_date: Date.strptime("#{release_date['date']}", "%Q")
+                )
+              platform.save
+              break
+            end
+          end
+        end
+      end
+    elsif platform_api["versions"].any? { |version| version["name"].include? "Original" }
+      index = platform_api["versions"].index { |version| version["name"].include? "Original" }
+      if platform_api["versions"][index]["release_dates"]
+        if platform_api["versions"][index]["release_dates"].any? { |release_date| release_date["region"] == 8 }
+          platform_api["versions"][index]["release_dates"].each do |release_date|
+            if release_date["region"] == 8
+              puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "name: #{platform_api['name']}"
+              puts "WW"
+              p release_date
+
+              platform = Platform.new(
+                id: platform_api["id"],
+                name: platform_api["name"],
+                slug: platform_api["slug"],
+                release_date: Date.strptime("#{release_date['date']}", "%Q")
+                )
+              platform.save
+              break
+            end
+          end
+        elsif platform_api["versions"][index]["release_dates"].any? { |release_date| release_date["region"] == 2 }
+          platform_api["versions"][index]["release_dates"].each do |release_date|
+            if release_date["region"] == 2
+              puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "name: #{platform_api['name']}"
+              puts "US"
+              p release_date
+
+              platform = Platform.new(
+                id: platform_api["id"],
+                name: platform_api["name"],
+                slug: platform_api["slug"],
+                release_date: Date.strptime("#{release_date['date']}", "%Q")
+                )
+              platform.save
+              break
+            end
+          end
+        elsif platform_api["name"] == "PlayStation 3"
+          platform_api["versions"][index]["release_dates"].each do |release_date|
+            if release_date["region"] == 5
+              puts "creating platform #{counter} of #{platforms_api.length}"
+              puts "name: #{platform_api['name']}"
+              puts "JP"
+              p release_date
+
+              platform = Platform.new(
+                id: platform_api["id"],
+                name: platform_api["name"],
+                slug: platform_api["slug"],
+                release_date: Date.strptime("#{release_date['date']}", "%Q")
+                )
+              platform.save
+              break
+            end
+          end
+        end
+      end
+    elsif platform_api["id"] == 14 || platform_api["id"] == 6 || platform_api["id"] == 34
+      puts "ID: " + platform_api["id"].to_s
+      hash = {}
+      platform_api["versions"].each_with_index do |version, index|
+        if hash.empty?
+          hash = { date: version["release_dates"][0]["date"], index: index }
+        elsif version["release_dates"][0]["date"] > hash[:date]
+          hash = { date: version["release_dates"][0]["date"], index: index}
+        end
+      end
+      puts "creating platform #{counter} of #{platforms_api.length}"
+      puts "name: #{platform_api['name']}, version: #{platform_api['versions'][hash[:index]]['name']}"
+      puts hash[:date]
+      data = hash[:date]
+      date = Date.strptime("#{data}", '%Q')
+      platform = Platform.new(
+        id: platform_api["id"],
+        name: platform_api["name"],
+        slug: platform_api["slug"],
+        release_date: date
+      )
+      platform.save
+    elsif version_0.include?(platform_api['id'])
+      puts "name: #{platform_api['name']}"
+      if platform_api["id"] == 9
+        platform_api["versions"][0]['release_dates'].each do |release_date|
+          if release_date["region"] == 5
+            puts "creating platform #{counter} of #{platforms_api.length}"
+            puts "name: #{platform_api['name']}"
+            platform = Platform.new(
+              id: platform_api["id"],
+              name: platform_api["name"],
+              slug: platform_api["slug"],
+              release_date: Date.strptime("#{release_date['date']}", "%Q")
+            )
+            platform.save
+          end
+        end
+      else
+        platform_api["versions"][0]["release_dates"].each do |release_date|
+          if release_date["region"] == 8
+            puts "creating platform #{counter} of #{platforms_api.length}"
+            puts "name: #{platform_api['name']}"
+            platform = Platform.new(
+              id: platform_api["id"],
+              name: platform_api["name"],
+              slug: platform_api["slug"],
+              release_date: Date.strptime("#{release_date['date']}", "%Q")
+            )
+            platform.save
+          elsif release_date["region"] == 2
+            puts "creating platform #{counter} of #{platforms_api.length}"
+            puts "name: #{platform_api['name']}"
+            platform = Platform.new(
+              id: platform_api["id"],
+              name: platform_api["name"],
+              slug: platform_api["slug"],
+              release_date: Date.strptime("#{release_date['date']}", "%Q")
+            )
+            platform.save
+          end
+        end
+      end
+    else
+      puts "creating platform #{counter} of #{platforms_api.length}"
+      puts "name: #{platform_api['name']}"
+      puts "No Release Date"
+
+      platform = Platform.new(
+        id: platform_api["id"],
+        name: platform_api["name"],
+        slug: platform_api["slug"]
+        )
+      platform.save
     end
     counter += 1
   end
-
 end
 
 desc 'create platform logos db'
