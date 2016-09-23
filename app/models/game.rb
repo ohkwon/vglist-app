@@ -18,6 +18,8 @@ class Game < ApplicationRecord
   has_many :game_screenshots
   has_many :game_videos
 
+  has_many :comments
+
   def lowest_deals
     platform_deals = []
 
