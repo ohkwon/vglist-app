@@ -33,8 +33,10 @@ class GamesController < ApplicationController
       @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
     end
 
-    @platforms = Platform.all
-    @genres = Genre.all
+    @platforms_1 = Platform.where.not(release_date: nil).order(release_date: :desc)
+    @platforms_2 = Platform.where(release_date: nil).order(:name)
+    @platforms = @platforms_1 | @platforms_2
+    @genres = Genre.all.order(:name)
 
     if @games.any?
       @sample_games = []
