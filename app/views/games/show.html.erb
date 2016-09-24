@@ -189,6 +189,10 @@
                   </li>
                 <% end %>
 
+                <li role="presentation">
+                  <a href="#comment" aria-controls="profile" role="tab" data-toggle="tab">Comments</a>                  
+                </li>
+
                 <% @game.platformed_games.each do |platformed_game| %>
                   <li role="presentation">
                     <a href="#<%= platformed_game.platform.name.gsub(/[ ]/, '-').gsub(/[()]/, '') %>" aria-controls="profile" role="tab" data-toggle="tab"><%= platformed_game.platform.name %> Deals</a>
@@ -200,6 +204,8 @@
                     <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Add Deal</a>
                   </li>
                 <% end %>
+
+
               </ul>
               <!-- Tab panes -->
               <div class="tab-content tab-con2">
@@ -208,6 +214,35 @@
                     Story: <%= @game.storyline %>
                   </div>
                 <% end %>
+
+                <div role="tabpanel" class="tab-pane" id="comment">
+                  <div class="blog-area">
+                    <div class="tb-post-item">
+                      <div class="tb-content7">
+                        <div class="blog-info negate-single-product-area">
+                          <span class="author-name">
+                            <i class="fa fa-user"></i>
+                            By
+                            <a href="#">admin</a>
+                          </span>
+                          <span class="categories">
+                            <i class="fa fa-tag"></i>
+                            <a href="#">Consectetur</a>
+                            ,
+                            <a href="#">Lorem</a>
+                          </span>
+                          <span class="comments-number">
+                            <i class="fa fa-comment"></i>
+                            <a href="#">0 Comment</a>
+                          </span>
+                        </div>
+                        <div class="tb-excerpt">
+                          Blah post
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <!-- Deal Show Start-->
                 <% @game.platformed_games.each do |platformed_game| %>
                   <div role="tabpanel" class="tab-pane" id="<%= platformed_game.platform.name.gsub(/[ ]/, '-').gsub(/[()]/, '') %>">

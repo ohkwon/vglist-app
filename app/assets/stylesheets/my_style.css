@@ -234,3 +234,19 @@ h2.title6 {
   height: 325px;
   padding:200px 0px 50px;
 }
+
+.negate-single-product-area a {
+  background: none !important;
+  border: none !important;
+  color: #a1a1a1 !important;
+  display: inline !important;
+  font-family: inherit !important;
+  font-style: italic !important;
+  font-size: 12px !important;
+  font-weight: 300 !important;
+  line-height: 24px !important;
+  margin: 10px !important;
+  padding: 0px 0px 0px 0px !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+}
