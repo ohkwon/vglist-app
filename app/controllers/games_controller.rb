@@ -106,6 +106,8 @@ class GamesController < ApplicationController
     @index = 0
     @counter = 1
 
+    @comments = @game.comments
+
   end
 
   def new

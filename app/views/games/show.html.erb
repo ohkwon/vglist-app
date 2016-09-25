@@ -216,31 +216,77 @@
                 <% end %>
 
                 <div role="tabpanel" class="tab-pane" id="comment">
-                  <div class="blog-area">
-                    <div class="tb-post-item">
-                      <div class="tb-content7">
-                        <div class="blog-info negate-single-product-area">
-                          <span class="author-name">
-                            <i class="fa fa-user"></i>
-                            By
-                            <a href="#">admin</a>
-                          </span>
-                          <span class="categories">
-                            <i class="fa fa-tag"></i>
-                            <a href="#">Consectetur</a>
-                            ,
-                            <a href="#">Lorem</a>
-                          </span>
-                          <span class="comments-number">
-                            <i class="fa fa-comment"></i>
-                            <a href="#">0 Comment</a>
-                          </span>
+                  <% if current_user %>
+                    <div class="add-comment">
+                      <%= form_tag '/comments', class: "form-horizontal", method: :post do %>
+                        <div class="form-group required">
+                          <div class="col-sm-12">
+                            <%= text_field_tag :text, "", placeholder: "Your thoughts here!", class: "form-control", style:"width:100%" %>
+                            <%= hidden_field_tag :user_id, current_user.id %>
+                            <%= hidden_field_tag :game_id, @game.id %>
+                          </div>
                         </div>
-                        <div class="tb-excerpt">
-                          Blah post
+                        <div class="buttons si-button">
+                          <div>
+                            <%= button_tag "Post Comment!", id: "button-review", class: "btn btn-primary", "data-loading-text" => "Loading...", type: "submit" %>
+                          </div>
                         </div>
-                      </div>
+                      <% end %>
                     </div>
+                  <% end %>
+                  <div class="blog-area" style="margin-top:0px">
+                    <% @comments.each do |comment| %>
+                      <% if comment.reply_id == nil %>
+                        <div class="tb-post-item each-comment">
+                          <div class="tb-content7">
+                            <div class="blog-info negate-single-product-area comment-icon-align">
+                              <span class="author-name">
+                                <i class="fa fa-user"></i>
+                                By <%= comment.user.email %>
+                              </span>
+                              <span class="categories">
+                                <%= comment.created_at.strftime("%B %d, %Y, %l:%M %p") %>
+                              </span>
+                              <span class="comments-number">
+                                <i class="fa fa-comment"></i>
+                                <!-- <a href="#">0 Comment</a> -->
+                                <%= comment.replies.length %>
+                              </span>
+                            </div>
+                            <div class="tb-excerpt comment-text">
+                              <%= comment.text %>
+                            </div>
+                          </div>
+                        </div>
+                        <% if comment.replies.any? %>
+                          <% comment.replies.each do |reply| %>
+                            <div class="reply">
+                              <div class="tb-post-item each-comment">
+                                <div class="tb-content7">
+                                  <div class="blog-info negate-single-product-area comment-icon-align">
+                                    <span class="author-name">
+                                      <i class="fa fa-user"></i>
+                                      By <%= reply.user.email %>
+                                    </span>
+                                    <span class="categories">
+                                      <%= reply.created_at.strftime("%B %d, %Y, %l:%M %p") %>
+                                    </span>
+                                    <span class="comments-number">
+                                      <i class="fa fa-comment"></i>
+                                      <!-- <a href="#">0 Comment</a> -->
+                                      <%= reply.replies.length %>
+                                    </span>
+                                  </div>
+                                  <div class="tb-excerpt comment-text">
+                                    <%= reply.text %>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
                   </div>
                 </div>
                 <!-- Deal Show Start-->

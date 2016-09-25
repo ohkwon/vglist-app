@@ -42,4 +42,6 @@ Rails.application.routes.draw do
   get '/deals/:id/edit', to: 'deals#edit'
   patch '/deals/:id', to: 'deals#update'
 
+  post '/comments', to: 'comments#create'
+
 end

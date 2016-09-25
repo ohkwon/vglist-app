@@ -250,3 +250,27 @@ h2.title6 {
   text-decoration: none !important;
   text-transform: none !important;
 }
+
+.reply {
+  margin-left:30px;
+}
+
+.each-comment {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+  padding-top: 15px
+}
+
+.comment-text {
+  padding-left: 15px;
+  color: black;
+}
+
+.add-comment {
+  border: 1px solid #ddd;
+  padding:12px 12px 0px 12px
+}
+
+.comment-icon-align i {
+  vertical-align: baseline !important;
+}
