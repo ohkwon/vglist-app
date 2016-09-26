@@ -1,0 +1,99 @@
+<% if current_user %>
+  <div class="add-comment">
+    <%= form_tag '/comments', class: "form-horizontal", method: :post do %>
+      <div class="form-group required">
+        <div class="col-sm-12">
+          <%= text_field_tag :text, "", placeholder: "Your thoughts here!", class: "form-control", style:"width:100%" %>
+          <%= hidden_field_tag :user_id, current_user.id %>
+          <%= hidden_field_tag :game_id, game.id %>
+        </div>
+      </div>
+      <div class="buttons si-button">
+        <div>
+          <%= button_tag "Post Comment!", id: "button-review", class: "btn btn-primary", "data-loading-text" => "Loading...", type: "submit" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<div class="blog-area" style="margin-top:0px">
+  <% comments.each do |comment| %>
+    <% if comment.reply_id == nil %>
+
+      <div class="panel-group no-margin" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <div class="panel-default">
+
+          <div class="tb-post-item">
+            <div class="tb-content7">
+              <div class="blog-info negate-single-product-area comment-icon-align each-comment-bottom">
+                <div class="panel-heading each-comment-padding" role="tab" id="heading-<%= comment.id %>">
+                  <span class="author-name">
+                    <i class="fa fa-user"></i>
+                    By <%= comment.user.email %>
+                  </span>
+                  <span>
+                      <%= comment.created_at.strftime("%B %d, %Y, %l:%M %p") %>
+                    </a>
+                  </span>
+                  <span class="comments-number panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#reply-<%= comment.id %>" aria-expanded="false" aria-controls="reply-<%= comment.id %>">
+                      <i class="fa fa-comment"></i>
+                      <%= comment.replies.length %>
+                    </a>
+                  </span>
+                  <div class="tb-excerpt comment-text">
+                    <%= comment.text %>
+                  </div>
+                  <% if current_user %>
+                    <div>
+                      <span>
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#make-reply-<%= comment.id %>" aria-expanded="false" aria-controls="make-reply-<%= comment.id %>">
+                          Reply
+                        </a>
+                      </span>
+                    </div>
+                  <% end %>
+                </div>
+                <% if current_user %>
+                  <div id="make-reply-<%= comment.id %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-<%= comment.id %>">
+                    <div class="panel-body no-border">
+                      <div>
+                        <%= form_tag '/comments', class: "form-horizontal", method: :post do %>
+                          <div class="form-group required">
+                            <div class="col-sm-12">
+                              <%= text_field_tag :text, "", placeholder: "Your thoughts here!", class: "form-control", style:"width:100%" %>
+                              <%= hidden_field_tag :user_id, current_user.id %>
+                              <%= hidden_field_tag :game_id, game.id %>
+                              <%= hidden_field_tag :reply_id, comment.id %>
+                            </div>
+                          </div>
+                          <div class="buttons si-button">
+                            <div>
+                              <%= button_tag "Post Comment!", id: "button-review", class: "btn btn-primary", "data-loading-text" => "Loading...", type: "submit" %>
+                            </div>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+
+                <div id="reply-<%= comment.id %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-1">
+                  <% if comment.replies.any? %>
+                    <% comment.replies.each do |reply| %>
+                      <%= render partial: "games/reply", locals: {game: game, comment: reply} %>
+                    <% end %>
+                  <% end %>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    <% end %>
+  <% end %>
+</div>

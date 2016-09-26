@@ -255,10 +255,12 @@ h2.title6 {
   margin-left:30px;
 }
 
-.each-comment {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 15px;
-  padding-top: 15px
+.each-comment-padding {
+  padding: 15px 0px 15px 0px !important;
+}
+
+.each-comment-bottom {
+  border-bottom: 1px solid #ddd !important;
 }
 
 .comment-text {
@@ -273,4 +275,26 @@ h2.title6 {
 
 .comment-icon-align i {
   vertical-align: baseline !important;
+}
+
+.no-border {
+  border: none !important;
+}
+
+.no-margin {
+  margin-bottom: 0 !important;
+}
+
+.reply-padding-0 {
+  padding: 0px !important;
+}
+
+.reply-padding-bottom {
+  padding-bottom: 15px !important;
+}
+
+.reply-border-top {
+  border-top: 1px solid #ddd !important;
+  padding-top: 15px !important;
+  margin-bottom: 0px !important;
 }
