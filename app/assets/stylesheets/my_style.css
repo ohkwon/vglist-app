@@ -8,12 +8,16 @@
   max-height: 150px;
 }
 
-header {
+.header-content {
   background: rgba(0, 0, 0, 0.4) none repeat scroll 0 0;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 9;
+}
+
+header {
+  background: none;
 }
 
 .contact-login-img-area::before {
@@ -297,4 +301,22 @@ h2.title6 {
   border-top: 1px solid #ddd !important;
   padding-top: 15px !important;
   margin-bottom: 0px !important;
+}
+
+.alert-danger p {
+  color: #f71510;
+}
+
+.alert-success p {
+  color: #d6e9c6;
+}
+
+.alert-fix {
+  float: right !important;
+  max-width: 500px !important;
+  background: none !important;
+  margin-top: 170px !important;
+  margin-right: 15px !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+  border: none !important;
 }

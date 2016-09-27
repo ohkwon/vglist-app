@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get '/', to: 'games#index'
   get '/games', to: 'games#index'
   get '/games/index', to: 'games#index'
   get '/games/new', to: 'games#new'

@@ -1,111 +1,116 @@
 <header>
 
-  <div class="header-top">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 col-sm-4">
-          <div class="left-header clearfix">
-            <ul>
-              <li class="left-header-top-border">
+  <div class="header-content">
 
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-8">
-          <div class="right-header">
-            <ul>
-              <% if current_user %>
-                <li><a href="my-account.html"><i class="fa fa-user"></i>My account</a></li>
-                <!-- <li><a href="/user_games"><i class="fa fa-heart"></i>My List</a></li> -->
-                <li><a href="/logout"><i class="fa fa-user"></i>Log Out</a></li>
-              <% else %>
-                <li>
-                  <a href="/login"><i class="fa fa-lock"></i>Login / <i class='fa fa-user'></i>Sign Up</a>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="header-bottom header-bottom-one" id="sticky-menu">
-    <div class="container relative">
-      <div class="row">
-        <div class="col-sm-2 col-md-2 col-xs-4">
-          <div class="logo">
-            <!-- <a href="index.html"><img src="img/logo.png" alt="" /></a>  ADD LOGO FOR SITE-->
-          </div>
-        </div>
-        <div class="col-sm-10 col-md-10 col-xs-8 static">
-          <div class="all-manu-area">
-            <div class="mainmenu clearfix hidden-sm hidden-xs">
-              <nav>
-                <ul>
-                  <li><a href="/games">Home</a>
-                  </li>
-                  <% if current_user %>
-                    <li><a href="/user_games"><i class="fa fa-heart"></i>My List</a>
-  <!--                     <div class="magamenu ">
-                        <ul class="again">
-                          <li class="single-menu colmd4">
-                            <span>men’s wear</span>
-                            <a href="#">shirts & top</a>
-                          </li>
-                          <li class="single-menu colmd4 colmd5">
-                            <a href="#">
-                              <img alt="" src="img/maga-banner.png">
-                            </a>
-                          </li>
-                        </ul>
-                      </div> -->
-                    </li>
-                  <% end %>
-                  <li><a href="#">Pages</a>
-                    <ul>
-                      <li><a href="about-us.html">About</a></li>
-                      <% if current_user %>
-                        <li><a href="/logout">Log Out</a></li>
-                      <% else %>
-                        <li><a href="/login">Log In</a></li>
-                      <% end %>
-                      <li><a href="my-account.html">My Account</a></li>
-                      <% if current_user %>
-                        <li><a href="/user_games">My List</a></li>
-                      <% end %>
-                    </ul>
-                  </li>
-                  <li><a href="about-us.html">About</a></li>
-                </ul>
-              </nav>
-            </div>
-            <div class="right-header re-right-header">
+    <div class="header-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-sm-4">
+            <div class="left-header clearfix">
               <ul>
-                <li class="re-icon tnm"><i class="fa fa-search" aria-hidden="true"></i>
-<!--                   <form method="get" id="searchform" action="#">
-                    <input type="text" value="" name="s" id="ws" placeholder="Search product..." />
-                    <button type="submit"><i class="pe-7s-search"></i></button>
-                  </form> -->
-                  <%= form_tag "/games", id: "searchform", method: :get do %>
-                    <%= text_field_tag :search, "", placeholder: "Search product..." %>
-                    <%= button_tag "<i class='fa fa-search'></i>".html_safe, class: "btn", type:"submit" %>
-                  <% end %>
+                <li class="left-header-top-border">
+
                 </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-8">
+            <div class="right-header">
+              <ul>
+                <% if current_user %>
+                  <li><a href="my-account.html"><i class="fa fa-user"></i>My account</a></li>
+                  <!-- <li><a href="/user_games"><i class="fa fa-heart"></i>My List</a></li> -->
+                  <li><a href="/logout"><i class="fa fa-user"></i>Log Out</a></li>
+                <% else %>
+                  <li>
+                    <a href="/login"><i class="fa fa-lock"></i>Login / <i class='fa fa-user'></i>Sign Up</a>
+                  </li>
+                <% end %>
               </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="header-bottom header-bottom-one" id="sticky-menu">
+      <div class="container relative">
+        <div class="row">
+          <div class="col-sm-2 col-md-2 col-xs-4">
+            <div class="logo">
+              <!-- <a href="index.html"><img src="img/logo.png" alt="" /></a>  ADD LOGO FOR SITE-->
+            </div>
+          </div>
+          <div class="col-sm-10 col-md-10 col-xs-8 static">
+            <div class="all-manu-area">
+              <div class="mainmenu clearfix hidden-sm hidden-xs">
+                <nav>
+                  <ul>
+                    <li><a href="/games">Home</a>
+                    </li>
+                    <% if current_user %>
+                      <li><a href="/user_games"><i class="fa fa-heart"></i>My List</a>
+    <!--                     <div class="magamenu ">
+                          <ul class="again">
+                            <li class="single-menu colmd4">
+                              <span>men’s wear</span>
+                              <a href="#">shirts & top</a>
+                            </li>
+                            <li class="single-menu colmd4 colmd5">
+                              <a href="#">
+                                <img alt="" src="img/maga-banner.png">
+                              </a>
+                            </li>
+                          </ul>
+                        </div> -->
+                      </li>
+                    <% end %>
+                    <li><a href="#">Pages</a>
+                      <ul>
+                        <li><a href="about-us.html">About</a></li>
+                        <% if current_user %>
+                          <li><a href="/logout">Log Out</a></li>
+                        <% else %>
+                          <li><a href="/login">Log In</a></li>
+                        <% end %>
+                        <li><a href="my-account.html">My Account</a></li>
+                        <% if current_user %>
+                          <li><a href="/user_games">My List</a></li>
+                        <% end %>
+                      </ul>
+                    </li>
+                    <li><a href="about-us.html">About</a></li>
+                  </ul>
+                </nav>
+              </div>
+              <div class="right-header re-right-header">
+                <ul>
+                  <li class="re-icon tnm"><i class="fa fa-search" aria-hidden="true"></i>
+  <!--                   <form method="get" id="searchform" action="#">
+                      <input type="text" value="" name="s" id="ws" placeholder="Search product..." />
+                      <button type="submit"><i class="pe-7s-search"></i></button>
+                    </form> -->
+                    <%= form_tag "/games", id: "searchform", method: :get do %>
+                      <%= text_field_tag :search, "", placeholder: "Search product..." %>
+                      <%= button_tag "<i class='fa fa-search'></i>".html_safe, class: "btn", type:"submit" %>
+                    <% end %>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <% flash.each do |key, value| %>
-    <div class="alert alert-<%= key %> alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
+    <div class="alert alert-<%= key %> alert-dismissible animated slideInRight alert-fix" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></button>
       <p><%= value %></p>
     </div>
   <% end %>
 
 </header>
+
