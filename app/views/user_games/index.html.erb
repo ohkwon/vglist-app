@@ -1,96 +1,139 @@
 <!-- pages-title-start -->
-<% if @sample_game.game.game_covers.any? %>
-  <section class="user-games-contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px' >
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 text-center">
-          <div class="con-text">
-            <h2 class="page-title">Wishlist</h2>
+<% if @user_games.any? %>
+  <% if @sample_game.game.game_covers.any? %>
+    <section class="user-games-contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @sample_game.game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px' >
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="con-text">
+              <h2 class="page-title">Wishlist</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="user-games-section-title">
+              <h3>Pages</h3>
+              <div class="section-icon">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="product-tab nav nav-tabs user-games-pages-color">
+            <ul>    
+              <% if @search.empty? %> 
+                <% if @page.to_i - 1 > 1 %>
+                  <li><a href="/user_games?page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+                <% end %>
+                <% if @page.to_i > 1 %>
+                  <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                <% end %>                                 
+                <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                <% if @user_games_next.length > 0 %>
+                  <li>
+                    <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                  </li>
+                  <% if @user_games_next_2.length > 0 %>
+                    <a href="/user_games?page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <% if @page.to_i - 1 > 1 %>
+                  <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+                <% end %>
+                <% if @page.to_i > 1 %>
+                  <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                <% end %>                                 
+                <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                <% if @user_games_next.length > 0 %>
+                  <li>
+                    <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                  </li>
+                  <% if @user_games_next_2.length > 0 %>
+                    <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </ul>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="user-games-section-title">
-            <h3>Pages</h3>
-            <div class="section-icon">
+    </section>
+  <% else %>
+    <section class="contact-img-area" style="height:362px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            <div class="con-text">
+              <h2 class="page-title">Wishlist</h2>
+              <% if @user_games.any? %>
+                <div class="product-tab nav nav-tabs">
+                  <ul>    
+                    <% if @search.empty? %> 
+                      <% if @page.to_i > 1 %>
+                        <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                      <% end %>                                 
+                      <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                      <li>
+                        <% unless @user_games.page(@page).per(@limit).length < @limit %>
+                          <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                        <% end %>
+                      </li>
+                    <% else %>
+                      <% if @page.to_i > 1 %>
+                        <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                      <% end %>                                 
+                      <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                      <li>
+                        <% unless @user_games.page(@page).per(@limit).length < @limit %>
+                          <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                        <% end %>
+                      </li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="product-tab nav nav-tabs user-games-pages-color">
-          <ul>    
-            <% if @search.empty? %> 
-              <% if @page.to_i - 1 > 1 %>
-                <li><a href="/user_games?page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
-              <% end %>
-              <% if @page.to_i > 1 %>
-                <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
-              <% end %>                                 
-              <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-              <% if @user_games_next.length > 0 %>
-                <li>
-                  <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
-                </li>
-                <% if @user_games_next_2.length > 0 %>
-                  <a href="/user_games?page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
-                <% end %>
-              <% end %>
-            <% else %>
-              <% if @page.to_i - 1 > 1 %>
-                <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
-              <% end %>
-              <% if @page.to_i > 1 %>
-                <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
-              <% end %>                                 
-              <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-              <% if @user_games_next.length > 0 %>
-                <li>
-                  <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
-                </li>
-                <% if @user_games_next_2.length > 0 %>
-                  <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
-                <% end %>
-              <% end %>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  <% end %>
 <% else %>
-  <section class="contact-img-area">
+  <section class="contact-img-area" style="height:362px;">
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
           <div class="con-text">
             <h2 class="page-title">Wishlist</h2>
-            <div class="product-tab nav nav-tabs">
-              <ul>    
-                <% if @search.empty? %> 
-                  <% if @page.to_i > 1 %>
-                    <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
-                  <% end %>                                 
-                  <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-                  <li>
-                    <% unless @user_games.page(@page).per(@limit).length < @limit %>
-                      <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
-                    <% end %>
-                  </li>
-                <% else %>
-                  <% if @page.to_i > 1 %>
-                    <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
-                  <% end %>                                 
-                  <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-                  <li>
-                    <% unless @user_games.page(@page).per(@limit).length < @limit %>
-                      <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
-                    <% end %>
-                  </li>
-                <% end %>
-              </ul>
-            </div>
+            <% if @user_games.any? %>
+              <div class="product-tab nav nav-tabs">
+                <ul>    
+                  <% if @search.empty? %> 
+                    <% if @page.to_i > 1 %>
+                      <li><a href="/user_games?page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                    <% end %>                                 
+                    <li ="active"><a data-toggle="tab" href="/user_games?page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                    <li>
+                      <% unless @user_games.page(@page).per(@limit).length < @limit %>
+                        <a href="/user_games?page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                      <% end %>
+                    </li>
+                  <% else %>
+                    <% if @page.to_i > 1 %>
+                      <li><a href="/user_games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                    <% end %>                                 
+                    <li ="active"><a data-toggle="tab" href="/user_games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                    <li>
+                      <% unless @user_games.page(@page).per(@limit).length < @limit %>
+                        <a href="/user_games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

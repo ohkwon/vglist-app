@@ -13,6 +13,7 @@ class UsersController < ApplicationController
       password_confirmation: params[:password_confirmation]
       )
     if user.save
+      session[:user_id] = user.id
       flash[:success] = "Welcome #{params[:first_name]}!"
       redirect_to '/games'
     else
