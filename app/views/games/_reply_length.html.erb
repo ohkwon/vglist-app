@@ -1,0 +1,6 @@
+<% comment.replies.each do |reply| %>
+  <% @reply_length += 1 %>
+  <% if reply.replies.any? %>
+    <%= render partial: "games/reply_length", locals: {comment: reply} %>
+  <% end %>
+<% end %>
