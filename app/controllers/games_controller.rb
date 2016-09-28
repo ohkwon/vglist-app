@@ -13,20 +13,34 @@ class GamesController < ApplicationController
     if params[:page]
       @page = params[:page]
     end
-    sort_attribute = params[:sort_attribute]
-    sort_attribute_2 = params[:sort_attribute_2]
-    if sort_attribute == "platform"
-      @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).page(@page).per(@limit)
-      @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name).page(@page.to_i + 2).per(@limit)
-    elsif sort_attribute == "genre"
-      @games = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).page(@page).per(@limit)
-      @games_next = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:genred_games).where("genred_games.genre_id = #{sort_attribute_2}").references(:genred_games).order(:name).page(@page.to_i + 2).per(@limit)
-    elsif !@search.empty?
+
+    @sort_attribute= params[:sort_attribute]
+    @sort_attribute_2 = params[:sort_attribute_2]
+
+    if !@search.empty?
       @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page).per(@limit)
       @games_next = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 1).per(@limit)
       @games_next_2 = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 2).per(@limit)
+    elsif @sort_attribute== "platform"
+      @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+    elsif @sort_attribute== "genre"
+      @games = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+      @games_next = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+    elsif @sort_attribute== "name"
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order(:name).page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order(:name).page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order(:name).page(@page.to_i + 2).per(@limit)
+    elsif @sort_attribute== "release_date_desc"
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+    elsif @sort_attribute== "release_date_asc"
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date ASC").page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
     else
       @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page).per(@limit)
       @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
@@ -61,7 +75,7 @@ class GamesController < ApplicationController
   def index_2
     @counter = 0
 
-    sort_attribute = params[:sort_attribute]
+    sort_attribute= params[:sort_attribute]
     sort_attribute_2 = params[:sort_attribute_2]
     if sort_attribute == "platform"
       @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{sort_attribute_2}").references(:platformed_games).order(:name)
