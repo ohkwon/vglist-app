@@ -153,6 +153,8 @@ class UserGamesController < ApplicationController
 
     end
 
+    @users_page = 0
+
   end
 
   def create

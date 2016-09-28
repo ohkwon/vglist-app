@@ -2,30 +2,30 @@
   <div ng-controller = "gamesCtrl">
 
     <!-- slider-section-start -->
-    <section class="slider-main-area " style="max-width:1403px;max-height:500px">
-      <div class="main-slider an-si " style="max-width:1403px;max-height:500px">
-        <div class="bend niceties preview-2 hm-ver-1 " style="max-width:1403px;max-height:500px">
+    <section class="slider-main-area " style="max-width:100%;max-height:500px">
+      <div class="main-slider an-si " style="max-width:100%;max-height:500px">
+        <div class="bend niceties preview-2 hm-ver-1 " style="max-width:100%;max-height:500px">
           <% if @sample_games %>
-            <div id="ensign-nivoslider-2" class="slides " style="max-width:1403px;max-height:500px"> 
+            <div id="ensign-nivoslider-2" class="slides " style="max-width:100%;max-height:500px"> 
               <% @sample_games.each_with_index do |sample_game, index| %>
                 <% if index == 0 %>
                   <% if sample_game.game_covers %>
-                    <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-3" style="max-width:1403px;max-height:500px" />
+                    <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-3" style="max-width:100%;max-height:500px" />
                   <% end %>
                 <% else %>
                   <% if sample_game.game_covers %>
-                    <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-1" style="max-width:1403px;max-height:500px" />
+                    <img src="https://res.cloudinary.com/igdb/image/upload/<%= sample_game.game_covers.first.cloudinary_id %>.jpg" alt="" title="#slider-direction-1" style="max-width:100%;max-height:500px" />
                   <% end %>
                 <% end %>
               <% end %>
             </div>
             <!-- direction 1 -->
             <div id="slider-direction-3" class="t-cn slider-direction Builder">
-              <div class="slide-all">
+              <div class="slide-all" style="margin-left:0;margin-right:0;float:none;padding-top:10%">
                 <div class="layer-2">
-                  <h2 class="title6"><%= @sample_games[0].name %></h2>
+                  <!-- <h2 class="title6"><%= @sample_games[0].name %></h2> -->
                 </div>
-                <div class="layer-3">
+                <div class="layer-3" style="">
                   <a class="min1" href="/games/<%= @sample_games[0].id %>">View Game</a>
                 </div>
               </div>
@@ -33,7 +33,7 @@
             <div id="slider-direction-1" class="t-cn slider-direction Builder">
               <div class="slide-all slide2">
                 <div class="layer-2">
-                  <h2 class="title6"><%= @sample_games[1].name %></h2>
+                  <!-- <h2 class="title6"><%= @sample_games[1].name %></h2> -->
                 </div>
                 <div class="layer-3">
                   <a class="min1" href="/games/<%= @sample_games[1].id %>">View Game</a>
