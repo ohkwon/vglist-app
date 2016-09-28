@@ -247,7 +247,7 @@
                   </td>
                   <td class="sop-cart an-sh">
                     <div class="tb-beg">
-                      <a href="/games/<%= user_game.game.id %>">
+                      <a href="/games/<%= user_game.game.id %>" class="link-show">
                         <%= user_game.game.name %>
                       </a>
                     </div>
@@ -294,9 +294,11 @@
                     </div> -->
                     <%= form_tag "/user_games/#{user_game.id}", method: :patch do %>
                       <% if user_game.ownership %>
-                        <%= submit_tag "Owned" %>
+                        Owned
+                        <%= submit_tag "Change to Not Owned?" %>
                       <% else %>
-                        <%= submit_tag "Wanted" %>
+                        Not Owned
+                        <%= submit_tag "Change to Owned?" %>
                       <% end %>
                     <% end %>
                   </td>
