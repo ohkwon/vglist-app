@@ -294,10 +294,10 @@
                     </div> -->
                     <%= form_tag "/user_games/#{user_game.id}", method: :patch do %>
                       <% if user_game.ownership %>
-                        Owned
+                        <p>Owned</p>
                         <%= submit_tag "Change to Not Owned?" %>
                       <% else %>
-                        Not Owned
+                        <p>Not Owned</p>
                         <%= submit_tag "Change to Owned?" %>
                       <% end %>
                     <% end %>
