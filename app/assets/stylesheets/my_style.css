@@ -150,8 +150,6 @@ header {
 }
 
 .games-index-game-title {
-  border-style: solid;
-  border-color: #EF6644;
   /*height: 75px;*/
   line-height:75px;
   padding: 0px 0px 15px 0px;
@@ -319,4 +317,20 @@ h2.title6 {
   margin-right: 15px !important;
   background-color: rgba(0, 0, 0, 0.4) !important;
   border: none !important;
+}
+
+.game-title-none {
+  display: none;
+}
+
+.game-title-color a {
+  color: #EF6644 !important;
+}
+
+.game-title-show:hover .game-title-none{
+  display: block;
+}
+
+.game-tile-padding {
+  padding-bottom: 12px;
 }

@@ -296,7 +296,7 @@
                 <div id="tab-carousel-1" class="re-owl-carousel owl-carousel product-slider owl-theme">
                     <!-- Single Game Start -->
                     <div class="col-xs-12">
-                      <div class="single-product">
+                      <div class="single-product game-title-show">
                         <div class="product-img games-index-image-align-div">
                           <!-- <div class="pro-type">
                             <span></span> Tag, ie. if on sale or if New
@@ -310,18 +310,12 @@
                           </a>
                         </div>
                         <div class="product-dsc games-index-game-title">
-                          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
-                          <div class="star-price">
-                            <span class="price-left">
-                              <!-- incorporate lowest deal later with restructured deals -->
-                            </span>
-                            <span class="star-right"></span>
-                          </div>
                         </div>
-                        <div class="actions-btn">
-                          <a href="/games/<%= game.id %>" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a> <!-- When figure out quick view -->
-                          <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
-                          <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
+                        <div class="actions-btn game-tile-padding">
+                          <h4 class="game-title-none game-title-color animated fadeInDown"><a href="/games/<%= game.id %>"><%= game.name %></a></h4>
+                          <a href="/games/<%= game.id %>" data-placement="bottom" data-target="#quick-view" data-trigger="hover" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a> <!-- When figure out quick view -->
+                          <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{game.id}", 'data-placement' => 'bottom', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
+                          <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{game.id}", 'data-placement' => 'bottom', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
                         </div>
                       </div>
                     </div>
@@ -331,7 +325,7 @@
 
                     <!-- Single Game Start -->
                     <div class="col-xs-12">
-                      <div class="single-product">
+                      <div class="single-product game-title-show">
                         <div class="product-img games-index-image-align-div">
                           <!-- <div class="pro-type">
                             <span></span> Tag, ie. if on sale or if New
@@ -345,15 +339,9 @@
                           </a>
                         </div>
                         <div class="product-dsc games-index-game-title">
-                          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
-                          <div class="star-price">
-                            <span class="price-left">
-                              <!-- incorporate lowest deal later with restructured deals -->
-                            </span>
-                            <span class="star-right"></span>
-                          </div>
                         </div>
-                        <div class="actions-btn">
+                        <div class="actions-btn game-tile-padding">
+                          <h4 class="game-title-none game-title-color animated fadeInDown"><a href="/games/<%= game.id %>"><%= game.name %></a></h4>
                           <a href="/games/<%= game.id %>" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a> <!-- When figure out quick view -->
                           <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
                           <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
@@ -371,7 +359,7 @@
 
                     <!-- Single Game Start -->
                     <div class="col-xs-12">
-                      <div class="single-product">
+                      <div class="single-product game-title-show">
                         <div class="product-img games-index-image-align-div">
                           <!-- <div class="pro-type">
                             <span></span> Tag, ie. if on sale or if New
@@ -385,15 +373,9 @@
                           </a>
                         </div>
                         <div class="product-dsc games-index-game-title">
-                          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
-                          <div class="star-price">
-                            <span class="price-left">
-                              <!-- incorporate lowest deal later with restructured deals -->
-                            </span>
-                            <span class="star-right"></span>
-                          </div>
                         </div>
-                        <div class="actions-btn">
+                        <div class="actions-btn game-tile-padding">
+                          <h4 class="game-title-none game-title-color animated fadeInDown"><a href="/games/<%= game.id %>"><%= game.name %></a></h4>
                           <a href="/games/<%= game.id %>" data-placement="top" data-target="#quick-view" data-trigger="hover" data-toggle="tooltip" data-original-title="View"><i class="fa fa-eye"></i></a> <!-- When figure out quick view -->
                           <%= link_to "<i class='fa fa-heart'></i>".html_safe, "/user_games/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add To List', method: :post %>
                           <%= link_to "<i class = 'fa fa-retweet'></i>".html_safe, "/deals/new/#{game.id}", 'data-placement' => 'top', 'data-toggle' => 'tooltip', 'data-original-title' => 'Add Deal to Game' %>
