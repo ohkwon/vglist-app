@@ -12,32 +12,121 @@ class UserGamesController < ApplicationController
       @page = params[:page]
     end
 
-    sort_attribute = params[:sort_attribute]
-    sort_attribute_2 = params[:sort_attribute_2]
+    @sort_attribute = params[:sort_attribute]
+    @sort_attribute_2 = params[:sort_attribute_2]
+    @filter = params[:filter]
 
-    if sort_attribute == "platform"
-      @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page).per(@limit)
-      @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page.to_i + 1).per(@limit)
-      @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: sort_attribute_2}).order("games.name").page(@page.to_i + 2).per(@limit)
-    elsif sort_attribute == "genre"
-      @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page).per(@limit)
-      @user_games_next = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page.to_i + 1).per(@limit)
-      @user_games_next_2 = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: sort_attribute_2}).page(@page.to_i + 2).per(@limit)
-    elsif sort_attribute == "owned"
-      @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page).per(@limit)
-      @user_games_next = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
-      @user_games_next_2 = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page.to_i + 2).per(@limit)
-    elsif sort_attribute == "wanted"
-      @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page).per(@limit)
-      @user_games_next = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
-      @user_games_next_2 = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page.to_i + 2).per(@limit)
-    else
+    if @sort_attribute == "platform"
+      if @filter == "name_up"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("games.name").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("games.name").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("games.name").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "name_down"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("games.name DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("games.name DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("games.name DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_desc"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_asc"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+      else
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      end
+    elsif @sort_attribute == "genre"
+      if @filter == "name_up"
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: @sort_attribute_2}).order("games.name").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: @sort_attribute_2}).order("games.name").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: @sort_attribute_2}).order("games.name").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "name_down"
+        @user_games = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: @sort_attribute_2}).order("games.name DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: @sort_attribute_2}).order("games.name DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :genred_games).where(genred_games: {genre_id: @sort_attribute_2}).order("games.name DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_desc"
+        @user_games = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}) .order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_asc"
+        @user_games = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+      else
+        @user_games = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :genred_games).joins(game: :platformed_games).where(genred_games: {genre_id: @sort_attribute_2}) .order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      end
+    elsif @sort_attribute == "owned"
+      if @filter == "name_up"
+        @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.where(ownership: true).joins(:game).order("games.name").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "name_down"
+        @user_games = current_user.user_games.where(ownership: true).joins(:game).order("games.name DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.where(ownership: true).joins(:game).order("games.name DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.where(ownership: true).joins(:game).order("games.name DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_desc"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_asc"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date ASC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+      else
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(ownership: true).joins(:game).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      end
+    elsif @sort_attribute == "wanted"
+      if @filter == "name_up"
+        @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.where(ownership: false).joins(:game).order("games.name").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "name_down"
+        @user_games = current_user.user_games.where(ownership: false).joins(:game).order("games.name DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.where(ownership: false).joins(:game).order("games.name DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.where(ownership: false).joins(:game).order("games.name DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_desc"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_asc"
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date ASC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+      else
+        @user_games = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @user_games_next = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(ownership: false).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      end
+    elsif @filter = "name_up"
       @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page).per(@limit)
       @user_games_next = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page.to_i + 1).per(@limit)
       @user_games_next_2 = current_user.user_games.joins(:game).order(:ownership).order("games.name").page(@page.to_i + 2).per(@limit)
+    elsif @filter = "name_down"
+      @user_games = current_user.user_games.joins(:game).order(:ownership).order("games.name DESC").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.joins(:game).order(:ownership).order("games.name DESC").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.joins(:game).order(:ownership).order("games.name DESC").page(@page.to_i + 2).per(@limit)
+    elsif @filter = "release_date_desc"
+      @user_games = current_user.user_games.joins(game: :platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+    elsif @filter = "release_date_asc"
+      @user_games = current_user.user_games.joins(game: :platformed_games).order("platformed_games.release_date ASC").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).where(platformed_games: {platform_id: @sort_attribute_2}).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+    else
+      @user_games = current_user.user_games.joins(game: :platformed_games).order(:ownership).order("platformed_games.release_date DESC").page(@page).per(@limit)
+      @user_games_next = current_user.user_games.joins(game: :platformed_games).order(:ownership).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @user_games_next_2 = current_user.user_games.joins(game: :platformed_games).order(:ownership).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
     end
 
-    if @user_games.any? 
+    if current_user.user_games.any? 
       @sample_game = @user_games.sample
       counter = 0
       until @sample_game.game.game_covers.any?
@@ -47,6 +136,21 @@ class UserGamesController < ApplicationController
           break
         end
       end
+      @platforms = []
+      @genres = []
+      current_user.user_games.each do |user_game|
+        user_game.game.platformed_games.each do |platformed_game|
+          if !@platforms.include?(Platform.find_by(id: platformed_game.platform_id))
+            @platforms << Platform.find_by(id: platformed_game.platform_id)
+          end
+        end
+        user_game.game.genred_games.each do |genred_game|
+          if !@genres.include?(Genre.find_by(id: genred_game.genre_id))
+            @genres << Genre.find_by(id: genred_game.genre_id)
+          end
+        end
+      end
+
     end
 
   end
