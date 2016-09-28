@@ -70,41 +70,82 @@
           <div class="col-xs-4">
             <div class="product-tab nav nav-tabs">
               <ul>    
-                <% if !@search.empty? %> 
-                  <% if @page.to_i - 1 > 1 %>
-                    <li><a href="/games?search=<%= @search %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
-                  <% end %>
-                  <% if @page.to_i > 1 %>
-                    <li><a href="/games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
-                  <% end %>                                 
-                  <li ="active"><a data-toggle="tab" href="/games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-                  <% if @games_next.length > 0 %>
-                    <li>
-                      <a href="/games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
-                    </li>  
-                    <% if @games_next_2.length > 0 %>
+                <% if !@search.empty? %>
+                  <% if @filter %>
+                    <% if @page.to_i - 1 > 1 %>
+                      <li><a href="/games?filter=<%= @filter %>&search=<%= @search %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+                    <% end %>
+                    <% if @page.to_i > 1 %>
+                      <li><a href="/games?filter=<%= @filter %>&search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                    <% end %>                                 
+                    <li ="active"><a data-toggle="tab" href="/games?filter=<%= @filter %>&search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                    <% if @games_next.length > 0 %>
+                      <li>
+                        <a href="/games?filter=<%= @filter %>&search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                      </li>  
+                      <% if @games_next_2.length > 0 %>
+                        <li>
+                          <a href="/games?filter=<%= @filter %>&search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                        </li>
+                      <% end %>
+                    <% end %>
+                  <% else %>
+                    <% if @page.to_i - 1 > 1 %>
+                      <li><a href="/games?search=<%= @search %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+                    <% end %>
+                    <% if @page.to_i > 1 %>
+                      <li><a href="/games?search=<%= @search %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                    <% end %>                                 
+                    <li ="active"><a data-toggle="tab" href="/games?search=<%= @search %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                    <% if @games_next.length > 0 %>
                       <li>
                         <a href="/games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
-                      </li>
+                      </li>  
+                      <% if @games_next_2.length > 0 %>
+                        <li>
+                          <a href="/games?search=<%= @search %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                        </li>
+                      <% end %>
                     <% end %>
                   <% end %>
                 <% elsif @sort_attribute %>
                   <% if @sort_attribute_2 %>
-                    <% if @page.to_i - 1 > 1 %>
-                      <li><a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
-                    <% end %>
-                    <% if @page.to_i > 1 %>
-                      <li><a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
-                    <% end %>                                 
-                    <li ="active"><a data-toggle="tab" href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
-                    <% if @games_next.length > 0 %>
-                      <li>
-                        <a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
-                      </li>
-                      <% if @games_next_2.length > 0 %> 
+                    <% if @filter %>
+                      <h1>AM I WORKING?</h1>
+                      <% if @page.to_i - 1 > 1 %>
+                        <li><a href="/games?filter=<%= @filter %>&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+                      <% end %>
+                      <% if @page.to_i > 1 %>
+                        <li><a href="/games?filter=<%= @filter %>&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                      <% end %>                                 
+                      <li ="active"><a data-toggle="tab" href="/games?filter=<%= @filter %>&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                      <% if @games_next.length > 0 %>
                         <li>
-                          <a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
+                          <a href="/games?filter=<%= @filter %>&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
                         </li>
+                        <% if @games_next_2.length > 0 %> 
+                          <li>
+                            <a href="/games?filter=<%= @filter %>&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
+                          </li>
+                        <% end %>
+                      <% end %>
+                    <% else %>
+                      <% if @page.to_i - 1 > 1 %>
+                        <li><a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+                      <% end %>
+                      <% if @page.to_i > 1 %>
+                        <li><a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                      <% end %>                                 
+                      <li ="active"><a data-toggle="tab" href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                      <% if @games_next.length > 0 %>
+                        <li>
+                          <a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                        </li>
+                        <% if @games_next_2.length > 0 %> 
+                          <li>
+                            <a href="/games?sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
+                          </li>
+                        <% end %>
                       <% end %>
                     <% end %>
                   <% else %>
@@ -124,6 +165,24 @@
                           <a href="/games?sort_attribute=<%= @sort_attribute %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
                         </li>
                       <% end %>
+                    <% end %>
+                  <% end %>
+                <% elsif @filter %>
+                  <% if @page.to_i - 1 > 1 %>
+                    <li><a href="/games?filter=<%= @filter %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
+                  <% end %>
+                  <% if @page.to_i > 1 %>
+                    <li><a href="/games?filter=<%= @filter %>&page=<%= @page.to_i - 1 %>"><%= @page.to_i - 1 %></a></li>
+                  <% end %>                                 
+                  <li ="active"><a data-toggle="tab" href="/games?filter=<%= @filter %>&page=<%= @page %>"><strong class="pagination-overline-underline"><%= @page %><strong></a></li>
+                  <% if @games_next.length > 0 %>
+                    <li>
+                      <a href="/games?filter=<%= @filter %>&page=<%= @page.to_i + 1 %>"><%= @page.to_i + 1 %></a>
+                    </li>
+                    <% if @games_next_2.length > 0 %> 
+                      <li>
+                        <a href="/games?filter=<%= @filter %>&page=<%= @page.to_i + 2 %>"><%= @page.to_i + 2 %></a>
+                      </li>
                     <% end %>
                   <% end %>
                 <% else %>
@@ -154,7 +213,54 @@
                 <ul class="games-index-filter-head">
                   <li>Filters:</li>
                   <li>
-                    Platforms
+                    Order By:
+                    <ul class="games-index-ul-filters">
+                      <% if @sort_attribute %>
+                        <% if @sort_attribute_2 %>
+                          <li>
+                            <a href="/games?filter=name_up&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>" >Name (A-Z)</a>
+                          </li>
+                          <li>
+                            <a href="/games?filter=name_down&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>" >Name (Z-A)</a>
+                          </li>
+                          <li>
+                            <a href="/games?filter=release_date_desc&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>" >Newest</a>
+                          </li>
+                          <li>
+                            <a href="/games?filter=release_date_asc&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>" >Oldest</a>
+                          </li>
+                        <% else %>
+                          <li>
+                            <a href="/games?filter=name_up&sort_attribute=<%= @sort_attribute %>" >Name (A-Z)</a>
+                          </li>
+                          <li>
+                            <a href="/games?filter=name_down&sort_attribute=<%= @sort_attribute %>" >Name (Z-A)</a>
+                          </li>
+                          <li>
+                            <a href="/games?filter=release_date_desc&sort_attribute=<%= @sort_attribute %>" >Newest</a>
+                          </li>
+                          <li>
+                            <a href="/games?filter=release_date_asc&sort_attribute=<%= @sort_attribute %>" >Oldest</a>
+                          </li>
+                        <% end %>
+                      <% else %>
+                        <li>
+                          <a href="/games?filter=name_up" >Name (A-Z)</a>
+                        </li>
+                        <li>
+                          <a href="/games?filter=name_down" >Name (Z-A)</a>
+                        </li>
+                        <li>
+                          <a href="/games?filter=release_date_desc" >Newest</a>
+                        </li>
+                        <li>
+                          <a href="/games?filter=release_date_asc" >Oldest</a>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </li>
+                  <li>
+                    Platforms:
                     <ul class="games-index-ul-filters">
                       <% @platforms.each do |platform| %>
                         <li>
@@ -164,7 +270,7 @@
                     </ul>
                   </li>
                   <li>
-                    Genres
+                    Genres:
                     <ul class="games-index-ul-filters">
                       <% @genres.each do |genre| %>
                         <li>

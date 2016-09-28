@@ -14,37 +14,78 @@ class GamesController < ApplicationController
       @page = params[:page]
     end
 
-    @sort_attribute= params[:sort_attribute]
+    @sort_attribute = params[:sort_attribute]
     @sort_attribute_2 = params[:sort_attribute_2]
+    @filter = params[:filter]
 
     if !@search.empty?
       @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page).per(@limit)
       @games_next = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 1).per(@limit)
       @games_next_2 = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 2).per(@limit)
-    elsif @sort_attribute== "platform"
-      @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
-      @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
-    elsif @sort_attribute== "genre"
-      @games = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
-      @games_next = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
-    elsif @sort_attribute== "name"
-      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order(:name).page(@page).per(@limit)
-      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order(:name).page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order(:name).page(@page.to_i + 2).per(@limit)
-    elsif @sort_attribute== "release_date_desc"
-      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page).per(@limit)
-      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
-    elsif @sort_attribute== "release_date_asc"
-      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date ASC").page(@page).per(@limit)
-      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+    elsif @sort_attribute == "platform"
+      if @filter == "name_up"
+        @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order(:name).page(@page).per(@limit)
+        @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order(:name).page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order(:name).page(@page.to_i + 2).per(@limit)
+      elsif @filter == "name_down"
+        @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order(name: :desc).page(@page).per(@limit)
+        @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order(name: :desc).page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order(name: :desc).page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_desc"
+        @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_asc"
+        @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date ASC").page(@page).per(@limit)
+        @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+      else
+        @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @games_next = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      end
+    elsif @sort_attribute == "genre"
+      if @filter == "name_up"
+        @games = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order(:name).page(@page).per(@limit)
+        @games_next = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order(:name).page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order(:name).page(@page.to_i + 2).per(@limit)
+      elsif @filter == "name_down"
+        @games = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order(name: :desc).page(@page).per(@limit)
+        @games_next = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order(name: :desc).page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order(name: :desc).page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_desc"
+        @games = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @games_next = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_asc"
+        @games = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date ASC").page(@page).per(@limit)
+        @games_next = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+      else
+        @games = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @games_next = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:genred_games, :platformed_games).where("genred_games.genre_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:genred_games, :platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      end
+    elsif @filter == "name_up"
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order(:name).page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order(:name).page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order(:name).page(@page.to_i + 2).per(@limit)
+    elsif @filter == "name_down"
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order(name: :desc).page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order(name: :desc).page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order(name: :desc).page(@page.to_i + 2).per(@limit)
+    elsif @filter == "release_date_desc"
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+    elsif @filter == "release_date_asc"
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date ASC").page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
     else
-      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page).per(@limit)
-      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      @games = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page).per(@limit)
+      @games_next = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+      @games_next_2 = Game.includes(:platformed_games).where("platformed_games.id >= 0").references(:platformed_games).order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
     end
 
     @platforms_1 = Platform.where.not(release_date: nil).order(release_date: :desc)
