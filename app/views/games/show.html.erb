@@ -241,7 +241,7 @@
                                 <% if platformed_game.deals.where(active: true).any? %>
                                   <% platformed_game.deals.where(active: true).order(:price).each do |deal| %>
                                     <tr>
-                                      <td>
+                                      <td style="color:#EF6644">
                                         <%= number_to_currency(deal.price, unit: "$") %>
                                       </td>
                                       <td class="sop-cart an-sh">
