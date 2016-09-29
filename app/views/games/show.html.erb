@@ -1,12 +1,12 @@
 <!-- pages-title-start -->
 <% if @game.game_covers.any? %>
-  <section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px'>
+  <section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg"); background-size:100%'>
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
           <div class="con-text">
             <h2 class="page-title"><%= @game.name %></h2>
-            <p><a href="/games">Home</a> | Game</p>
+            <p><a href="/games" class="link-show">Home</a> | Game</p>
           </div>
         </div>
       </div>
