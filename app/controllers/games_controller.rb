@@ -162,6 +162,7 @@ class GamesController < ApplicationController
     @counter = 1
 
     @comments = @game.comments
+    @reply_length = 0
 
   end
 

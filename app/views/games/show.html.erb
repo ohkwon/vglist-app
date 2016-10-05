@@ -1,12 +1,12 @@
 <!-- pages-title-start -->
 <% if @game.game_covers.any? %>
-  <section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg"); background-size:1400px'>
+  <section class="contact-img-area" style='background-image: url("https://res.cloudinary.com/igdb/image/upload/<%= @game.game_covers.first.cloudinary_id %>.jpg"); background-size:100%'>
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center">
           <div class="con-text">
             <h2 class="page-title"><%= @game.name %></h2>
-            <p><a href="/games">Home</a> | Game</p>
+            <p><a href="/games" class="link-show">Home</a> | Game</p>
           </div>
         </div>
       </div>
@@ -132,9 +132,11 @@
                           <% end %>
                         </td>
                         <td>
-                          <%= platformed_game.platform.name %>
+                          <a href="/games?sort_attribute=platform&sort_attribute_2=<%= platformed_game.platform_id %>">
+                            <%= platformed_game.platform.name %>
+                          </a>
                         </td>
-                        <td>
+                        <td style="color:black">
                           <% if platformed_game.release_date %>
                             <%= platformed_game.release_date.strftime("%B %d, %Y") %>
                           <% else %>
@@ -185,7 +187,7 @@
               <ul class="nav nav-tabs" role="tablist">
                 <% if @game.storyline %>
                   <li role="presentation" class="active">
-                    <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Product Description</a>
+                    <a href="#home" aria-controls="home" role="tab" data-toggle="tab"> Storyline</a>
                   </li>
                 <% end %>
 
@@ -195,13 +197,13 @@
 
                 <% @game.platformed_games.each do |platformed_game| %>
                   <li role="presentation">
-                    <a href="#<%= platformed_game.platform.name.gsub(/[ ]/, '-').gsub(/[()]/, '') %>" aria-controls="profile" role="tab" data-toggle="tab"><%= platformed_game.platform.name %> Deals</a>
+                    <a href="#<%= platformed_game.platform.name.gsub(/[ ]/, '-').gsub(/[()]/, '') %>" aria-controls="profile" role="tab" data-toggle="tab"> <%= platformed_game.platform.name %> Deals</a>
                   </li>
                 <% end %>
 
                 <% if current_user %> <!-- change to current_user later -->
                   <li role="presentation">
-                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Add Deal</a>
+                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Add Deal</a>
                   </li>
                 <% end %>
 
@@ -239,7 +241,7 @@
                                 <% if platformed_game.deals.where(active: true).any? %>
                                   <% platformed_game.deals.where(active: true).order(:price).each do |deal| %>
                                     <tr>
-                                      <td>
+                                      <td style="color:#EF6644">
                                         <%= number_to_currency(deal.price, unit: "$") %>
                                       </td>
                                       <td class="sop-cart an-sh">
@@ -265,43 +267,44 @@
                 <!-- Deal Show End-->
 
                 <!-- Deal -->
-                <div role="tabpanel" class="tab-pane" id="profile">
+                <div role="tabpanel" class="tab-pane add-deal-padding" id="profile">
                   <%= form_tag '/deals', class: "form-horizontal", method: :post do %>
-                    <h2 class="write">Add a Deal</h2>
+                    <h2 class="write add-deal-head">Add a Deal</h2>
+
                     <div class="form-group required">
-                      <div class="col-sm-12">
-                        <%= label_tag "Platform" %>
+                      <div class="col-sm-12" style="text-align:center;">
+                        <%= label_tag :platform, "Platform", style: "text-align:center"%>
                         <%= collection_select :platform, :platform_id, Platform.includes(:platformed_games).where("platformed_games.game_id = #{@game.id}").references(:platformed_games), :id, :name %>
                         <%= hidden_field_tag :game_id, @game.id %>
                         <%= hidden_field_tag :date, Date.today %>
                       </div>
                     </div>
-                    <div class="form-group required">
-                      <div class="col-sm-12">
-                        <%= label_tag :price %>
-                        <%= text_field_tag :price, "", placeholder: "Deal Price", class: "form-control" %>
+                      <div class="form-group required">
+                        <div class="col-sm-12">
+                          <%= label_tag :price %>
+                          <%= text_field_tag :price, "", placeholder: "Deal Price", class: "form-control", style:"width:100%" %>
+                        </div>
                       </div>
-                    </div>
                     <div class="form-group required">
                       <div class="col-sm-12">
                         <%= label_tag :retailer %>
-                        <%= text_field_tag :retailer, "", placeholder: "Retailer Name", class: "form-control" %>
+                        <%= text_field_tag :retailer, "", placeholder: "Retailer Name", class: "form-control", style:"width:100%" %>
                       </div>
                     </div>
                     <div class="form-group required">
                       <div class="col-sm-12">
                         <%= label_tag :url %>
-                        <%= text_field_tag :url, "", placeholder: "Deal Link", class: "form-control" %>
+                        <%= text_field_tag :url, "", placeholder: "Deal Link", class: "form-control", style:"width:100%" %>
                       </div>
                     </div>
                     <div class="form-group required">
                       <div class="col-md-12">
                         <%= label_tag :description %>
-                        <%= text_field_tag :description, "", placeholder: "Description (if any)", class: "form-control" %>
+                        <%= text_field_tag :description, "", placeholder: "Description (if any)", class: "form-control", style:"width:100%" %>
                       </div>
                     </div>
                     <div class="buttons si-button">
-                      <div class="pull-right">
+                      <div class="pull-right" style="margin-top:15px">
                         <%= button_tag "Add Deal to Game!", id: "button-review", class: "btn btn-primary", "data-loading-text" => "Loading...", type: "submit" %>
                       </div>
                     </div>

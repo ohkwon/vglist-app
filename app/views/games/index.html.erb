@@ -23,20 +23,22 @@
             <div id="slider-direction-3" class="t-cn slider-direction Builder">
               <div class="slide-all" style="margin-left:0;margin-right:0;float:none;padding-top:10%">
                 <div class="layer-2">
-                  <!-- <h2 class="title6"><%= @sample_games[0].name %></h2> -->
                 </div>
                 <div class="layer-3" style="">
-                  <a class="min1" href="/games/<%= @sample_games[0].id %>">View Game</a>
+                  <% if @sample_games[0] %>
+                    <a class="min1" href="/games/<%= @sample_games[0].id %>">View Game</a>
+                  <% end %>
                 </div>
               </div>
             </div>
             <div id="slider-direction-1" class="t-cn slider-direction Builder">
               <div class="slide-all slide2">
                 <div class="layer-2">
-                  <!-- <h2 class="title6"><%= @sample_games[1].name %></h2> -->
                 </div>
                 <div class="layer-3">
-                  <a class="min1" href="/games/<%= @sample_games[1].id %>">View Game</a>
+                  <% if @sample_games[1] %>
+                    <a class="min1" href="/games/<%= @sample_games[1].id %>">View Game</a>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -111,7 +113,6 @@
                 <% elsif @sort_attribute %>
                   <% if @sort_attribute_2 %>
                     <% if @filter %>
-                      <h1>AM I WORKING?</h1>
                       <% if @page.to_i - 1 > 1 %>
                         <li><a href="/games?filter=<%= @filter %>&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>&page=<%= @page.to_i - 2 %>"><%= @page.to_i - 2 %></a></li>
                       <% end %>
