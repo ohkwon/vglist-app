@@ -1,38 +1,38 @@
 #complete api grab
 
-# offset = 0
-# games_api = []
-# current_list = ['start']
+offset = 0
+games_api = []
+current_list = ['start']
 
-# while offset < 9950
-#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Aasc&offset=#{offset}",
-#     headers:{
-#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-#       "Accept" => "application/json"
-#     }).body
-#   puts "on offset #{offset} going down"
-#   offset += 50
-#   current_list.each do |current_item|
-#     games_api << current_item
-#   end
-#   puts "game grab at #{games_api.length} items"
-# end
+while offset < 9950
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Aasc&offset=#{offset}",
+    headers:{
+      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+      "Accept" => "application/json"
+    }).body
+  puts "on offset #{offset} going down"
+  offset += 50
+  current_list.each do |current_item|
+    games_api << current_item
+  end
+  puts "game grab at #{games_api.length} ictems"
+end
 
-# offset = 0
+offset = 0
 
-# while offset < 9950
-#   current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Adesc&offset=#{offset}",
-#     headers:{
-#       "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
-#       "Accept" => "application/json"
-#     }).body
-#   puts "on offset #{offset} going up"
-#   offset += 50
-#   current_list.each do |current_item|
-#     games_api << current_item
-#   end
-#   puts "game grab at #{games_api.length} items"
-# end
+while offset < 9950
+  current_list = Unirest.get("https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=50&order=created_at%3Adesc&offset=#{offset}",
+    headers:{
+      "X-Mashape-Key" => "arQcHPrN6ImshNKxsi3eTD0FYt7vp18kzZnjsnq60XoEEn991T",
+      "Accept" => "application/json"
+    }).body
+  puts "on offset #{offset} going up"
+  offset += 50
+  current_list.each do |current_item|
+    games_api << current_item
+  end
+  puts "game grab at #{games_api.length} items"
+end
 
 
 # def sample_games_api_grab

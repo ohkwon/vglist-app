@@ -216,7 +216,20 @@
                   <li>
                     Order By:
                     <ul class="games-index-ul-filters">
-                      <% if @sort_attribute %>
+                      <% if !@search.empty? %>
+                        <li>
+                          <a href="/games?search=<%= @search %>&filter=name_up" >Name (A-Z)</a>
+                        </li>
+                        <li>
+                          <a href="/games?search=<%= @search %>&filter=name_down" >Name (Z-A)</a>
+                        </li>
+                        <li>
+                          <a href="/games?search=<%= @search %>&filter=release_date_desc" >Newest</a>
+                        </li>
+                        <li>
+                          <a href="/games?search=<%= @search %>&filter=release_date_asc" >Oldest</a>
+                        </li>
+                      <% elsif @sort_attribute %>
                         <% if @sort_attribute_2 %>
                           <li>
                             <a href="/games?filter=name_up&sort_attribute=<%= @sort_attribute %>&sort_attribute_2=<%= @sort_attribute_2 %>" >Name (A-Z)</a>

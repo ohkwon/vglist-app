@@ -19,9 +19,27 @@ class GamesController < ApplicationController
     @filter = params[:filter]
 
     if !@search.empty?
-      @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page).per(@limit)
-      @games_next = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 1).per(@limit)
-      @games_next_2 = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 2).per(@limit)
+      if @filter == "name_up"
+        @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page).per(@limit)
+        @games_next = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i _ 2).per(@limit)
+      elsif @filter == "name_down"
+        @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(name: :desc).page(@page).per(@limit)
+        @games_next = Game.where("name ILIKE ?", "%#{params[:search]}%").order(name: :desc).page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.where("name ILIKE ?", "%#{params[:search]}%").order(name: :desc).page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_desc"
+        @games = Game.includes(:platformed_games).where("name ILIKE ?", "%#{params[:search]}%").order("platformed_games.release_date DESC").page(@page).per(@limit)
+        @games_next = Game.includes(:platformed_games).where("name ILIKE ?", "%#{params[:search]}%").order("platformed_games.release_date DESC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:platformed_games).where("name ILIKE ?", "%#{params[:search]}%").order("platformed_games.release_date DESC").page(@page.to_i + 2).per(@limit)
+      elsif @filter == "release_date_asc"
+        @games = Game.includes(:platformed_games).where("name ILIKE ?", "%#{params[:search]}%").order("platformed_games.release_date ASC").page(@page).per(@limit)
+        @games_next = Game.includes(:platformed_games).where("name ILIKE ?", "%#{params[:search]}%").order("platformed_games.release_date ASC").page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.includes(:platformed_games).where("name ILIKE ?", "%#{params[:search]}%").order("platformed_games.release_date ASC").page(@page.to_i + 2).per(@limit)
+      else
+        @games = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page).per(@limit)
+        @games_next = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 1).per(@limit)
+        @games_next_2 = Game.where("name ILIKE ?", "%#{params[:search]}%").order(:name).page(@page.to_i + 2).per(@limit)
+      end
     elsif @sort_attribute == "platform"
       if @filter == "name_up"
         @games = Game.includes(:platformed_games).where("platformed_games.platform_id = #{@sort_attribute_2}").where("platformed_games.id >= 0").references(:platformed_games).order(:name).page(@page).per(@limit)
