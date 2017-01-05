@@ -29,7 +29,7 @@ while offset < 9950
   puts "on offset #{offset} going up"
   offset += 50
   current_list.each do |current_item|
-    games_api << current_item_
+    games_api << current_item
   end
   puts "game grab at #{games_api.length} items"
 end
