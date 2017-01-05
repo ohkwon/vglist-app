@@ -106,7 +106,7 @@ task :create_games => :environment do
     puts "creating game #{counter} of #{games_api.length}"
     counter += 1
 
-    game = Game.new(
+    game = Game.find_or_create_by(
       id: game_api["id"],
       name: game_api["name"],
       slug: game_api["slug"],
@@ -115,7 +115,7 @@ task :create_games => :environment do
       igdb_created_at: DateTime.strptime("#{game_api["created_at"]}", "%s"),
       igdb_updated_at: DateTime.strptime("#{game_api["updated_at"]}", "%s")
       )
-    game.save
+    # game.save
 
   end
 
@@ -131,7 +131,7 @@ task :update_games => :environment do
     puts "creating game #{counter} of #{games_api.length}"
     counter += 1
 
-    game = Game.new(
+    game = Game.find_or_create_by(
       id: game_api["id"],
       name: game_api["name"],
       slug: game_api["slug"],
@@ -140,7 +140,7 @@ task :update_games => :environment do
       igdb_created_at: DateTime.strptime("#{game_api["created_at"]}", "%s"),
       igdb_updated_at: DateTime.strptime("#{game_api["updated_at"]}", "%s")
       )
-    game.save
+    # game.save
 
   end
 
@@ -159,12 +159,12 @@ task :create_platformed_games => :environment do
           if platformed_game["date"] && platformed_game["region"] = 2 && !(PlatformedGame.where(game_id: game_api["id"], platform_id: platformed_game["platform"]).any?)
             puts "creating platformed game #{counter1} of #{counter}"
             puts "WW"
-            new_platformed_game = PlatformedGame.new(
+            find_or_create_by_platformed_game = PlatformedGame.find_or_create_by(
               game_id: game_api["id"],
               platform_id: platformed_game["platform"],
               release_date: Date.strptime("#{platformed_game['date']}", "%Q") 
               )
-            new_platformed_game.save
+            # find_or_create_by_platformed_game.save
             counter1 += 1
           end
         end
@@ -173,12 +173,12 @@ task :create_platformed_games => :environment do
           if platformed_game["date"] && platformed_game["region"] = 8 && !(PlatformedGame.where(game_id: game_api["id"], platform_id: platformed_game["platform"]).any?)
             puts "creating platformed game #{counter1} of #{counter}"
             puts "US"
-            new_platformed_game = PlatformedGame.new(
+            find_or_create_by_platformed_game = PlatformedGame.find_or_create_by(
               game_id: game_api["id"],
               platform_id: platformed_game["platform"],
               release_date: Date.strptime("#{platformed_game['date']}", "%Q")
               )
-            new_platformed_game.save
+            # find_or_create_by_platformed_game.save
             counter1 += 1
           end
         end
@@ -188,12 +188,12 @@ task :create_platformed_games => :environment do
             if platformed_game["date"]
               puts "creating platformed game #{counter1} of #{counter}"
               puts "no region"
-              new_platformed_game = PlatformedGame.new(
+              find_or_create_by_platformed_game = PlatformedGame.find_or_create_by(
                 game_id: game_api["id"],
                 platform_id: platformed_game["platform"],
                 release_date: Date.strptime("#{platformed_game['date']}", "%Q")
                 )
-              new_platformed_game.save
+              # find_or_create_by_platformed_game.save
               counter1 += 1
             end
           end
@@ -215,11 +215,11 @@ task :create_genred_games => :environment do
       counter1 = 1
       game_api["genres"].each do |genre_id|
         puts "creating genred game #{counter1} of game #{counter} of #{games_api.length}"
-        genred_game = GenredGame.new(
+        genred_game = GenredGame.find_or_create_by(
           game_id: game_api["id"],
           genre_id: genre_id
           )
-        genred_game.save
+        # genred_game.save
         counter1 += 1
       end
     end
@@ -236,13 +236,13 @@ task :create_covers => :environment do
   games_api.each do |game_api|
     if game_api["cover"]
       puts "creating game cover #{counter}"
-      game_cover = GameCover.new(
+      game_cover = GameCover.find_or_create_by(
         game_id: game_api["id"],
         cloudinary_id: game_api["cover"]["cloudinary_id"],
         width: game_api["cover"]["width"],
         height: game_api["cover"]["height"]
         )
-      game_cover.save
+      # game_cover.save
     end
     counter += 1
   end
@@ -260,13 +260,13 @@ task :create_screenshots => :environment do
       game_api["screenshots"].each do |screenshot|
         puts "creating screenshot #{counter1} of game #{counter}"
         counter1 += 1
-        game_screenshot = GameScreenshot.new(
+        game_screenshot = GameScreenshot.find_or_create_by(
           game_id: game_api["id"],
           cloudinary_id: screenshot["cloudinary_id"],
           width: screenshot["width"],
           height: screenshot["height"]
           )
-        game_screenshot.save
+        # game_screenshot.save
       end
     end
     counter += 1
@@ -285,12 +285,12 @@ task :create_videos => :environment do
       game_api["videos"].each do |video|
         puts "creating video #{counter1} of game #{counter}"
         counter += 1
-        game_video = GameVideo.new(
+        game_video = GameVideo.find_or_create_by(
           game_id: game_api["id"],
           name: video["name"],
           video_id: video["video_id"]
           )
-        game_video.save
+        # game_video.save
       end
     end
     counter += 1
@@ -313,12 +313,12 @@ task :create_genres => :environment do
     puts "creating genre #{counter} of #{genres_api.length}"
     counter += 1
 
-    genre = Genre.new(
+    genre = Genre.find_or_create_by(
       id: genre_api["id"],
       name: genre_api["name"],
       slug: genre_api["slug"]
       )
-    genre.save
+    # genre.save
   end
 
 end
@@ -373,13 +373,13 @@ task :create_platforms => :environment do
               puts "WW"
               p release_date
 
-              platform = Platform.new(
+              platform = Platform.find_or_create_by(
                 id: platform_api["id"],
                 name: platform_api["name"],
                 slug: platform_api["slug"],
                 release_date: Date.strptime("#{release_date['date']}", "%Q")
                 )
-              platform.save
+              # platform.save
               break
             end
           end
@@ -391,13 +391,13 @@ task :create_platforms => :environment do
               puts "US"
               p release_date
 
-              platform = Platform.new(
+              platform = Platform.find_or_create_by(
                 id: platform_api["id"],
                 name: platform_api["name"],
                 slug: platform_api["slug"],
                 release_date: Date.strptime("#{release_date['date']}", "%Q")
                 )
-              platform.save
+              # platform.save
               break
             end
           end
@@ -407,12 +407,12 @@ task :create_platforms => :environment do
         puts "name: #{platform_api['name']}"
         puts "No Release Date"
 
-        platform = Platform.new(
+        platform = Platform.find_or_create_by(
           id: platform_api["id"],
           name: platform_api["name"],
           slug: platform_api["slug"]
           )
-        platform.save
+        # platform.save
       end
     elsif platform_api["versions"].any? { |version| version["name"].include? "original" }
       index = platform_api["versions"].index { |version| version["name"].include? "original" }
@@ -425,13 +425,13 @@ task :create_platforms => :environment do
               puts "WW"
               p release_date
 
-              platform = Platform.new(
+              platform = Platform.find_or_create_by(
                 id: platform_api["id"],
                 name: platform_api["name"],
                 slug: platform_api["slug"],
                 release_date: Date.strptime("#{release_date['date']}", "%Q")
                 )
-              platform.save
+              # platform.save
               break
             end
           end
@@ -443,13 +443,13 @@ task :create_platforms => :environment do
               puts "US"
               p release_date
 
-              platform = Platform.new(
+              platform = Platform.find_or_create_by(
                 id: platform_api["id"],
                 name: platform_api["name"],
                 slug: platform_api["slug"],
                 release_date: Date.strptime("#{release_date['date']}", "%Q")
                 )
-              platform.save
+              # platform.save
               break
             end
           end
@@ -466,13 +466,13 @@ task :create_platforms => :environment do
               puts "WW"
               p release_date
 
-              platform = Platform.new(
+              platform = Platform.find_or_create_by(
                 id: platform_api["id"],
                 name: platform_api["name"],
                 slug: platform_api["slug"],
                 release_date: Date.strptime("#{release_date['date']}", "%Q")
                 )
-              platform.save
+              # platform.save
               break
             end
           end
@@ -484,13 +484,13 @@ task :create_platforms => :environment do
               puts "US"
               p release_date
 
-              platform = Platform.new(
+              platform = Platform.find_or_create_by(
                 id: platform_api["id"],
                 name: platform_api["name"],
                 slug: platform_api["slug"],
                 release_date: Date.strptime("#{release_date['date']}", "%Q")
                 )
-              platform.save
+              # platform.save
               break
             end
           end
@@ -502,13 +502,13 @@ task :create_platforms => :environment do
               puts "JP"
               p release_date
 
-              platform = Platform.new(
+              platform = Platform.find_or_create_by(
                 id: platform_api["id"],
                 name: platform_api["name"],
                 slug: platform_api["slug"],
                 release_date: Date.strptime("#{release_date['date']}", "%Q")
                 )
-              platform.save
+              # platform.save
               break
             end
           end
@@ -529,13 +529,13 @@ task :create_platforms => :environment do
       puts hash[:date]
       data = hash[:date]
       date = Date.strptime("#{data}", '%Q')
-      platform = Platform.new(
+      platform = Platform.find_or_create_by(
         id: platform_api["id"],
         name: platform_api["name"],
         slug: platform_api["slug"],
         release_date: date
       )
-      platform.save
+      # platform.save
     elsif version_0.include?(platform_api['id'])
       puts "name: #{platform_api['name']}"
       if platform_api["id"] == 9
@@ -543,13 +543,13 @@ task :create_platforms => :environment do
           if release_date["region"] == 5
             puts "creating platform #{counter} of #{platforms_api.length}"
             puts "name: #{platform_api['name']}"
-            platform = Platform.new(
+            platform = Platform.find_or_create_by(
               id: platform_api["id"],
               name: platform_api["name"],
               slug: platform_api["slug"],
               release_date: Date.strptime("#{release_date['date']}", "%Q")
             )
-            platform.save
+            # platform.save
           end
         end
       else
@@ -557,23 +557,23 @@ task :create_platforms => :environment do
           if release_date["region"] == 8
             puts "creating platform #{counter} of #{platforms_api.length}"
             puts "name: #{platform_api['name']}"
-            platform = Platform.new(
+            platform = Platform.find_or_create_by(
               id: platform_api["id"],
               name: platform_api["name"],
               slug: platform_api["slug"],
               release_date: Date.strptime("#{release_date['date']}", "%Q")
             )
-            platform.save
+            # platform.save
           elsif release_date["region"] == 2
             puts "creating platform #{counter} of #{platforms_api.length}"
             puts "name: #{platform_api['name']}"
-            platform = Platform.new(
+            platform = Platform.find_or_create_by(
               id: platform_api["id"],
               name: platform_api["name"],
               slug: platform_api["slug"],
               release_date: Date.strptime("#{release_date['date']}", "%Q")
             )
-            platform.save
+            # platform.save
           end
         end
       end
@@ -582,12 +582,12 @@ task :create_platforms => :environment do
       puts "name: #{platform_api['name']}"
       puts "No Release Date"
 
-      platform = Platform.new(
+      platform = Platform.find_or_create_by(
         id: platform_api["id"],
         name: platform_api["name"],
         slug: platform_api["slug"]
         )
-      platform.save
+      # platform.save
     end
     counter += 1
   end
@@ -604,13 +604,13 @@ task :create_platform_logos => :environment do
 
       puts "creating platform logo for platform #{platform_api['id']}"
 
-      platform_logo = PlatformLogo.new(
+      platform_logo = PlatformLogo.find_or_create_by(
         platform_id: platform_api["id"],
         cloudinary_id: platform_api["logo"]["cloudinary_id"],
         width: platform_api["logo"]["width"],
         height: platform_api["logo"]["height"]
         )
-      platform_logo.save
+      # platform_logo.save
 
     end
 
